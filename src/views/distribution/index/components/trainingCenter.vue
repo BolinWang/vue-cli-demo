@@ -1,26 +1,29 @@
 <template>
-    <div class="training-center card">
-        <h2>
-            培训中心
-        </h2>
-        <div class="more" @click="goLearnIndex">
-            快速掌握致富秘籍<t-icon name="arrow-right"></t-icon>
-        </div>
+  <div class="training-center card">
+    <h2>
+      培训中心
+    </h2>
+    <div
+      class="more"
+      @click="goLearnIndex"
+    >
+      快速掌握致富秘籍<t-icon name="arrow-right" />
     </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import Config from '@/config-urls'
 
 export default {
-    ...mapState({
-        'pageInfo': 'pageDistributionIndex'
-    }),
-    methods: {
-        goLearnIndex(){
-            this.locationHref(Config.training_center);
-        }
+  ...mapState({
+    'pageInfo': 'pageDistributionIndex'
+  }),
+  methods: {
+    goLearnIndex () {
+      this.locationHref(Config.training_center)
     }
+  }
 }
 </script>
 

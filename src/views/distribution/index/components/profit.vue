@@ -1,56 +1,66 @@
 <template>
-    <!--顶级合伙人|渠道合伙人-->
-    <div class="profit card" v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2">
-        <h2>合伙人体系收益</h2>
-        <div class="detailed">
-            <div class="_left">
-                <div class="title">
-                    已结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{bonus}}</strong>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="_right">
-                <div class="title">
-                    未结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{waitBonus}}</strong>
-                </div>
-            </div>
+  <!--顶级合伙人|渠道合伙人-->
+  <div
+    v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2"
+    class="profit card"
+  >
+    <h2>合伙人体系收益</h2>
+    <div class="detailed">
+      <div class="_left">
+        <div class="title">
+          已结算收入<small class="sq">
+            (税前)
+          </small>
         </div>
-        <div class="more" @click="goProfitList">
-            收益明细<t-icon name="arrow-right"></t-icon>
+        <div class="amount">
+          <small>¥</small><strong>{{ bonus }}</strong>
         </div>
-    </div> 
+      </div>
+      <div class="line" />
+      <div class="_right">
+        <div class="title">
+          未结算收入<small class="sq">
+            (税前)
+          </small>
+        </div>
+        <div class="amount">
+          <small>¥</small><strong>{{ waitBonus }}</strong>
+        </div>
+      </div>
+    </div>
+    <div
+      class="more"
+      @click="goProfitList"
+    >
+      收益明细<t-icon name="arrow-right" />
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        }),
-        // bonus
-        bonus(){
-            let { pageInfo: { data } } = this;
-            return data.bonus ? (data.bonus / 100).toFixed(2) : '0.00';
-        },
-        waitBonus(){
-            let { pageInfo: { data } } = this;
-            return data.waitBonus ? (data.waitBonus / 100).toFixed(2) : '0.00';
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    }),
+    // bonus
+    bonus () {
+      let { pageInfo: { data } } = this
+      return data.bonus ? (data.bonus / 100).toFixed(2) : '0.00'
     },
-    methods: {
-        goProfitList(){
-            this.$router.push({
-                path: `/distribution/profit/list`
-            });
-        }
+    waitBonus () {
+      let { pageInfo: { data } } = this
+      return data.waitBonus ? (data.waitBonus / 100).toFixed(2) : '0.00'
     }
+  },
+  methods: {
+    goProfitList () {
+      this.$router.push({
+        path: `/distribution/profit/list`
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

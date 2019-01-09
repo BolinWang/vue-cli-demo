@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-Vue.use(Vuex);
 
 import pay from './modules/pay.js'
 import popupUI from './modules/popupUI'
@@ -22,30 +21,30 @@ import pagePutForwardCertification from './modules/pagePutForwardCertification'
 import componentHelpDialog from './modules/componentHelpDialog'
 
 import publicInterface from './modules/publicInterface'
-
+Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    modules: {
+  modules: {
     	pay,
     	popupUI,
-        pageDistributionIndex,
-        pageChannelPartnersList,
-        pageChildcareConsultantsList,
-        pageCustomerList,
-        pageDataCenterIndex,
-        pagePutForwardIndex,
-        pagePutForwardDetail,
-        pageLearnIndex,
-        pageLearnDetail,
-        pageOrderList,
-        pageProfitList,
-        publicInterface,
-        pageGoldConsultantsList,
-        // pagePutForwardLogin,
-        pagePutForwardCertification,
-        // pageUploadIdCardImg,
-        componentHelpDialog
-    }
+    pageDistributionIndex,
+    pageChannelPartnersList,
+    pageChildcareConsultantsList,
+    pageCustomerList,
+    pageDataCenterIndex,
+    pagePutForwardIndex,
+    pagePutForwardDetail,
+    pageLearnIndex,
+    pageLearnDetail,
+    pageOrderList,
+    pageProfitList,
+    publicInterface,
+    pageGoldConsultantsList,
+    // pagePutForwardLogin,
+    pagePutForwardCertification,
+    // pageUploadIdCardImg,
+    componentHelpDialog
+  }
 })
 
 export default store

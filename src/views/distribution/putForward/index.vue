@@ -1,64 +1,75 @@
 <template>
-    <section v-if="pageInfo.dataIsLoad">
-        <div class="section-bg">
-
+  <section v-if="pageInfo.dataIsLoad">
+    <div class="section-bg" />
+    <div class="section-main">
+      <!-- 可提现金额 -->
+      <div class="putForward card">
+        <h2>
+          可提现金额<small class="sq">
+            (税前)
+          </small>
+        </h2>
+        <div class="putForward-amount">
+          <small>¥</small><strong>{{ remain }}</strong>
         </div>
-        <div class="section-main">
-            <!-- 可提现金额 -->
-            <div class="putForward card">
-                <h2>可提现金额<small class="sq">(税前)</small></h2>
-                <div class="putForward-amount">
-                    <small>¥</small><strong>{{remain}}</strong>
-                </div>
-                <template v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2">
-                    <div class="detailed">
-                        <div class="_left">
-                            <div class="title">
-                                顾问佣金
-                            </div>
-                            <div class="amount">
-                                <small>¥</small><strong>{{commission}}</strong>
-                            </div>
-                        </div>
-                        <div class="line"></div>
-                        <div class="_right">
-                            <div class="title">
-                                合伙人收益
-                            </div>
-                            <div class="amount">
-                                <small>¥</small><strong>{{bonus}}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+        <template v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2">
+          <div class="detailed">
+            <div class="_left">
+              <div class="title">
+                顾问佣金
+              </div>
+              <div class="amount">
+                <small>¥</small><strong>{{ commission }}</strong>
+              </div>
             </div>
-        </div>
-
-        <div class="already-presented">
-            <p class="p1">
-                已提现金额<small class="sq">(税前)</small></h2>
-            </p>
-            <p class="p2">
-                <small>¥</small><strong>{{withdraw}}</strong>
-            </p>
-        </div>
-
-        <button class="tx-btn" @click="doPutForward" :disabled="popupUI.PopupUILoading || remain <= 0">提现</button>
-
-
-        <template v-if="withdrawInfoIsload">
-            <template v-if="!withdrawInfo || withdrawInfo.signUpStatus != 2">
-                <div class="txxxbq" @click="goPutForwardCertification">
-                    提现信息补全<t-icon name="arrow-right"></t-icon>
-                </div>
-            </template>
+            <div class="line" />
+            <div class="_right">
+              <div class="title">
+                合伙人收益
+              </div>
+              <div class="amount">
+                <small>¥</small><strong>{{ bonus }}</strong>
+              </div>
+            </div>
+          </div>
         </template>
+      </div>
+    </div>
 
-        <div class="putForward-tip">
-            发起提现后，收入会在7个工作日内到账
-        </div> 
+    <div class="already-presented">
+      <p class="p1">
+        已提现金额<small class="sq">
+          (税前)
+        </small></h2>
+      </p>
+      <p class="p2">
+        <small>¥</small><strong>{{ withdraw }}</strong>
+      </p>
+    </div>
 
-    </section>
+    <button
+      class="tx-btn"
+      :disabled="popupUI.PopupUILoading || remain <= 0"
+      @click="doPutForward"
+    >
+      提现
+    </button>
+
+    <template v-if="withdrawInfoIsload">
+      <template v-if="!withdrawInfo || withdrawInfo.signUpStatus != 2">
+        <div
+          class="txxxbq"
+          @click="goPutForwardCertification"
+        >
+          提现信息补全<t-icon name="arrow-right" />
+        </div>
+      </template>
+    </template>
+
+    <div class="putForward-tip">
+      发起提现后，收入会在7个工作日内到账
+    </div>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
@@ -66,79 +77,80 @@ import putForwardDialog from './components/putForwardDialog'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    computed: {
-        ...mapState({
-            'pageInfo': 'pagePutForwardIndex',
-            'popupUI': 'popupUI',
-            'pagePutForwardCertificationPageInfo': 'pagePutForwardCertification',
-        }),
-        remain(){
-            let { pageInfo: { data } } = this;
-            return data.remain ? (data.remain / 100).toFixed(2) : '0.00';
-        },
-        commission(){
-            let { pageInfo: { data } } = this;
-            return data.commission ? (data.commission / 100).toFixed(2) : '0.00';
-        },
-        bonus(){
-            let { pageInfo: { data } } = this;
-            return data.bonus ? (data.bonus / 100).toFixed(2) : '0.00';
-        },
-        withdraw(){
-            let { pageInfo: { data } } = this;
-            return data.withdraw ? (data.withdraw / 100).toFixed(2) : '0.00';
-        },
-        withdrawInfoIsload(){
-            let { pageInfo: { withdrawInfoIsload } } = this;
-            return withdrawInfoIsload || false;
-        },
-        withdrawInfo(){
-            let { pageInfo: { withdrawInfo } } = this;
-            return withdrawInfo || {};
-        }
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pagePutForwardIndex',
+      'popupUI': 'popupUI',
+      'pagePutForwardCertificationPageInfo': 'pagePutForwardCertification'
+    }),
+    remain () {
+      let { pageInfo: { data } } = this
+      return data.remain ? (data.remain / 100).toFixed(2) : '0.00'
     },
-    created(){
-        this.resetData();
-        this.loadData();
-        this.loadWithdrawInfo();
+    commission () {
+      let { pageInfo: { data } } = this
+      return data.commission ? (data.commission / 100).toFixed(2) : '0.00'
     },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pagePutForwardIndex/resetData'
-        }),
-        ...mapActions({
-            'loadData': 'pagePutForwardIndex/loadData',
-            'loadWithdrawInfo': 'pagePutForwardIndex/loadWithdrawInfo',
-            'withdrawStart': 'pagePutForwardIndex/withdrawStart'
-        }),
-        doPutForward(){
-            //检测一下用户是否已经补全过信息
-            this.loadWithdrawInfo().then((withdrawInfo)=>{
-                //已经完善过信息
-                if(withdrawInfo && withdrawInfo.signUpStatus == 2){
-                    //弹窗填写信息
-                    putForwardDialog({el: this.$el, callback: (amount)=>{
-                        if(amount){
-                            //发起提现
-                            this.withdrawStart({ amount }).then(()=>{
-                                this.actionVuexMessageShow('申请提现成功～');
-                                //重新加载数据
-                                this.loadData();
-                            });
-                        }
-                    }});
-                }else{
-                    this.goPutForwardCertification();
-                }
-            });
-        },
-        goPutForwardCertification(){
-            this.$router.push({
-                path: '/distribution/putForward/certification'
-            })
-        }
+    bonus () {
+      let { pageInfo: { data } } = this
+      return data.bonus ? (data.bonus / 100).toFixed(2) : '0.00'
+    },
+    withdraw () {
+      let { pageInfo: { data } } = this
+      return data.withdraw ? (data.withdraw / 100).toFixed(2) : '0.00'
+    },
+    withdrawInfoIsload () {
+      let { pageInfo: { withdrawInfoIsload } } = this
+      return withdrawInfoIsload || false
+    },
+    withdrawInfo () {
+      let { pageInfo: { withdrawInfo } } = this
+      return withdrawInfo || {}
     }
+  },
+  created () {
+    this.resetData()
+    this.loadData()
+    this.loadWithdrawInfo()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pagePutForwardIndex/resetData'
+    }),
+    ...mapActions({
+      'loadData': 'pagePutForwardIndex/loadData',
+      'loadWithdrawInfo': 'pagePutForwardIndex/loadWithdrawInfo',
+      'withdrawStart': 'pagePutForwardIndex/withdrawStart'
+    }),
+    doPutForward () {
+      // 检测一下用户是否已经补全过信息
+      this.loadWithdrawInfo().then((withdrawInfo) => {
+        // 已经完善过信息
+        if (withdrawInfo && withdrawInfo.signUpStatus == 2) {
+          // 弹窗填写信息
+          putForwardDialog({ el: this.$el,
+            callback: (amount) => {
+              if (amount) {
+              // 发起提现
+                this.withdrawStart({ amount }).then(() => {
+                  this.actionVuexMessageShow('申请提现成功～')
+                  // 重新加载数据
+                  this.loadData()
+                })
+              }
+            } })
+        } else {
+          this.goPutForwardCertification()
+        }
+      })
+    },
+    goPutForwardCertification () {
+      this.$router.push({
+        path: '/distribution/putForward/certification'
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -296,7 +308,7 @@ section{
                 line-height:0.17rem;
             }
         }
-    }   
+    }
 
     .putForward-tip{
         text-align:center;

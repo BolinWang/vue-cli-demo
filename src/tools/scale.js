@@ -1,36 +1,35 @@
-const DesignWidth = 375;
-const DesignHeight = 667;
-const DesignRatio = DesignWidth / DesignHeight;
+const DesignWidth = 375
+const DesignHeight = 667
+const DesignRatio = DesignWidth / DesignHeight
 
-function getScale(){
+function getScale () {
+  let width = document.documentElement.clientWidth
 
-	let width = document.documentElement.clientWidth,
-        height = document.documentElement.clientHeight;
+  let height = document.documentElement.clientHeight
 
-    if(window.orientation == null || window.orientation === 180 || window.orientation === 0){//竖屏状态
-    	
-    }else {
-    	[width, height] = [height, width];
-    }
+  if (window.orientation == null || window.orientation === 180 || window.orientation === 0) { // 竖屏状态
 
-    let ratio = width / height;
+  } else {
+    	[width, height] = [height, width]
+  }
 
-    let scale;
+  let ratio = width / height
 
-    if(ratio > DesignRatio){
-    	scale = height / (width / DesignRatio);
-    }else if(ratio < DesignRatio){
-    	scale = width / (height * DesignRatio);
-    }else{
-    	scale = 1;
-    }
-    console.log('scale=', scale);
+  let scale
 
-    return scale;
+  if (ratio > DesignRatio) {
+    	scale = height / (width / DesignRatio)
+  } else if (ratio < DesignRatio) {
+    	scale = width / (height * DesignRatio)
+  } else {
+    	scale = 1
+  }
+  console.log('scale=', scale)
 
+  return scale
 }
 
 export default {
-	getScale
+  getScale
 }
 export { getScale }

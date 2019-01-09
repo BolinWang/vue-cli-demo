@@ -1,15 +1,18 @@
 <template>
-    <section>
-        <img src="../../../../assets/images/distribution/banner/banner.gif" @click="goLink"/>
-    </section>
+  <section>
+    <img
+      src="../../../../assets/images/distribution/banner/banner.gif"
+      @click="goLink"
+    >
+  </section>
 </template>
 <script>
 export default {
-    methods: {
-        goLink(){
-            window.location.href = 'https://m.ngmm365.com/page/3211';
-        }
+  methods: {
+    goLink () {
+      window.location.href = 'https://m.ngmm365.com/page/3211'
     }
+  }
 }
 </script>
 <style lang="less" scoped>

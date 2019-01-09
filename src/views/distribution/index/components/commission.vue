@@ -1,57 +1,67 @@
 <template>
-    <!--顶级合伙人|渠道合伙人|育儿大使-->
-    <div class="commission card" v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2 || pageInfo.data.roleId == 3">
-        <h2>顾问体系佣金</h2>
-        <div class="detailed">
-            <div class="_left">
-                <div class="title">
-                    已结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{commission}}</strong>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="_right">
-                <div class="title">
-                    未结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{waitCommission}}</strong>
-                </div>
-            </div>
+  <!--顶级合伙人|渠道合伙人|育儿大使-->
+  <div
+    v-if="pageInfo.data.roleId == 1 || pageInfo.data.roleId == 2 || pageInfo.data.roleId == 3"
+    class="commission card"
+  >
+    <h2>顾问体系佣金</h2>
+    <div class="detailed">
+      <div class="_left">
+        <div class="title">
+          已结算收入<small class="sq">
+            (税前)
+          </small>
         </div>
-        <div class="more" @click="goOrderList">
-            订单明细<t-icon name="arrow-right"></t-icon>
+        <div class="amount">
+          <small>¥</small><strong>{{ commission }}</strong>
         </div>
+      </div>
+      <div class="line" />
+      <div class="_right">
+        <div class="title">
+          未结算收入<small class="sq">
+            (税前)
+          </small>
+        </div>
+        <div class="amount">
+          <small>¥</small><strong>{{ waitCommission }}</strong>
+        </div>
+      </div>
     </div>
+    <div
+      class="more"
+      @click="goOrderList"
+    >
+      订单明细<t-icon name="arrow-right" />
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        }),
-        // 已结算佣金
-        commission(){
-            let { pageInfo: { data } } = this;
-            return data.commission ? (data.commission / 100).toFixed(2) : '0.00';
-        },
-        // 未结算佣金
-        waitCommission(){
-            let { pageInfo: { data } } = this;
-            return data.waitCommission ? (data.waitCommission / 100).toFixed(2) : '0.00';
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    }),
+    // 已结算佣金
+    commission () {
+      let { pageInfo: { data } } = this
+      return data.commission ? (data.commission / 100).toFixed(2) : '0.00'
     },
-    methods: {
-        goOrderList(){
-            this.$router.push({
-                path: `/distribution/order/list`
-            });
-        }
+    // 未结算佣金
+    waitCommission () {
+      let { pageInfo: { data } } = this
+      return data.waitCommission ? (data.waitCommission / 100).toFixed(2) : '0.00'
     }
+  },
+  methods: {
+    goOrderList () {
+      this.$router.push({
+        path: `/distribution/order/list`
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

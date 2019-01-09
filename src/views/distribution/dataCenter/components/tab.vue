@@ -1,182 +1,217 @@
 <template>
-    <div class="tab-wrap" v-data-center-tab v-if="list.length">
-        <div class="tab" ref="tab">
-            <span class="year" @click="showYearPopupVisible">{{year}}年<t-icon name="jiantx"></t-icon></span>
-            <ul class="clearfixed">
-                <li v-for="(item, i) in list" :key="item.month" :class="{'active': activeIndex == i}" @click="changeActiveIndex(i)" :data-role="item.month"><span>{{getMonth(item)}}月</span></li>
-            </ul>
-        </div>
-
-        <mt-popup
-            class="year-popup"
-            v-model="yearPopupVisibleTemp"
-            position="bottom">
-            <div class="title">
-                <div class="_left" @click="yearCancel">
-                    <t-icon name="guanbi"></t-icon>
-                </div>
-                <div class="_center">选择年份</div>
-                <div class="_right" @click="yearConfirm">
-                    <t-icon name="duigou"></t-icon>
-                </div>
-            </div>
-            <mt-picker :slots="yearSlots" @change="onValuesChange"></mt-picker>
-        </mt-popup>
+  <div
+    v-if="list.length"
+    v-data-center-tab
+    class="tab-wrap"
+  >
+    <div
+      ref="tab"
+      class="tab"
+    >
+      <span
+        class="year"
+        @click="showYearPopupVisible"
+      >
+        {{ year }}年<t-icon name="jiantx" />
+      </span>
+      <ul class="clearfixed">
+        <li
+          v-for="(item, i) in list"
+          :key="item.month"
+          :class="{'active': activeIndex == i}"
+          :data-role="item.month"
+          @click="changeActiveIndex(i)"
+        >
+          <span>{{ getMonth(item) }}月</span>
+        </li>
+      </ul>
     </div>
+
+    <mt-popup
+      v-model="yearPopupVisibleTemp"
+      class="year-popup"
+      position="bottom"
+    >
+      <div class="title">
+        <div
+          class="_left"
+          @click="yearCancel"
+        >
+          <t-icon name="guanbi" />
+        </div>
+        <div class="_center">
+          选择年份
+        </div>
+        <div
+          class="_right"
+          @click="yearConfirm"
+        >
+          <t-icon name="duigou" />
+        </div>
+      </div>
+      <mt-picker
+        :slots="yearSlots"
+        @change="onValuesChange"
+      />
+    </mt-popup>
+  </div>
 </template>
 <script>
 import event from '@/tools/event'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-import $ from 'jquery';
-import { setTimeout } from 'timers';
+import $ from 'jquery'
+import { setTimeout } from 'timers'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDataCenterIndex'
-        }),
-        activeIndex(){
-            let { pageInfo } = this;
-            return pageInfo.activeIndex || 0;
-        },
-        year(){
-            let { pageInfo } = this;
-            return pageInfo.year || 2018;
-        },
-        tempYear(){
-            let { pageInfo } = this;
-            return pageInfo.tempYear || 2018;
-        },
-        yearPopupVisible(){
-            let { pageInfo } = this;
-            return pageInfo.yearPopupVisible || false;
-        },
-        yearPopupVisibleTemp: {
-            set(val){
-                this.setYearPopupVisible(val);
-            },
-            get(){
-                return this.yearPopupVisible
-            }
-        },
-        yearSlots(){
-            let { pageInfo } = this;
-            return pageInfo.yearSlots || [];
-        },
-        list(){
-            let { pageInfo } = this;
-            return pageInfo.list || [];
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDataCenterIndex'
+    }),
+    activeIndex () {
+      let { pageInfo } = this
+      return pageInfo.activeIndex || 0
     },
-    methods: {
-        ...event,
-        ...mapMutations({
-            'setYearPopupVisible': 'pageDataCenterIndex/setYearPopupVisible',
-            'setYear': 'pageDataCenterIndex/setYear',
-            'setTempYear': 'pageDataCenterIndex/setTempYear',
-            'setActiveIndex': 'pageDataCenterIndex/setActiveIndex',
-            'setDefaultIndex': 'pageDataCenterIndex/setDefaultIndex'
-        }),
-        ...mapActions({
-            'loadList': 'pageDataCenterIndex/loadList'
-        }),
-        showYearPopupVisible(){
-            let { year, yearSlots } = this;
-            //显示弹窗之前设置defaultIndex
-            this.setDefaultIndex(yearSlots[0].values.indexOf(year));
-            this.setYearPopupVisible(true);
-        },
-        onValuesChange(picker, values){
-            this.setTempYear(values[0]);
-        },
-        yearCancel(){
-            this.setYearPopupVisible(false);
-        },
-        yearConfirm(){
-            let { year, tempYear } = this;
-            this.setYearPopupVisible(false);
-            if(year != tempYear){
-                this.setYear(tempYear);
-                //如果日期发生变化，重置滚动条位置，重新还在列表数据
-                window.scrollTo(0, 0);
-                //重新加载列表
-                this.loadList();
-            }
-        },
-        changeActiveIndex(index){
-            let oItems = document.getElementsByClassName('data-center-list-item');
-            let { tab: oTab } = this.$refs;
-            let y = $(oItems[index]).offset().top - oTab.offsetHeight;
-            this.setActiveIndex(index);
-
-            this.animating = true;
-            $('html,body').stop().animate({scrollTop: y + 'px'}, 300, ()=>{
-                setTimeout(()=>{
-                    this.animating = false;
-                }, 100);
-            });
-        },
-        getMonth({ month }){
-            return parseInt((month + '').substring(4, 6))
-        }
+    year () {
+      let { pageInfo } = this
+      return pageInfo.year || 2018
     },
-    directives: {
-        'dataCenterTab': {
-            inserted: function(el, binding, vnode) {
-                let self = vnode.context,
-                    tab = el.querySelector('.tab'),
-                    oLis = tab.querySelectorAll('li'),
-                    oItems = document.getElementsByClassName('data-center-list-item');
-
-                el.scrollFn = function() {
-                    //控制tab
-                    let top = $(el).offset().top - $(window).scrollTop();
-                    if (top <= 0 && $(window).scrollTop() > 0) {
-                        tab.style.position = 'fixed';
-                        tab.style.left = '50%';
-                        tab.style.webkitTransform = tab.style.transform = 'translateX(-50%)';
-                    } else {
-                        tab.style.position = 'inherit';
-                        tab.style.left = '0';
-                        tab.style.webkitTransform = tab.style.transform = 'translateX(0)';
-                    }
-                    //控制tab自动切换
-                    let activeIndex = 0;
-                    for(let i = 0; i < oItems.length; i++){
-                        let oItem = oItems[i];
-                        if($(oItem).offset().top - $(window).scrollTop() - tab.offsetHeight <= 0){
-                            for(let i = 0; i < oLis.length; i++){
-                                let oLi = oLis[i];
-                                if(oItem.dataset.role == oLi.dataset.role){
-                                    activeIndex = i;
-                                }
-                            }
-                        }
-                    }
-                    if(!self.animating){
-                        self.setActiveIndex(activeIndex);
-                    }
-                }
-                el.scrollFn();
-
-                self.event_bind(window, 'scroll', el.scrollFn);
-            },
-            unbind(el, binding, vnode) {
-                let self = vnode.context;
-                self.event_unbind(window, 'scroll', el.scrollFn);
-            }
-        }
+    tempYear () {
+      let { pageInfo } = this
+      return pageInfo.tempYear || 2018
     },
-    watch: {
-        activeIndex(newVal, oldVal){
-            let { tab: oTab } = this.$refs;
-            let oUl = oTab.querySelector('ul');
-            let oSpan = oTab.querySelector('span');
-            let oLi = oTab.querySelectorAll('li')[newVal];
-            let scrollLeft = (oLi.offsetLeft - oUl.offsetLeft) - ((oTab.offsetWidth - oSpan.offsetWidth) - oLi.offsetWidth) / 2;
-            $(oUl).stop().animate({scrollLeft: scrollLeft + 'px'}, 300);
-        }
+    yearPopupVisible () {
+      let { pageInfo } = this
+      return pageInfo.yearPopupVisible || false
+    },
+    yearPopupVisibleTemp: {
+      set (val) {
+        this.setYearPopupVisible(val)
+      },
+      get () {
+        return this.yearPopupVisible
+      }
+    },
+    yearSlots () {
+      let { pageInfo } = this
+      return pageInfo.yearSlots || []
+    },
+    list () {
+      let { pageInfo } = this
+      return pageInfo.list || []
     }
+  },
+  methods: {
+    ...event,
+    ...mapMutations({
+      'setYearPopupVisible': 'pageDataCenterIndex/setYearPopupVisible',
+      'setYear': 'pageDataCenterIndex/setYear',
+      'setTempYear': 'pageDataCenterIndex/setTempYear',
+      'setActiveIndex': 'pageDataCenterIndex/setActiveIndex',
+      'setDefaultIndex': 'pageDataCenterIndex/setDefaultIndex'
+    }),
+    ...mapActions({
+      'loadList': 'pageDataCenterIndex/loadList'
+    }),
+    showYearPopupVisible () {
+      let { year, yearSlots } = this
+      // 显示弹窗之前设置defaultIndex
+      this.setDefaultIndex(yearSlots[0].values.indexOf(year))
+      this.setYearPopupVisible(true)
+    },
+    onValuesChange (picker, values) {
+      this.setTempYear(values[0])
+    },
+    yearCancel () {
+      this.setYearPopupVisible(false)
+    },
+    yearConfirm () {
+      let { year, tempYear } = this
+      this.setYearPopupVisible(false)
+      if (year != tempYear) {
+        this.setYear(tempYear)
+        // 如果日期发生变化，重置滚动条位置，重新还在列表数据
+        window.scrollTo(0, 0)
+        // 重新加载列表
+        this.loadList()
+      }
+    },
+    changeActiveIndex (index) {
+      let oItems = document.getElementsByClassName('data-center-list-item')
+      let { tab: oTab } = this.$refs
+      let y = $(oItems[index]).offset().top - oTab.offsetHeight
+      this.setActiveIndex(index)
+
+      this.animating = true
+      $('html,body').stop().animate({ scrollTop: y + 'px' }, 300, () => {
+        setTimeout(() => {
+          this.animating = false
+        }, 100)
+      })
+    },
+    getMonth ({ month }) {
+      return parseInt((month + '').substring(4, 6))
+    }
+  },
+  directives: {
+    'dataCenterTab': {
+      inserted: function (el, binding, vnode) {
+        let self = vnode.context
+
+        let tab = el.querySelector('.tab')
+
+        let oLis = tab.querySelectorAll('li')
+
+        let oItems = document.getElementsByClassName('data-center-list-item')
+
+        el.scrollFn = function () {
+          // 控制tab
+          let top = $(el).offset().top - $(window).scrollTop()
+          if (top <= 0 && $(window).scrollTop() > 0) {
+            tab.style.position = 'fixed'
+            tab.style.left = '50%'
+            tab.style.webkitTransform = tab.style.transform = 'translateX(-50%)'
+          } else {
+            tab.style.position = 'inherit'
+            tab.style.left = '0'
+            tab.style.webkitTransform = tab.style.transform = 'translateX(0)'
+          }
+          // 控制tab自动切换
+          let activeIndex = 0
+          for (let i = 0; i < oItems.length; i++) {
+            let oItem = oItems[i]
+            if ($(oItem).offset().top - $(window).scrollTop() - tab.offsetHeight <= 0) {
+              for (let i = 0; i < oLis.length; i++) {
+                let oLi = oLis[i]
+                if (oItem.dataset.role == oLi.dataset.role) {
+                  activeIndex = i
+                }
+              }
+            }
+          }
+          if (!self.animating) {
+            self.setActiveIndex(activeIndex)
+          }
+        }
+        el.scrollFn()
+
+        self.event_bind(window, 'scroll', el.scrollFn)
+      },
+      unbind (el, binding, vnode) {
+        let self = vnode.context
+        self.event_unbind(window, 'scroll', el.scrollFn)
+      }
+    }
+  },
+  watch: {
+    activeIndex (newVal, oldVal) {
+      let { tab: oTab } = this.$refs
+      let oUl = oTab.querySelector('ul')
+      let oSpan = oTab.querySelector('span')
+      let oLi = oTab.querySelectorAll('li')[newVal]
+      let scrollLeft = (oLi.offsetLeft - oUl.offsetLeft) - ((oTab.offsetWidth - oSpan.offsetWidth) - oLi.offsetWidth) / 2
+      $(oUl).stop().animate({ scrollLeft: scrollLeft + 'px' }, 300)
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -300,7 +335,7 @@ export default {
                 font-weight:400;
                 color:rgba(34,34,34,1);
             }
-            
+
         }
     }
 }

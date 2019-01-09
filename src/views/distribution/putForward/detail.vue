@@ -1,99 +1,165 @@
 <template>
-    <section class="put-forward-detail-wrap">
-        <ul class="form-detail">
-            <li>
-                <label>
-                    <span>持卡人</span>
-                    <input type="text" maxlength="10" v-model="bankCardName"/>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <span>卡号</span>
-                    <input type="text" maxlength="19" v-model="bankCardNumber"/>
-                </label>
-            </li>
-            <li>
-                <div class="li-flex">
-                    <div class="_left" @click="showPopupProvinceVisible">
-                        <label>
-                            <span>省市</span>
-                            <input type="text" readonly v-model="province"/>
-                            <t-icon name="jiantx"></t-icon>
-                        </label>
-                    </div>
-                    <div class="_right" @click="showPopupCityVisible">
-                        <label>
-                            <span>城市</span>
-                            <input type="text" readonly v-model="city"/>
-                            <t-icon name="jiantx"></t-icon>
-                        </label>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <label>
-                    <span>分支行</span>
-                    <input type="text" maxlength="100" v-model="bankName"/>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <span>手机号</span>
-                    <input type="text" maxlength="11" v-model="phoneNumber"/>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <span>身份证号</span>
-                    <input type="text" maxlength="18" v-model="idCardNumber"/>
-                </label>
-            </li>
-        </ul>
+  <section class="put-forward-detail-wrap">
+    <ul class="form-detail">
+      <li>
+        <label>
+          <span>持卡人</span>
+          <input
+            v-model="bankCardName"
+            type="text"
+            maxlength="10"
+          >
+        </label>
+      </li>
+      <li>
+        <label>
+          <span>卡号</span>
+          <input
+            v-model="bankCardNumber"
+            type="text"
+            maxlength="19"
+          >
+        </label>
+      </li>
+      <li>
+        <div class="li-flex">
+          <div
+            class="_left"
+            @click="showPopupProvinceVisible"
+          >
+            <label>
+              <span>省市</span>
+              <input
+                v-model="province"
+                type="text"
+                readonly
+              >
+              <t-icon name="jiantx" />
+            </label>
+          </div>
+          <div
+            class="_right"
+            @click="showPopupCityVisible"
+          >
+            <label>
+              <span>城市</span>
+              <input
+                v-model="city"
+                type="text"
+                readonly
+              >
+              <t-icon name="jiantx" />
+            </label>
+          </div>
+        </div>
+      </li>
+      <li>
+        <label>
+          <span>分支行</span>
+          <input
+            v-model="bankName"
+            type="text"
+            maxlength="100"
+          >
+        </label>
+      </li>
+      <li>
+        <label>
+          <span>手机号</span>
+          <input
+            v-model="phoneNumber"
+            type="text"
+            maxlength="11"
+          >
+        </label>
+      </li>
+      <li>
+        <label>
+          <span>身份证号</span>
+          <input
+            v-model="idCardNumber"
+            type="text"
+            maxlength="18"
+          >
+        </label>
+      </li>
+    </ul>
 
-        <button class="save-btn" @click="doSave" :disabled="popupUI.PopupUILoading">保存</button>
+    <button
+      class="save-btn"
+      :disabled="popupUI.PopupUILoading"
+      @click="doSave"
+    >
+      保存
+    </button>
 
-        <p class="tip">
-            注意事项： <br/>
-            1.银行卡信息用来提现收款<br/>
-            2.请确保姓名、卡号、分支行、省市及身份证号码真实准确并且匹配<br/>
-            3.验证通过后身份证号码不可修改<br/>
-            4.补全信息后您还需要签订兼职劳动合同<br/>
-            5.海外店主请添加官方管家：qxzl02 提供提现所需信息
-        </p>
+    <p class="tip">
+      注意事项： <br>
+      1.银行卡信息用来提现收款<br>
+      2.请确保姓名、卡号、分支行、省市及身份证号码真实准确并且匹配<br>
+      3.验证通过后身份证号码不可修改<br>
+      4.补全信息后您还需要签订兼职劳动合同<br>
+      5.海外店主请添加官方管家：qxzl02 提供提现所需信息
+    </p>
 
-        <mt-popup
-            class="putForward-detail-mt-popup"
-            v-model="popupProvinceVisible"
-            position="bottom">
-            <div class="title">
-                <div class="_left" @click="provinceCancel">
-                    <t-icon name="guanbi"></t-icon>
-                </div>
-                <div class="_center">选择省市</div>
-                <div class="_right" @click="provinceConfirm">
-                    <t-icon name="duigou"></t-icon>
-                </div>
-            </div>
-            <mt-picker :slots="provinceSlots" valueKey="aname" @change="onProvinceValueChange"></mt-picker>
-        </mt-popup>
+    <mt-popup
+      v-model="popupProvinceVisible"
+      class="putForward-detail-mt-popup"
+      position="bottom"
+    >
+      <div class="title">
+        <div
+          class="_left"
+          @click="provinceCancel"
+        >
+          <t-icon name="guanbi" />
+        </div>
+        <div class="_center">
+          选择省市
+        </div>
+        <div
+          class="_right"
+          @click="provinceConfirm"
+        >
+          <t-icon name="duigou" />
+        </div>
+      </div>
+      <mt-picker
+        :slots="provinceSlots"
+        value-key="aname"
+        @change="onProvinceValueChange"
+      />
+    </mt-popup>
 
-        <mt-popup
-            class="putForward-detail-mt-popup"
-            v-model="popupCityVisible"
-            position="bottom">
-            <div class="title">
-                <div class="_left" @click="cityCancel">
-                    <t-icon name="guanbi"></t-icon>
-                </div>
-                <div class="_center">选择城市</div>
-                <div class="_right" @click="cityConfirm">
-                    <t-icon name="duigou"></t-icon>
-                </div>
-            </div>
-            <mt-picker :slots="citySlots" valueKey="aname" @change="onCityValueChange"></mt-picker>
-        </mt-popup>
-    </section>
+    <mt-popup
+      v-model="popupCityVisible"
+      class="putForward-detail-mt-popup"
+      position="bottom"
+    >
+      <div class="title">
+        <div
+          class="_left"
+          @click="cityCancel"
+        >
+          <t-icon name="guanbi" />
+        </div>
+        <div class="_center">
+          选择城市
+        </div>
+        <div
+          class="_right"
+          @click="cityConfirm"
+        >
+          <t-icon name="duigou" />
+        </div>
+      </div>
+      <mt-picker
+        :slots="citySlots"
+        value-key="aname"
+        @change="onCityValueChange"
+      />
+    </mt-popup>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
@@ -101,201 +167,201 @@ import { isRealIdCard } from '@/tools/check'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    computed: {
-        ...mapState({
-            'pageInfo': 'pagePutForwardDetail',
-            'popupUI': 'popupUI'
-        }),
-        provinceSlots(){
-            let { pageInfo } = this;
-            return pageInfo.provinceSlots || [];
-        },
-        citySlots(){
-            let { pageInfo } = this;
-            return pageInfo.citySlots || [];
-        },
-        popupProvinceVisible: {
-            set(val){
-                this.setPopupProvinceVisible(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.popupProvinceVisible || false;
-            }
-        },
-        popupCityVisible: {
-            set(val){
-                this.setPopupCityVisible(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.popupCityVisible || false;
-            }
-        },
-        withdrawInfo(){
-            let { pageInfo: { withdrawInfo } } = this;
-            return withdrawInfo || {};
-        },
-        bankCardName: {
-            set(bankCardName){
-                this.updateWithdrawInfo({ bankCardName });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.bankCardName;
-            }
-        },
-        bankCardNumber: {
-            set(bankCardNumber){
-                this.updateWithdrawInfo({ bankCardNumber });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.bankCardNumber;
-            }
-        },
-        bankName: {
-            set(bankName){
-                this.updateWithdrawInfo({ bankName });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.bankName;
-            }
-        },
-        city: {
-            set(city){
-                this.updateWithdrawInfo({ city });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.city;
-            }
-        },
-        province: {
-            set(province){
-                this.updateWithdrawInfo({ province });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.province;
-            }
-        },
-        phoneNumber: {
-            set(phoneNumber){
-                this.updateWithdrawInfo({ phoneNumber });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.phoneNumber;
-            }
-        },
-        idCardNumber: {
-            set(idCardNumber){
-                this.updateWithdrawInfo({ idCardNumber });
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.idCardNumber;
-            }
-        },
-        tempProvince(){
-            let { pageInfo } = this;
-            return pageInfo.tempProvince;
-        },
-        tempCity(){
-            let { pageInfo } = this;
-            return pageInfo.tempCity;
-        }
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pagePutForwardDetail',
+      'popupUI': 'popupUI'
+    }),
+    provinceSlots () {
+      let { pageInfo } = this
+      return pageInfo.provinceSlots || []
     },
-    created(){
-        this.resetData();
-        this.loadData();
+    citySlots () {
+      let { pageInfo } = this
+      return pageInfo.citySlots || []
     },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pagePutForwardDetail/resetData',
-            'updateWithdrawInfo': 'pagePutForwardDetail/updateWithdrawInfo',
-            'setTempCity': 'pagePutForwardDetail/setTempCity',
-            'setTempProvince': 'pagePutForwardDetail/setTempProvince',
-            'setPopupProvinceVisible': 'pagePutForwardDetail/setPopupProvinceVisible',
-            'setPopupCityVisible': 'pagePutForwardDetail/setPopupCityVisible',
-            'updateCitys': 'pagePutForwardDetail/updateCitys'
-        }),
-        ...mapActions({
-            'loadData': 'pagePutForwardDetail/loadData',
-            'saveWithdrawInfo': 'pagePutForwardDetail/saveWithdrawInfo'
-        }),
-        doCheck(){
-            let { bankCardName, bankCardNumber, bankName, city, province, phoneNumber, idCardNumber } = this;
-            if(!bankCardName){
-                return '请输入持卡人姓名';
-            }else if(!bankCardNumber){
-                return '请输入卡号';
-            }else if(/\D/.test(bankCardNumber)){
-                return '卡号有误';
-            }else if(!province){
-                return '请选择省市';
-            }else if(!city){
-                return '请选择城市';
-            }else if(!bankName){
-                return '请输入分支行';
-            }else if(!phoneNumber){
-                return '请输入手机号';
-            }else if(!/\d{11}/.test(phoneNumber)){
-                return '手机号有误';
-            }else if(!idCardNumber){
-                return '请输入身份证号';
-            }else if(!isRealIdCard(idCardNumber)){
-                return '身份证号有误';
-            }
-        },
-        doSave(){
-            let desc = this.doCheck();
-            if(desc){
-                this.actionVuexMessageShow(desc);
-                return;
-            }
-            this.saveWithdrawInfo().then(()=>{
-                //保存成功了
-                this.$router.back();
-            });
-        },
-        provinceCancel(){
-            this.setPopupProvinceVisible(false);
-        },
-        provinceConfirm(){
-            let { province, tempProvince } = this;
-            this.setPopupProvinceVisible(false);
-            if(province != tempProvince){
-                this.updateWithdrawInfo({ province: tempProvince });
-                this.updateCitys();
-            }
-        },
-        onProvinceValueChange(picker, values){
-            this.setTempProvince(values[0].aname);
-        },
-        cityCancel(){
-            this.setPopupCityVisible(false);
-        },
-        cityConfirm(){
-            let { city, tempCity } = this;
-            this.setPopupCityVisible(false);
-            if(city != tempCity){
-                this.updateWithdrawInfo({ city: tempCity });
-            }
-        },
-        onCityValueChange(picker, values){
-            this.setTempCity(values[0].aname);
-        },
-        showPopupProvinceVisible(){
-            this.setPopupProvinceVisible(true);
-        },
-        showPopupCityVisible(){
-            this.setPopupCityVisible(true);
-        }
+    popupProvinceVisible: {
+      set (val) {
+        this.setPopupProvinceVisible(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.popupProvinceVisible || false
+      }
+    },
+    popupCityVisible: {
+      set (val) {
+        this.setPopupCityVisible(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.popupCityVisible || false
+      }
+    },
+    withdrawInfo () {
+      let { pageInfo: { withdrawInfo } } = this
+      return withdrawInfo || {}
+    },
+    bankCardName: {
+      set (bankCardName) {
+        this.updateWithdrawInfo({ bankCardName })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.bankCardName
+      }
+    },
+    bankCardNumber: {
+      set (bankCardNumber) {
+        this.updateWithdrawInfo({ bankCardNumber })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.bankCardNumber
+      }
+    },
+    bankName: {
+      set (bankName) {
+        this.updateWithdrawInfo({ bankName })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.bankName
+      }
+    },
+    city: {
+      set (city) {
+        this.updateWithdrawInfo({ city })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.city
+      }
+    },
+    province: {
+      set (province) {
+        this.updateWithdrawInfo({ province })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.province
+      }
+    },
+    phoneNumber: {
+      set (phoneNumber) {
+        this.updateWithdrawInfo({ phoneNumber })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.phoneNumber
+      }
+    },
+    idCardNumber: {
+      set (idCardNumber) {
+        this.updateWithdrawInfo({ idCardNumber })
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.idCardNumber
+      }
+    },
+    tempProvince () {
+      let { pageInfo } = this
+      return pageInfo.tempProvince
+    },
+    tempCity () {
+      let { pageInfo } = this
+      return pageInfo.tempCity
     }
+  },
+  created () {
+    this.resetData()
+    this.loadData()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pagePutForwardDetail/resetData',
+      'updateWithdrawInfo': 'pagePutForwardDetail/updateWithdrawInfo',
+      'setTempCity': 'pagePutForwardDetail/setTempCity',
+      'setTempProvince': 'pagePutForwardDetail/setTempProvince',
+      'setPopupProvinceVisible': 'pagePutForwardDetail/setPopupProvinceVisible',
+      'setPopupCityVisible': 'pagePutForwardDetail/setPopupCityVisible',
+      'updateCitys': 'pagePutForwardDetail/updateCitys'
+    }),
+    ...mapActions({
+      'loadData': 'pagePutForwardDetail/loadData',
+      'saveWithdrawInfo': 'pagePutForwardDetail/saveWithdrawInfo'
+    }),
+    doCheck () {
+      let { bankCardName, bankCardNumber, bankName, city, province, phoneNumber, idCardNumber } = this
+      if (!bankCardName) {
+        return '请输入持卡人姓名'
+      } else if (!bankCardNumber) {
+        return '请输入卡号'
+      } else if (/\D/.test(bankCardNumber)) {
+        return '卡号有误'
+      } else if (!province) {
+        return '请选择省市'
+      } else if (!city) {
+        return '请选择城市'
+      } else if (!bankName) {
+        return '请输入分支行'
+      } else if (!phoneNumber) {
+        return '请输入手机号'
+      } else if (!/\d{11}/.test(phoneNumber)) {
+        return '手机号有误'
+      } else if (!idCardNumber) {
+        return '请输入身份证号'
+      } else if (!isRealIdCard(idCardNumber)) {
+        return '身份证号有误'
+      }
+    },
+    doSave () {
+      let desc = this.doCheck()
+      if (desc) {
+        this.actionVuexMessageShow(desc)
+        return
+      }
+      this.saveWithdrawInfo().then(() => {
+        // 保存成功了
+        this.$router.back()
+      })
+    },
+    provinceCancel () {
+      this.setPopupProvinceVisible(false)
+    },
+    provinceConfirm () {
+      let { province, tempProvince } = this
+      this.setPopupProvinceVisible(false)
+      if (province != tempProvince) {
+        this.updateWithdrawInfo({ province: tempProvince })
+        this.updateCitys()
+      }
+    },
+    onProvinceValueChange (picker, values) {
+      this.setTempProvince(values[0].aname)
+    },
+    cityCancel () {
+      this.setPopupCityVisible(false)
+    },
+    cityConfirm () {
+      let { city, tempCity } = this
+      this.setPopupCityVisible(false)
+      if (city != tempCity) {
+        this.updateWithdrawInfo({ city: tempCity })
+      }
+    },
+    onCityValueChange (picker, values) {
+      this.setTempCity(values[0].aname)
+    },
+    showPopupProvinceVisible () {
+      this.setPopupProvinceVisible(true)
+    },
+    showPopupCityVisible () {
+      this.setPopupCityVisible(true)
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -413,9 +479,8 @@ section{
                 font-weight:400;
                 color:rgba(34,34,34,1);
             }
-            
+
         }
     }
 }
 </style>
-

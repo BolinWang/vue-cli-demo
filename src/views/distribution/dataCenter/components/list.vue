@@ -1,53 +1,63 @@
 <template>
-    <ul class="list">
-        <li v-for="item in list" :key="item.month">
-            <div class="content data-center-list-item" :data-role="item.month">
-                <h2>{{getYear(item)}}年{{getMonth(item)}}月数据</h2>
-                <div class="detailed">
-                    <div class="_left">
-                        <div class="title">
-                            销售额<span class="sq">(税前)</span>
-                        </div>
-                        <div class="amount">
-                            <small>¥</small><strong>{{((item.sales || 0) / 100).toFixed(2)}}</strong>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="_right">
-                        <div class="title">
-                            已结算收入<span class="sq">(税前)</span>
-                        </div>
-                        <div class="amount">
-                            <small>¥</small><strong>{{(((item.bonus || 0) + (item.commission || 0)) / 100).toFixed(2)}}</strong>
-                        </div>
-                    </div>
-                </div>
+  <ul class="list">
+    <li
+      v-for="item in list"
+      :key="item.month"
+    >
+      <div
+        class="content data-center-list-item"
+        :data-role="item.month"
+      >
+        <h2>{{ getYear(item) }}年{{ getMonth(item) }}月数据</h2>
+        <div class="detailed">
+          <div class="_left">
+            <div class="title">
+              销售额<span class="sq">
+                (税前)
+              </span>
             </div>
-        </li>
-    </ul>
+            <div class="amount">
+              <small>¥</small><strong>{{ ((item.sales || 0) / 100).toFixed(2) }}</strong>
+            </div>
+          </div>
+          <div class="line" />
+          <div class="_right">
+            <div class="title">
+              已结算收入<span class="sq">
+                (税前)
+              </span>
+            </div>
+            <div class="amount">
+              <small>¥</small><strong>{{ (((item.bonus || 0) + (item.commission || 0)) / 100).toFixed(2) }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDataCenterIndex'
-        }),
-        list(){
-            let { pageInfo } = this;
-            let list = pageInfo.list || [];
-            return list.reverse();
-        }
-    },
-    methods: {
-        getYear({ month }){
-            return (month + '').substring(0, 4);
-        },
-        getMonth({ month }){
-            return parseInt((month + '').substring(4, 6))
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDataCenterIndex'
+    }),
+    list () {
+      let { pageInfo } = this
+      let list = pageInfo.list || []
+      return list.reverse()
     }
+  },
+  methods: {
+    getYear ({ month }) {
+      return (month + '').substring(0, 4)
+    },
+    getMonth ({ month }) {
+      return parseInt((month + '').substring(4, 6))
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

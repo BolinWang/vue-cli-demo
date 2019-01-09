@@ -1,108 +1,120 @@
 <template>
-    <section v-if="pageInfo.dataIsLoad">
+  <section v-if="pageInfo.dataIsLoad">
+    <div class="section-bg" />
 
-        <div class="section-bg">
+    <div class="section-main">
+      <ul>
+        <li>
+          <label>
+            <div class="li-content border5">
+              <div class="_left">
+                手机号
+              </div>
+              <div class="_center">
+                <input
+                  v-model="phone"
+                  type="text"
+                  maxlength="11"
+                >
+              </div>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label class="getcode-content">
+            <div class="li-content border5">
+              <div class="_left">
+                验证码
+              </div>
+              <div class="_center">
+                <input
+                  v-model="code"
+                  type="tel"
+                  maxlength="6"
+                >
+              </div>
+            </div>
+            <div class="button-wrap">
+              <template v-if="getPhoneCodeing">
+                <button disabled>
+                  60s后再次获取
+                </button>
+              </template>
+              <template v-else>
+                <button :disabled="getCodeBtnDisabled">
+                  获取验证码
+                </button>
+              </template>
+            </div>
+          </label>
+        </li>
+      </ul>
 
-        </div>
-
-        <div class="section-main">
-            
-            <ul>
-                <li>
-                    <label>
-                        <div class="li-content border5">
-                            <div class="_left">
-                                手机号
-                            </div>
-                            <div class="_center">
-                                <input type="text" maxlength="11" v-model="phone"/>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label class="getcode-content">
-                        <div class="li-content border5">
-                            <div class="_left">
-                                验证码
-                            </div>
-                            <div class="_center">
-                                <input type="tel" maxlength="6" v-model="code"/>
-                            </div>
-                        </div>
-                        <div class="button-wrap">
-                            <template v-if="getPhoneCodeing">
-                                <button disabled>60s后再次获取</button>
-                            </template>
-                            <template v-else>
-                                <button :disabled="getCodeBtnDisabled">获取验证码</button>
-                            </template>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-
-            <button class="login-btn" :disabled="loginDisabled">登录</button>
-        </div>
-        
-    </section>
+      <button
+        class="login-btn"
+        :disabled="loginDisabled"
+      >
+        登录
+      </button>
+    </div>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    data(){
-        return {
-            getPhoneCodeing: false,
-        }
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pagePutForwardLogin',
-            'popupUI': 'popupUI'
-        }),
-        phone: {
-            set(val){
-                this.setPhone(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.phone || '';
-            }
-        },
-        code: {
-            set(val){
-                this.setCode(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.code || '';
-            }
-        },
-        loginDisabled(){
-            let { popupUI, phone, code } = this;
-            return popupUI.PopupUILoading || phone.length < 11 || code.length < 6;
-        },
-        getCodeBtnDisabled(){
-            let { phone } = this;
-            return phone.length < 11;
-        }
-    },
-    created(){
-
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pagePutForwardLogin/resetData',
-            'setPhone': 'pagePutForwardLogin/setPhone',
-            'setCode': 'pagePutForwardLogin/setCode'
-        }),
-        ...mapActions({
-            'getPhoneCode': 'pagePutForwardLogin/getPhoneCode'
-        }),
+  mixins: [pageShareMixin],
+  data () {
+    return {
+      getPhoneCodeing: false
     }
+  },
+  computed: {
+    ...mapState({
+      'pageInfo': 'pagePutForwardLogin',
+      'popupUI': 'popupUI'
+    }),
+    phone: {
+      set (val) {
+        this.setPhone(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.phone || ''
+      }
+    },
+    code: {
+      set (val) {
+        this.setCode(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.code || ''
+      }
+    },
+    loginDisabled () {
+      let { popupUI, phone, code } = this
+      return popupUI.PopupUILoading || phone.length < 11 || code.length < 6
+    },
+    getCodeBtnDisabled () {
+      let { phone } = this
+      return phone.length < 11
+    }
+  },
+  created () {
+
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pagePutForwardLogin/resetData',
+      'setPhone': 'pagePutForwardLogin/setPhone',
+      'setCode': 'pagePutForwardLogin/setCode'
+    }),
+    ...mapActions({
+      'getPhoneCode': 'pagePutForwardLogin/getPhoneCode'
+    })
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -213,6 +225,6 @@ section{
         &:disabled{
             background:#ccc;
         }
-    } 
+    }
 }
 </style>

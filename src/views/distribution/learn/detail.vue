@@ -1,172 +1,199 @@
 <template>
-    <section ref="index-wrap" class="evaluation-index-wrap" v-if="pageInfo.dataIsLoad">
+  <section
+    v-if="pageInfo.dataIsLoad"
+    ref="index-wrap"
+    class="evaluation-index-wrap"
+  >
+    <div class="bg question">
+      <div class="content">
+        <p>
+          <font>
+            <strong>{{ questionIndex + 1 }}</strong>/{{ questionLen }}
+          </font>
+          {{ question.questionsDesc }}
+        </p>
 
-        <div class="bg question">
-            <div class="content">
-                
-                <p>
-                    <font>
-                        <strong>{{ questionIndex + 1 }}</strong>/{{ questionLen }}
-                    </font>
-                    {{ question.questionsDesc }}
-                </p>
+        <template v-if="question.questionsImage">
+          <div class="img">
+            <img :src="question.questionsImage | ali(258)">
+          </div>
+        </template>
 
-                <template v-if="question.questionsImage">
-                    <div class="img">
-                        <img :src="question.questionsImage | ali(258)"/>
-                    </div>
-                </template>
+        <ul>
+          <li v-if="question.optionA">
+            <label>
+              <div class="_left">
+                <input
+                  v-model="userAnswer"
+                  type="radio"
+                  value="A"
+                >
+                <span />
+              </div>
+              <div class="_right">
+                {{ question.optionA }}
+              </div>
+            </label>
+          </li>
+          <li v-if="question.optionB">
+            <label>
+              <div class="_left">
+                <input
+                  v-model="userAnswer"
+                  type="radio"
+                  value="B"
+                >
+                <span />
+              </div>
+              <div class="_right">
+                {{ question.optionB }}
+              </div>
+            </label>
+          </li>
+          <li v-if="question.optionC">
+            <label>
+              <div class="_left">
+                <input
+                  v-model="userAnswer"
+                  type="radio"
+                  value="C"
+                >
+                <span />
+              </div>
+              <div class="_right">
+                {{ question.optionC }}
+              </div>
+            </label>
+          </li>
+          <li v-if="question.optionD">
+            <label>
+              <div class="_left">
+                <input
+                  v-model="userAnswer"
+                  type="radio"
+                  value="D"
+                >
+                <span />
+              </div>
+              <div class="_right">
+                {{ question.optionD }}
+              </div>
+            </label>
+          </li>
+        </ul>
+      </div>
 
-                <ul>
-                    <li v-if="question.optionA">
-                        <label>
-                            <div class="_left">
-                                <input type="radio" v-model="userAnswer" value="A"/>
-                                <span></span>
-                            </div>
-                            <div class="_right">
-                                {{ question.optionA }}  
-                            </div>
-                        </label>
-                    </li>
-                    <li v-if="question.optionB">
-                        <label>
-                            <div class="_left">
-                                <input type="radio" v-model="userAnswer" value="B"/>
-                                <span></span>
-                            </div>
-                            <div class="_right">
-                                {{ question.optionB }}
-                            </div>
-                        </label>
-                    </li>
-                    <li v-if="question.optionC">
-                        <label>
-                            <div class="_left">
-                                <input type="radio" v-model="userAnswer" value="C"/>
-                                <span></span>
-                            </div>
-                            <div class="_right">
-                                {{ question.optionC }}
-                            </div>
-                        </label>
-                    </li>
-                    <li v-if="question.optionD">
-                        <label>
-                            <div class="_left">
-                                <input type="radio" v-model="userAnswer" value="D"/>
-                                <span></span>
-                            </div>
-                            <div class="_right">
-                                {{ question.optionD }}
-                            </div>
-                        </label>
-                    </li>
-                </ul>
+      <div class="btn-group">
+        <button
+          v-show="questionIndex > 0"
+          class="pre page-btn"
+          @click="preQuestion"
+        >
+          <t-icon name="arrow-left" />上一题
+        </button>
 
-            </div>
-
-            <div class="btn-group">
-                <button class="pre page-btn" v-show="questionIndex > 0" @click="preQuestion">
-                    <t-icon name="arrow-left"></t-icon>上一题
-                </button>
-
-                <template v-if="questionIndex < questionLen - 1">
-                    <button class="next page-btn" :disabled="!userAnswer" @click="nextQuestion">
-                        下一题<t-icon name="arrow-right"></t-icon>
-                    </button>
-                </template>
-                <template v-else>
-                    <button class="show-result" :disabled="!userAnswer" @click="nextQuestion">
-                        查看结果
-                    </button>
-                </template>
-
-            </div>
-        </div>
-        
-    </section>
+        <template v-if="questionIndex < questionLen - 1">
+          <button
+            class="next page-btn"
+            :disabled="!userAnswer"
+            @click="nextQuestion"
+          >
+            下一题<t-icon name="arrow-right" />
+          </button>
+        </template>
+        <template v-else>
+          <button
+            class="show-result"
+            :disabled="!userAnswer"
+            @click="nextQuestion"
+          >
+            查看结果
+          </button>
+        </template>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageLearnDetail'
-        }),
-        userAnswer: {
-            set(userAnswer){
-                let { question } = this;
-                this.setQuestionUserAnswer({ question, userAnswer });
-            },
-            get(){
-                let { question } = this;
-                return question.userAnswer;
-            }
-        },
-        questionIndex(){
-            let { pageInfo } = this;
-            return pageInfo.questionIndex || 0;
-        },
-        questionList(){
-            let { pageInfo: { data } } = this;
-            return data.evaluationQuestionDTOList || [];
-        },
-        question(){
-            let { questionList, pageInfo: { questionIndex } } = this;
-            return questionList[questionIndex];
-        },
-        questionLen(){
-            let { questionList } = this;
-            return questionList.length;
-        }
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageLearnDetail'
+    }),
+    userAnswer: {
+      set (userAnswer) {
+        let { question } = this
+        this.setQuestionUserAnswer({ question, userAnswer })
+      },
+      get () {
+        let { question } = this
+        return question.userAnswer
+      }
     },
-    created(){
-        this.resetData();
-        this.loadData();
+    questionIndex () {
+      let { pageInfo } = this
+      return pageInfo.questionIndex || 0
     },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageLearnDetail/resetData',
-            'updateQuestionIndex': 'pageLearnDetail/updateQuestionIndex',
-            'setQuestionUserAnswer': 'pageLearnDetail/setQuestionUserAnswer'
-        }),
-        ...mapActions({
-            'loadData': 'pageLearnDetail/loadData',
-            'commitResult': 'pageLearnDetail/commitResult'
-        }),
-        preQuestion(){
-            this.updateQuestionIndex(-1);
-        },
-        nextQuestion(){
-            let { questionIndex, questionLen, question: { answer, userAnswer } } = this;
-            if(answer != userAnswer){
-                this.actionVuexMessageShow('答错啦，请选择正确答案');
-                return;
-            }
-            if(questionIndex < questionLen - 1){
-                this.updateQuestionIndex(1);
-            }else{
-                this.showResult();
-            }
-        },
-        showResult(){
-            this.commitResult().then((res)=>{
-                let { evaluationResult } = res || {};
-                //1-通过, 2-不通过
-                if(evaluationResult == 1){
-                    this.$router.push({
-                        path: '/distribution/learn/success'
-                    });
-                }else if(evaluationResult == 2){
-                    this.actionVuexMessageShow('答错啦，请选择正确答案');
-                }
-            });
-        }
+    questionList () {
+      let { pageInfo: { data } } = this
+      return data.evaluationQuestionDTOList || []
+    },
+    question () {
+      let { questionList, pageInfo: { questionIndex } } = this
+      return questionList[questionIndex]
+    },
+    questionLen () {
+      let { questionList } = this
+      return questionList.length
     }
+  },
+  created () {
+    this.resetData()
+    this.loadData()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageLearnDetail/resetData',
+      'updateQuestionIndex': 'pageLearnDetail/updateQuestionIndex',
+      'setQuestionUserAnswer': 'pageLearnDetail/setQuestionUserAnswer'
+    }),
+    ...mapActions({
+      'loadData': 'pageLearnDetail/loadData',
+      'commitResult': 'pageLearnDetail/commitResult'
+    }),
+    preQuestion () {
+      this.updateQuestionIndex(-1)
+    },
+    nextQuestion () {
+      let { questionIndex, questionLen, question: { answer, userAnswer } } = this
+      if (answer != userAnswer) {
+        this.actionVuexMessageShow('答错啦，请选择正确答案')
+        return
+      }
+      if (questionIndex < questionLen - 1) {
+        this.updateQuestionIndex(1)
+      } else {
+        this.showResult()
+      }
+    },
+    showResult () {
+      this.commitResult().then((res) => {
+        let { evaluationResult } = res || {}
+        // 1-通过, 2-不通过
+        if (evaluationResult == 1) {
+          this.$router.push({
+            path: '/distribution/learn/success'
+          })
+        } else if (evaluationResult == 2) {
+          this.actionVuexMessageShow('答错啦，请选择正确答案')
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -257,7 +284,7 @@ section{
                                 background:url(../../../assets/images/distribution/learn/uncheck.png) no-repeat center center;
                                 background-size:100%;
                             }
-                            
+
                         }
                         ._right{
                             flex: auto;

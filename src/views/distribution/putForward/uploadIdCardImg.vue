@@ -1,156 +1,164 @@
 <template>
-    <section v-if="pageInfo.dataIsLoad">
+  <section v-if="pageInfo.dataIsLoad">
+    <div class="section-bg" />
 
-        <div class="section-bg">
+    <div class="section-main">
+      <h2>上传证件材料</h2>
 
-        </div>
+      <ul class="clearfixed">
+        <li>
+          <template v-if="cardImg1">
+            <img :src="cardImg1 | ali(375)">
+          </template>
+          <template v-else>
+            <div class="li-content">
+              <button>
+                <t-icon name="tianjiatupian" />
+              </button>
+              <p>身份证正面照片</p>
+            </div>
+          </template>
+          <input
+            ref="file1"
+            type="file"
+            accept="image/*"
+          >
+        </li>
+        <li>
+          <template v-if="cardImg2">
+            <img :src="cardImg2 | ali(375)">
+          </template>
+          <template v-else>
+            <div class="li-content">
+              <button>
+                <t-icon name="tianjiatupian" />
+              </button>
+              <p>身份证反面照片</p>
+            </div>
+          </template>
+          <input
+            ref="file2"
+            type="file"
+            accept="image/*"
+          >
+        </li>
+      </ul>
 
-        <div class="section-main">
-            
-            <h2>上传证件材料</h2>
-
-            <ul class="clearfixed">
-                <li>
-                    <template v-if="cardImg1">
-                        <img :src="cardImg1 | ali(375)"/>
-                    </template>
-                    <template v-else>
-                        <div class="li-content">
-                            <button>
-                                <t-icon name="tianjiatupian"></t-icon>
-                            </button>
-                            <p>身份证正面照片</p>
-                        </div>
-                    </template>
-                    <input type="file" accept="image/*" ref="file1"/>
-                </li>
-                <li>
-                    <template v-if="cardImg2">
-                        <img :src="cardImg2 | ali(375)"/>
-                    </template>
-                    <template v-else>
-                        <div class="li-content">
-                            <button>
-                                <t-icon name="tianjiatupian"></t-icon>
-                            </button>
-                            <p>身份证反面照片</p>
-                        </div>
-                    </template>
-                    <input type="file" accept="image/*" ref="file2"/>
-                </li>
-            </ul>
-
-            <button class="confirm-btn" :disabled="confirmDisabled">完成认证</button>
-        </div>
-        
-    </section>
+      <button
+        class="confirm-btn"
+        :disabled="confirmDisabled"
+      >
+        完成认证
+      </button>
+    </div>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
-import lrz from 'lrz';
+import lrz from 'lrz'
 
 export default {
-    mixins: [pageShareMixin],
-    data(){
-        return {
-            
-        }
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageUploadIdCardImg',
-            'popupUI': 'popupUI'
-        }),
-        cardImg1: {
-            set(val){
-                this.setCardImg1(val);
-            }, 
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.cardImg1 || '';
-            }
-        },
-        cardImg2: {
-            set(val){
-                this.setCardImg2(val);
-            }, 
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.cardImg2 || '';
-            }
-        },
-        confirmDisabled(){
-            let { cardImg1, cardImg2 } = this;
-            return !cardImg1 || !cardImg2;
-        },
-        url(){
-            return 'https://nodejsapi.ngmm365.com/admin-api';
-            let API_ENV = process.env.API_ENV;
-            if (API_ENV == 'pro') {
-                return 'https://nodejsapi.ngmm365.com/admin-api';
-            } else if (API_ENV == 'beta') {
-                return 'http://10.86.10.254:9000/admin-api';
-            } else if (API_ENV == 'test') {
-                return 'http://localhost:9000/admin-api';
-            } else {
-                return 'http://localhost:9000/admin-api';
-            }
-        }
-    },
-    mounted(){
-        this.initUploadEvent();
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageUploadIdCardImg/resetData',
-            'setCardImg1': 'pageUploadIdCardImg/setCardImg1',
-            'setCardImg2': 'pageUploadIdCardImg/setCardImg2'
-        }),
-        initUploadEvent(){
-            this.initUpload(this.$refs.file1, 'cardImg1');
-            this.initUpload(this.$refs.file2, 'cardImg2');
-        },
-        initUpload(oFile, cardImg){
-            let self = this;
-            function changeFn() {
-            	let files = this.files;
-                lrz(files[0], {
-                    width: 750,
-                    quality: 0.4,
-                })
-                .then(function (rst) {
-                    // 处理成功会执行
-                    let name = rst.origin.name;
-                    let ext = '';
-                    if(name.indexOf('.') > -1){
-                        ext = name.substring(name.lastIndexOf('.') + 1);
-                    }
-                    self.uploadImage(rst.base64, ext, cardImg);
-                })
-                .catch(function (err) {
-                    // 处理失败会执行
-                })
-                .always(function () {
-                    // 不管是成功失败，都会执行
-                });
-                
-                let clone = this.cloneNode(true);
-                clone.value = '';
-                this.parentNode.replaceChild( clone, this );
-                clone.addEventListener('change', changeFn);
-            }
-            oFile.addEventListener('change', changeFn);
-        },
-        uploadImage(base64, ext, cardImg){
-            this.$http.post(this.url + '/file/upload/base64', {base64: base64, ext: ext}).then((response) => { 
-                let data = response.body;
-                if(data.code == 10000){
-                    this[cardImg] = data.data.url;
-                }
-            })
-        }
+  mixins: [pageShareMixin],
+  data () {
+    return {
+
     }
+  },
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageUploadIdCardImg',
+      'popupUI': 'popupUI'
+    }),
+    cardImg1: {
+      set (val) {
+        this.setCardImg1(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.cardImg1 || ''
+      }
+    },
+    cardImg2: {
+      set (val) {
+        this.setCardImg2(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.cardImg2 || ''
+      }
+    },
+    confirmDisabled () {
+      let { cardImg1, cardImg2 } = this
+      return !cardImg1 || !cardImg2
+    },
+    url () {
+      return 'https://nodejsapi.ngmm365.com/admin-api'
+      let API_ENV = process.env.API_ENV
+      if (API_ENV == 'pro') {
+        return 'https://nodejsapi.ngmm365.com/admin-api'
+      } else if (API_ENV == 'beta') {
+        return 'http://10.86.10.254:9000/admin-api'
+      } else if (API_ENV == 'test') {
+        return 'http://localhost:9000/admin-api'
+      } else {
+        return 'http://localhost:9000/admin-api'
+      }
+    }
+  },
+  mounted () {
+    this.initUploadEvent()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageUploadIdCardImg/resetData',
+      'setCardImg1': 'pageUploadIdCardImg/setCardImg1',
+      'setCardImg2': 'pageUploadIdCardImg/setCardImg2'
+    }),
+    initUploadEvent () {
+      this.initUpload(this.$refs.file1, 'cardImg1')
+      this.initUpload(this.$refs.file2, 'cardImg2')
+    },
+    initUpload (oFile, cardImg) {
+      let self = this
+      function changeFn () {
+            	let files = this.files
+        lrz(files[0], {
+          width: 750,
+          quality: 0.4
+        })
+          .then(function (rst) {
+            // 处理成功会执行
+            let name = rst.origin.name
+            let ext = ''
+            if (name.indexOf('.') > -1) {
+              ext = name.substring(name.lastIndexOf('.') + 1)
+            }
+            self.uploadImage(rst.base64, ext, cardImg)
+          })
+          .catch(function (err) {
+            // 处理失败会执行
+          })
+          .always(function () {
+            // 不管是成功失败，都会执行
+          })
+
+        let clone = this.cloneNode(true)
+        clone.value = ''
+        this.parentNode.replaceChild(clone, this)
+        clone.addEventListener('change', changeFn)
+      }
+      oFile.addEventListener('change', changeFn)
+    },
+    uploadImage (base64, ext, cardImg) {
+      this.$http.post(this.url + '/file/upload/base64', { base64: base64, ext: ext }).then((response) => {
+        let data = response.body
+        if (data.code == 10000) {
+          this[cardImg] = data.data.url
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -263,6 +271,6 @@ section{
         &:disabled{
             background:#ccc;
         }
-    } 
+    }
 }
 </style>

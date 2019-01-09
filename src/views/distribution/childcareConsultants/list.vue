@@ -1,52 +1,52 @@
 <template>
-    <section v-if="pageInfo.dataIsLoad">
-        <section class="bg"></section>
-        <section class="main">
-            <template v-if="totalNumber">
-                <div class="tip">
-                    您目前拥有<strong>{{totalNumber}}</strong>位育儿顾问
-                </div>
-                <list></list>
-            </template>
-            <template v-else>
-                <empty content="您暂时还没有育儿顾问"></empty>
-            </template>
-        </section>
+  <section v-if="pageInfo.dataIsLoad">
+    <section class="bg" />
+    <section class="main">
+      <template v-if="totalNumber">
+        <div class="tip">
+          您目前拥有<strong>{{ totalNumber }}</strong>位育儿顾问
+        </div>
+        <list />
+      </template>
+      <template v-else>
+        <empty content="您暂时还没有育儿顾问" />
+      </template>
     </section>
+  </section>
 </template>
 <script>
-import list from './components/list/list.vue';
-import empty from '../components/empty.vue';
+import list from './components/list/list.vue'
+import empty from '../components/empty.vue'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    components: {
-        list,
-        empty
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageChildcareConsultantsList'
-        }),
-        totalNumber(){
-            let { pageInfo: { totalNumber, list } } = this;
-            return totalNumber || list.length;
-        }
-    },
-    created(){
-        this.resetData();
-        this.loadList();
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageChildcareConsultantsList/resetData'
-        }),
-        ...mapActions({
-            'loadList': 'pageChildcareConsultantsList/loadList'
-        })
+  components: {
+    list,
+    empty
+  },
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageChildcareConsultantsList'
+    }),
+    totalNumber () {
+      let { pageInfo: { totalNumber, list } } = this
+      return totalNumber || list.length
     }
+  },
+  created () {
+    this.resetData()
+    this.loadList()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageChildcareConsultantsList/resetData'
+    }),
+    ...mapActions({
+      'loadList': 'pageChildcareConsultantsList/loadList'
+    })
+  }
 }
 </script>
 <style lang="less" scoped>

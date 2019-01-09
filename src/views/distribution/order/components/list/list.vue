@@ -1,98 +1,120 @@
 <template>
-    <div class="catalog-content-wrap" v-infinite-scroll="loadList"
-                infinite-scroll-disabled="scrollDisabled"
-                infinite-scroll-distance="10">
-        <ul class="list">
-            <li v-for="item in pageInfo.list" :key="item.distOrderId">
-                <template v-if="item.directadviserName">
-                    <div class="role-mark-wrap">
-                        <div class="role-mark">育儿顾问：{{item.directadviserName}}</div>
-                    </div>
-                </template>
-                <div class="li-content">
-                    <div class="title">
-                        <div class="_left">
-                            <template v-if="item.customerHeadimgurl">
-                                <img :src="item.customerHeadimgurl | ali(80)"/>
-                            </template>
-                            <template v-else>
-                                <img src="../../../../../assets/images/avatar.png"/>
-                            </template>
-                        </div>
-                        <div class="_center">
-                            <p class="p1">
-                                {{item.customerUserName}}
-                            </p>
-                            <p class="p2">
-                                订单编号：{{item.orderId}}
-                            </p>
-                        </div>
-                        <div class="_right">
-                            <p class="p1" :class="{'wjs': item.settlementStatus == 1, 'yjs': item.settlementStatus == 3, 'ytk': item.settlementStatus == 4}">{{getSettlementStatusStr(item.settlementStatus)}}</p>
-                            <p class="p2">{{formatDate(item.createdTime, 'yyyy.MM.dd hh:mm:ss')}}</p>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="_left">
-                            <img :src="item.itemIcon | ali(64)"/>
-                        </div>
-                        <div class="_center">
-                            <p class="p1">
-                                {{item.itemTitle}}
-                            </p>
-                            <p class="p2" :style="getPayment(item.payment).length >= 6 ? 'font-size:0.1rem' : ''">
-                                客户实付：¥{{getPayment(item.payment)}}
-                            </p>
-                            <template v-if="item.settlementStatus == 4">
-                                <p class="p3">
-                                    退&nbsp;&nbsp;&nbsp;&nbsp;款：¥{{getRefundAmount(item.refundAmount)}}
-                                </p>
-                            </template>
-                        </div>
-                        <div class="_right">
-                            <p class="p1">应收<small class="sq">(税前)：</small><strong>¥{{getCommission(item.commission)}}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+  <div
+    v-infinite-scroll="loadList"
+    class="catalog-content-wrap"
+    infinite-scroll-disabled="scrollDisabled"
+    infinite-scroll-distance="10"
+  >
+    <ul class="list">
+      <li
+        v-for="item in pageInfo.list"
+        :key="item.distOrderId"
+      >
+        <template v-if="item.directadviserName">
+          <div class="role-mark-wrap">
+            <div class="role-mark">
+              育儿顾问：{{ item.directadviserName }}
+            </div>
+          </div>
+        </template>
+        <div class="li-content">
+          <div class="title">
+            <div class="_left">
+              <template v-if="item.customerHeadimgurl">
+                <img :src="item.customerHeadimgurl | ali(80)">
+              </template>
+              <template v-else>
+                <img src="../../../../../assets/images/avatar.png">
+              </template>
+            </div>
+            <div class="_center">
+              <p class="p1">
+                {{ item.customerUserName }}
+              </p>
+              <p class="p2">
+                订单编号：{{ item.orderId }}
+              </p>
+            </div>
+            <div class="_right">
+              <p
+                class="p1"
+                :class="{'wjs': item.settlementStatus == 1, 'yjs': item.settlementStatus == 3, 'ytk': item.settlementStatus == 4}"
+              >
+                {{ getSettlementStatusStr(item.settlementStatus) }}
+              </p>
+              <p class="p2">
+                {{ formatDate(item.createdTime, 'yyyy.MM.dd hh:mm:ss') }}
+              </p>
+            </div>
+          </div>
+          <div class="content">
+            <div class="_left">
+              <img :src="item.itemIcon | ali(64)">
+            </div>
+            <div class="_center">
+              <p class="p1">
+                {{ item.itemTitle }}
+              </p>
+              <p
+                class="p2"
+                :style="getPayment(item.payment).length >= 6 ? 'font-size:0.1rem' : ''"
+              >
+                客户实付：¥{{ getPayment(item.payment) }}
+              </p>
+              <template v-if="item.settlementStatus == 4">
+                <p class="p3">
+                  退&nbsp;&nbsp;&nbsp;&nbsp;款：¥{{ getRefundAmount(item.refundAmount) }}
+                </p>
+              </template>
+            </div>
+            <div class="_right">
+              <p class="p1">
+                应收<small class="sq">
+                  (税前)：
+                </small><strong>¥{{ getCommission(item.commission) }}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageOrderList'
-        }),
-        ...mapGetters({
-            'scrollDisabled': 'pageOrderList/scrollDisabled'
-        })
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageOrderList'
+    }),
+    ...mapGetters({
+      'scrollDisabled': 'pageOrderList/scrollDisabled'
+    })
+  },
+  methods: {
+    ...mapActions({
+      'loadList': 'pageOrderList/loadList'
+    }),
+    getSettlementStatusStr (settlementStatus) {
+      if (settlementStatus == 1) {
+        return '未结算'
+      } else if (settlementStatus == 3) {
+        return '已结算'
+      } else if (settlementStatus == 4) {
+        return '已退款'
+      }
     },
-    methods: {
-        ...mapActions({
-            'loadList': 'pageOrderList/loadList'
-        }),
-        getSettlementStatusStr(settlementStatus){
-            if(settlementStatus == 1){
-                return '未结算';
-            }else if(settlementStatus == 3){
-                return '已结算';
-            }else if(settlementStatus == 4){
-                return '已退款';
-            }
-        },
-        getPayment(payment){
-            return payment ? (payment / 100).toFixed(2) : '0.00';
-        },
-        getCommission(commission){
-            return commission ? (commission / 100).toFixed(2) : '0.00';
-        },
-        getRefundAmount(refundAmount){
-            return refundAmount ? (refundAmount / 100).toFixed(2) : '0.00';
-        }
+    getPayment (payment) {
+      return payment ? (payment / 100).toFixed(2) : '0.00'
+    },
+    getCommission (commission) {
+      return commission ? (commission / 100).toFixed(2) : '0.00'
+    },
+    getRefundAmount (refundAmount) {
+      return refundAmount ? (refundAmount / 100).toFixed(2) : '0.00'
     }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -174,7 +196,7 @@ export default {
                         color:rgba(34,34,34,1);
                         position: relative;
                         text-overflow: ellipsis;
-                        overflow: hidden; 
+                        overflow: hidden;
                         white-space: nowrap;
                         span{
                             height:0.145rem;

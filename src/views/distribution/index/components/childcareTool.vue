@@ -1,85 +1,105 @@
 <template>
-    <!--育儿顾问-->
-    <div class="childcareTool card" v-if="pageInfo.data.roleId == 4">
-        <h2>
-            <template v-if="pageInfo.data.isPromote === false">
-                您差 <template v-if="needCustomer > 0"><strong>{{needCustomer}}</strong> 位客户</template><template v-if="needCustomer > 0 && needSales > 0">和</template><template v-if="needSales > 0"><strong><small>￥</small>{{needSales}}</strong>元销售额</template><br/>
-                <template>或 再招募<strong>{{needAdviser}}</strong><span>位育儿顾问</span></template><template>即可晋升为<strong>「育儿大使」</strong><img @click='clickImg' src="../../../../assets/images/wenhao.png"></template>
-            </template>
-            <template v-else>
-            您已成功晋升为育儿大使，预估系统15分钟左右对您的身份界面完成升级！
-            </template>
-        </h2>
-        <div class="detailed">
-            <div class="_left">
-                <div class="title">
-                    已结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{commission}}</strong>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="_right">
-                <div class="title">
-                    未结算收入<small class="sq">(税前)</small>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{waitCommission}}</strong>
-                </div>
-            </div>
+  <!--育儿顾问-->
+  <div
+    v-if="pageInfo.data.roleId == 4"
+    class="childcareTool card"
+  >
+    <h2>
+      <template v-if="pageInfo.data.isPromote === false">
+        您差 <template v-if="needCustomer > 0">
+          <strong>{{ needCustomer }}</strong> 位客户
+        </template><template v-if="needCustomer > 0 && needSales > 0">
+          和
+        </template><template v-if="needSales > 0">
+          <strong><small>￥</small>{{ needSales }}</strong>元销售额
+        </template><br>
+        <template>或 再招募<strong>{{ needAdviser }}</strong><span>位育儿顾问</span></template><template>
+          即可晋升为<strong>「育儿大使」</strong><img
+            src="../../../../assets/images/wenhao.png"
+            @click="clickImg"
+          >
+        </template>
+      </template>
+      <template v-else>
+        您已成功晋升为育儿大使，预估系统15分钟左右对您的身份界面完成升级！
+      </template>
+    </h2>
+    <div class="detailed">
+      <div class="_left">
+        <div class="title">
+          已结算收入<small class="sq">
+            (税前)
+          </small>
         </div>
-        <div class="more" @click="goOrderList">
-            订单明细<t-icon name="arrow-right"></t-icon>
+        <div class="amount">
+          <small>¥</small><strong>{{ commission }}</strong>
         </div>
-        
+      </div>
+      <div class="line" />
+      <div class="_right">
+        <div class="title">
+          未结算收入<small class="sq">
+            (税前)
+          </small>
+        </div>
+        <div class="amount">
+          <small>¥</small><strong>{{ waitCommission }}</strong>
+        </div>
+      </div>
     </div>
+    <div
+      class="more"
+      @click="goOrderList"
+    >
+      订单明细<t-icon name="arrow-right" />
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        }),
-        // 已结算佣金
-        commission(){
-            let { pageInfo: { data } } = this;
-            return data.commission ? (data.commission / 100).toFixed(2) : '0.00';
-        },
-        // 未结算佣金
-        waitCommission(){
-            let { pageInfo: { data } } = this;
-            return data.waitCommission ? (data.waitCommission / 100).toFixed(2) : '0.00';
-        },
-        needCustomer(){
-            let { pageInfo: { data } } = this;
-            return data.needCustomer ? data.needCustomer : 0;
-        },
-        needSales(){
-            let { pageInfo: { data } } = this;
-            return data.needSales ? (data.needSales / 100).toFixed(2) : '0';
-        },
-        needAdviser(){
-            let { pageInfo: { data } } = this;
-            return data.needAdviser ? data.needAdviser : 0;
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    }),
+    // 已结算佣金
+    commission () {
+      let { pageInfo: { data } } = this
+      return data.commission ? (data.commission / 100).toFixed(2) : '0.00'
     },
-    methods: {
-        ...mapMutations({
-            'show': 'pageDistributionIndex/show'
-        }),
-        goOrderList(){
-            this.$router.push({
-                path: `/distribution/order/list`
-            });
-        },
-        clickImg() {
-            this.show();
-            // this.$emit('clickImg')
-        }
+    // 未结算佣金
+    waitCommission () {
+      let { pageInfo: { data } } = this
+      return data.waitCommission ? (data.waitCommission / 100).toFixed(2) : '0.00'
+    },
+    needCustomer () {
+      let { pageInfo: { data } } = this
+      return data.needCustomer ? data.needCustomer : 0
+    },
+    needSales () {
+      let { pageInfo: { data } } = this
+      return data.needSales ? (data.needSales / 100).toFixed(2) : '0'
+    },
+    needAdviser () {
+      let { pageInfo: { data } } = this
+      return data.needAdviser ? data.needAdviser : 0
     }
+  },
+  methods: {
+    ...mapMutations({
+      'show': 'pageDistributionIndex/show'
+    }),
+    goOrderList () {
+      this.$router.push({
+        path: `/distribution/order/list`
+      })
+    },
+    clickImg () {
+      this.show()
+      // this.$emit('clickImg')
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -108,7 +128,7 @@ export default {
             font-size:0.1rem;
         }
         span{
-            margin-right: .105rem; 
+            margin-right: .105rem;
         }
         img{
             width: .135rem;

@@ -1,11 +1,11 @@
-import wx from 'weixin-js-sdk';
+import wx from 'weixin-js-sdk'
 
-if(window){ 
-	window.wx = wx;
+if (window) {
+  window.wx = wx
 }
 
 export default {
-	wx
+  wx
 }
 
 export { wx }

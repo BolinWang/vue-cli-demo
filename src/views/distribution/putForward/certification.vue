@@ -1,105 +1,146 @@
 <template>
-    <section class="putForward-certification-wrap" v-if="pageInfo.dataIsLoad">
+  <section
+    v-if="pageInfo.dataIsLoad"
+    class="putForward-certification-wrap"
+  >
+    <div class="section-bg" />
 
-        <div class="section-bg">
-
-        </div>
-
-        <div class="section-main">
-            
-            <ul>
-                <li>
-                    <label>
-                        <div class="li-content border5">
-                            <div class="_left">
-                                真实姓名
-                            </div>
-                            <div class="_center">
-                                <input type="text" maxlength="10" v-model.trim="bankCardName"/>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <div class="li-content border5">
-                            <div class="_left">
-                                银行卡号
-                            </div>
-                            <div class="_center">
-                                <input type="tel" maxlength="23" v-model.trim="bankCardNumber"/>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li @click="showIdCardTypePopup">
-                    <label class="idcard">
-                        <div class="li-content border5">
-                            <div class="_left">
-                                证件类型
-                            </div>
-                            <div class="_center">
-                                <input type="tel" maxlength="30" readonly :value="idCardType"/>
-                            </div>
-                            <div class="_right">
-                                <t-icon name="jiantx"></t-icon>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <div class="li-content border5">
-                            <div class="_left">
-                                证件号码
-                            </div>
-                            <div class="_center">
-                                <input type="tel" maxlength="18" v-model.trim="idCardNumber"/>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <div class="li-content border5">
-                            <div class="_left">
-                                手机号码
-                            </div>
-                            <div class="_center">
-                                <input type="tel" maxlength="11" v-model.trim="phoneNumber"/>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-
-            <p class="agreement">
-                <label>
-                    <input type="checkbox" v-model="isAgree"/><span></span>我同意相关<router-link to="/distribution/putForward/agreement">服务协议</router-link>
-                </label>
-            </p>
-
-            <button class="confirm-btn" :disabled="confirmDisabled" @click="doSave">开始验证</button>
-        </div>
-
-        
-        <mt-popup
-            class="idCardType-popup"
-            v-model="idCardTypePopupVisible"
-            position="bottom">
-            <div class="title">
-                <div class="_left" @click="idCardTypePopupCancel">
-                    <t-icon name="guanbi"></t-icon>
-                </div>
-                <div class="_center">选择证件类型</div>
-                <div class="_right" @click="idCardTypePopupConfirm">
-                    <t-icon name="duigou"></t-icon>
-                </div>
+    <div class="section-main">
+      <ul>
+        <li>
+          <label>
+            <div class="li-content border5">
+              <div class="_left">
+                真实姓名
+              </div>
+              <div class="_center">
+                <input
+                  v-model.trim="bankCardName"
+                  type="text"
+                  maxlength="10"
+                >
+              </div>
             </div>
-            <mt-picker :slots="idCardTypeSlots" @change="onIdCardTypePopupValuesChange"></mt-picker>
-        </mt-popup>
-        
-    </section>
+          </label>
+        </li>
+        <li>
+          <label>
+            <div class="li-content border5">
+              <div class="_left">
+                银行卡号
+              </div>
+              <div class="_center">
+                <input
+                  v-model.trim="bankCardNumber"
+                  type="tel"
+                  maxlength="23"
+                >
+              </div>
+            </div>
+          </label>
+        </li>
+        <li @click="showIdCardTypePopup">
+          <label class="idcard">
+            <div class="li-content border5">
+              <div class="_left">
+                证件类型
+              </div>
+              <div class="_center">
+                <input
+                  type="tel"
+                  maxlength="30"
+                  readonly
+                  :value="idCardType"
+                >
+              </div>
+              <div class="_right">
+                <t-icon name="jiantx" />
+              </div>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label>
+            <div class="li-content border5">
+              <div class="_left">
+                证件号码
+              </div>
+              <div class="_center">
+                <input
+                  v-model.trim="idCardNumber"
+                  type="tel"
+                  maxlength="18"
+                >
+              </div>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label>
+            <div class="li-content border5">
+              <div class="_left">
+                手机号码
+              </div>
+              <div class="_center">
+                <input
+                  v-model.trim="phoneNumber"
+                  type="tel"
+                  maxlength="11"
+                >
+              </div>
+            </div>
+          </label>
+        </li>
+      </ul>
+
+      <p class="agreement">
+        <label>
+          <input
+            v-model="isAgree"
+            type="checkbox"
+          ><span />我同意相关<router-link to="/distribution/putForward/agreement">
+            服务协议
+          </router-link>
+        </label>
+      </p>
+
+      <button
+        class="confirm-btn"
+        :disabled="confirmDisabled"
+        @click="doSave"
+      >
+        开始验证
+      </button>
+    </div>
+
+    <mt-popup
+      v-model="idCardTypePopupVisible"
+      class="idCardType-popup"
+      position="bottom"
+    >
+      <div class="title">
+        <div
+          class="_left"
+          @click="idCardTypePopupCancel"
+        >
+          <t-icon name="guanbi" />
+        </div>
+        <div class="_center">
+          选择证件类型
+        </div>
+        <div
+          class="_right"
+          @click="idCardTypePopupConfirm"
+        >
+          <t-icon name="duigou" />
+        </div>
+      </div>
+      <mt-picker
+        :slots="idCardTypeSlots"
+        @change="onIdCardTypePopupValuesChange"
+      />
+    </mt-popup>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
@@ -107,180 +148,180 @@ import { isRealIdCard } from '@/tools/check'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    data(){
-        return {
-            getPhoneCodeing: false,
-        }
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pagePutForwardCertification',
-            'popupUI': 'popupUI'
-        }),
-        bankCardName: {
-            set(bankCardName){
-                this.setWithdrawInfo({ bankCardName });
-                sessionStorage.setItem('putForward-certification-bankCardName', bankCardName);
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.bankCardName || '';
-            }
-        },
-        bankCardNumber: {
-            set(bankCardNumber){
-                bankCardNumber = bankCardNumber.replace(/\s/g, '');
-                this.setWithdrawInfo({ bankCardNumber });
-                sessionStorage.setItem('putForward-certification-bankCardNumber', bankCardNumber);
-            },
-            get(){
-                let { pageInfo: { withdrawInfo: { bankCardNumber } } } = this;
-                bankCardNumber = bankCardNumber.replace(/\s/g, '').replace(/(.{4})/g, "$1 ");
-                return bankCardNumber || '';
-            }
-        },
-        idCardType: {
-            set(idCardType){
-                this.setWithdrawInfo({ idCardType });
-                sessionStorage.setItem('putForward-certification-idCardType', idCardType);
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.idCardType || '';
-            }
-        },
-        idCardNumber: {
-            set(idCardNumber){
-                this.setWithdrawInfo({ idCardNumber });
-                sessionStorage.setItem('putForward-certification-idCardNumber', idCardNumber);
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.idCardNumber || '';
-            }
-        },
-        phoneNumber: {
-            set(phoneNumber){
-                this.setWithdrawInfo({ phoneNumber });
-                sessionStorage.setItem('putForward-certification-phoneNumber', phoneNumber);
-            },
-            get(){
-                let { pageInfo: { withdrawInfo } } = this;
-                return withdrawInfo.phoneNumber || '';
-            }
-        },
-        isAgree: {
-            set(val){
-                this.setIsAgree(val);
-                sessionStorage.setItem('putForward-certification-isAgree', val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.isAgree || false;
-            }
-        },
-        tempIdCardType: {
-            set(val){
-                this.setTempIdCardType(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.tempIdCardType || '';
-            }
-        },
-        idCardTypePopupVisible: {
-            set(val){
-                this.setIdCardTypePopupVisible(val);
-            },
-            get(){
-                let { pageInfo } = this;
-                return pageInfo.idCardTypePopupVisible || false;
-            }
-        },
-        idCardTypeSlots(){
-            let { pageInfo } = this;
-            return pageInfo.idCardTypeSlots || [];
-        },
-        confirmDisabled(){
-            let { popupUI, bankCardName, bankCardNumber, idCardType, idCardNumber, phoneNumber, isAgree } = this;
-            return popupUI.PopupUILoading || bankCardName.length < 1 || bankCardNumber.length < 1 || idCardType.length < 1 || idCardNumber.length < 1 || phoneNumber.length < 1 || !isAgree;
-        }
-    },
-    created(){
-        this.resetData();
-        this.loadData();
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pagePutForwardCertification/resetData',
-            'setWithdrawInfo': 'pagePutForwardCertification/setWithdrawInfo',
-            'setIsAgree': 'pagePutForwardCertification/setIsAgree',
-            'setIdCardTypePopupVisible': 'pagePutForwardCertification/setIdCardTypePopupVisible',
-            'setTempIdCardType': 'pagePutForwardCertification/setTempIdCardType'
-        }),
-        ...mapActions({
-            'loadData': 'pagePutForwardCertification/loadData',
-            'saveWithdrawInfo': 'pagePutForwardCertification/saveWithdrawInfo'
-        }),
-        idCardTypePopupCancel(){
-            this.setIdCardTypePopupVisible(false);
-        },
-        idCardTypePopupConfirm(){
-            let { idCardType, tempIdCardType } = this;
-            this.setIdCardTypePopupVisible(false);
-            if(idCardType != tempIdCardType){
-                this.setWithdrawInfo({ idCardType: tempIdCardType });
-            }
-        },
-        onIdCardTypePopupValuesChange(picker, values){
-            this.setTempIdCardType(values[0]);
-        },
-        showIdCardTypePopup(){
-            this.setIdCardTypePopupVisible(true);
-        },
-        doCheck(){
-            let { bankCardName, bankCardNumber, province, phoneNumber, idCardNumber } = this;
-
-            bankCardNumber = bankCardNumber.replace(/\s/g, '');
-
-            if(!bankCardName){
-                return '请输入真实姓名';
-            }else if(!bankCardNumber){
-                return '请输入银行卡号';
-            }else if(/\D/.test(bankCardNumber)){
-                return '银行卡号有误';
-            }else if(!idCardNumber){
-                return '请输入证件号码';
-            }else if(!isRealIdCard(idCardNumber)){
-                return '证件号码有误';
-            }else if(!phoneNumber){
-                return '请输入手机号码';
-            }else if(!/\d{11}/.test(phoneNumber)){
-                return '手机号码有误';
-            }
-        },
-        doSave(){
-            let desc = this.doCheck();
-            if(desc){
-                this.actionVuexMessageShow(desc);
-                return;
-            }
-            this.saveWithdrawInfo().then(()=>{
-                //保存成功了
-                this.$router.push({
-                    path: '/distribution/putForward/index'
-                });
-            }).catch(({ code } = {})=>{
-                if(code == 1000011){
-                    //保存成功了
-                    this.$router.push({
-                        path: '/distribution/putForward/index'
-                    });
-                }
-            });
-        }
+  mixins: [pageShareMixin],
+  data () {
+    return {
+      getPhoneCodeing: false
     }
+  },
+  computed: {
+    ...mapState({
+      'pageInfo': 'pagePutForwardCertification',
+      'popupUI': 'popupUI'
+    }),
+    bankCardName: {
+      set (bankCardName) {
+        this.setWithdrawInfo({ bankCardName })
+        sessionStorage.setItem('putForward-certification-bankCardName', bankCardName)
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.bankCardName || ''
+      }
+    },
+    bankCardNumber: {
+      set (bankCardNumber) {
+        bankCardNumber = bankCardNumber.replace(/\s/g, '')
+        this.setWithdrawInfo({ bankCardNumber })
+        sessionStorage.setItem('putForward-certification-bankCardNumber', bankCardNumber)
+      },
+      get () {
+        let { pageInfo: { withdrawInfo: { bankCardNumber } } } = this
+        bankCardNumber = bankCardNumber.replace(/\s/g, '').replace(/(.{4})/g, '$1 ')
+        return bankCardNumber || ''
+      }
+    },
+    idCardType: {
+      set (idCardType) {
+        this.setWithdrawInfo({ idCardType })
+        sessionStorage.setItem('putForward-certification-idCardType', idCardType)
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.idCardType || ''
+      }
+    },
+    idCardNumber: {
+      set (idCardNumber) {
+        this.setWithdrawInfo({ idCardNumber })
+        sessionStorage.setItem('putForward-certification-idCardNumber', idCardNumber)
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.idCardNumber || ''
+      }
+    },
+    phoneNumber: {
+      set (phoneNumber) {
+        this.setWithdrawInfo({ phoneNumber })
+        sessionStorage.setItem('putForward-certification-phoneNumber', phoneNumber)
+      },
+      get () {
+        let { pageInfo: { withdrawInfo } } = this
+        return withdrawInfo.phoneNumber || ''
+      }
+    },
+    isAgree: {
+      set (val) {
+        this.setIsAgree(val)
+        sessionStorage.setItem('putForward-certification-isAgree', val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.isAgree || false
+      }
+    },
+    tempIdCardType: {
+      set (val) {
+        this.setTempIdCardType(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.tempIdCardType || ''
+      }
+    },
+    idCardTypePopupVisible: {
+      set (val) {
+        this.setIdCardTypePopupVisible(val)
+      },
+      get () {
+        let { pageInfo } = this
+        return pageInfo.idCardTypePopupVisible || false
+      }
+    },
+    idCardTypeSlots () {
+      let { pageInfo } = this
+      return pageInfo.idCardTypeSlots || []
+    },
+    confirmDisabled () {
+      let { popupUI, bankCardName, bankCardNumber, idCardType, idCardNumber, phoneNumber, isAgree } = this
+      return popupUI.PopupUILoading || bankCardName.length < 1 || bankCardNumber.length < 1 || idCardType.length < 1 || idCardNumber.length < 1 || phoneNumber.length < 1 || !isAgree
+    }
+  },
+  created () {
+    this.resetData()
+    this.loadData()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pagePutForwardCertification/resetData',
+      'setWithdrawInfo': 'pagePutForwardCertification/setWithdrawInfo',
+      'setIsAgree': 'pagePutForwardCertification/setIsAgree',
+      'setIdCardTypePopupVisible': 'pagePutForwardCertification/setIdCardTypePopupVisible',
+      'setTempIdCardType': 'pagePutForwardCertification/setTempIdCardType'
+    }),
+    ...mapActions({
+      'loadData': 'pagePutForwardCertification/loadData',
+      'saveWithdrawInfo': 'pagePutForwardCertification/saveWithdrawInfo'
+    }),
+    idCardTypePopupCancel () {
+      this.setIdCardTypePopupVisible(false)
+    },
+    idCardTypePopupConfirm () {
+      let { idCardType, tempIdCardType } = this
+      this.setIdCardTypePopupVisible(false)
+      if (idCardType != tempIdCardType) {
+        this.setWithdrawInfo({ idCardType: tempIdCardType })
+      }
+    },
+    onIdCardTypePopupValuesChange (picker, values) {
+      this.setTempIdCardType(values[0])
+    },
+    showIdCardTypePopup () {
+      this.setIdCardTypePopupVisible(true)
+    },
+    doCheck () {
+      let { bankCardName, bankCardNumber, province, phoneNumber, idCardNumber } = this
+
+      bankCardNumber = bankCardNumber.replace(/\s/g, '')
+
+      if (!bankCardName) {
+        return '请输入真实姓名'
+      } else if (!bankCardNumber) {
+        return '请输入银行卡号'
+      } else if (/\D/.test(bankCardNumber)) {
+        return '银行卡号有误'
+      } else if (!idCardNumber) {
+        return '请输入证件号码'
+      } else if (!isRealIdCard(idCardNumber)) {
+        return '证件号码有误'
+      } else if (!phoneNumber) {
+        return '请输入手机号码'
+      } else if (!/\d{11}/.test(phoneNumber)) {
+        return '手机号码有误'
+      }
+    },
+    doSave () {
+      let desc = this.doCheck()
+      if (desc) {
+        this.actionVuexMessageShow(desc)
+        return
+      }
+      this.saveWithdrawInfo().then(() => {
+        // 保存成功了
+        this.$router.push({
+          path: '/distribution/putForward/index'
+        })
+      }).catch(({ code } = {}) => {
+        if (code == 1000011) {
+          // 保存成功了
+          this.$router.push({
+            path: '/distribution/putForward/index'
+          })
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -416,7 +457,7 @@ section{
         &:disabled{
             background:#ccc;
         }
-    } 
+    }
     .idCardType-popup{
         width:100%;
         .title{
@@ -447,7 +488,7 @@ section{
                 font-weight:400;
                 color:rgba(34,34,34,1);
             }
-            
+
         }
     }
 }

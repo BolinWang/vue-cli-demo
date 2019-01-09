@@ -1,63 +1,71 @@
 <template>
-    <div class="catalog-content-wrap" v-infinite-scroll="loadList"
-                infinite-scroll-disabled="scrollDisabled"
-                infinite-scroll-distance="10">
-        <ul class="list">
-            <li v-for="item in pageInfo.list" :key="item.distOrderId">
-                <div class="title">
-                    <div class="_left">
-                        销售分红
-                    </div>
-                    <div class="_right">
-                        {{ getSettlementStatusStr(item.settlementStatus) }}
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="_left">
-                        <img :src="item.itemIcon | ali(80)"/>
-                    </div>
-                    <div class="_center">
-                        <p class="p1">
-                            {{item.itemTitle}}
-                        </p>
-                    </div>
-                    <div class="_right">
-                        <p class="p1">收 益：<strong>¥{{getCommission(item.commission)}}</strong></p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+  <div
+    v-infinite-scroll="loadList"
+    class="catalog-content-wrap"
+    infinite-scroll-disabled="scrollDisabled"
+    infinite-scroll-distance="10"
+  >
+    <ul class="list">
+      <li
+        v-for="item in pageInfo.list"
+        :key="item.distOrderId"
+      >
+        <div class="title">
+          <div class="_left">
+            销售分红
+          </div>
+          <div class="_right">
+            {{ getSettlementStatusStr(item.settlementStatus) }}
+          </div>
+        </div>
+        <div class="content">
+          <div class="_left">
+            <img :src="item.itemIcon | ali(80)">
+          </div>
+          <div class="_center">
+            <p class="p1">
+              {{ item.itemTitle }}
+            </p>
+          </div>
+          <div class="_right">
+            <p class="p1">
+              收 益：<strong>¥{{ getCommission(item.commission) }}</strong>
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageProfitList'
-        }),
-        ...mapGetters({
-            'scrollDisabled': 'pageProfitList/scrollDisabled'
-        })
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageProfitList'
+    }),
+    ...mapGetters({
+      'scrollDisabled': 'pageProfitList/scrollDisabled'
+    })
+  },
+  methods: {
+    ...mapActions({
+      'loadList': 'pageProfitList/loadList'
+    }),
+    getCommission (commission) {
+      return commission ? (commission / 100).toFixed(2) : '0.00'
     },
-    methods: {
-        ...mapActions({
-            'loadList': 'pageProfitList/loadList'
-        }),
-        getCommission(commission){
-            return commission ? (commission / 100).toFixed(2) : '0.00';
-        },
-        getSettlementStatusStr(settlementStatus){
-            if(settlementStatus == 1){
-                return '未结算';
-            }else if(settlementStatus == 3){
-                return '已结算';
-            }else if(settlementStatus == 4){
-                return '已退款';
-            }
-        }
+    getSettlementStatusStr (settlementStatus) {
+      if (settlementStatus == 1) {
+        return '未结算'
+      } else if (settlementStatus == 3) {
+        return '已结算'
+      } else if (settlementStatus == 4) {
+        return '已退款'
+      }
     }
+  }
 }
 </script>
 <style lang="less" scoped>

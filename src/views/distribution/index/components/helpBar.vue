@@ -1,25 +1,31 @@
 <template>
-    <div class="help-bar-wrap" v-if="pageInfo.data.roleId == 3 || pageInfo.data.roleId == 4">
-        <p class="help-bar" @click="showHelpDialog">
-            获取帮助<t-icon name="arrow-right"></t-icon>
-        </p>
-    </div>
+  <div
+    v-if="pageInfo.data.roleId == 3 || pageInfo.data.roleId == 4"
+    class="help-bar-wrap"
+  >
+    <p
+      class="help-bar"
+      @click="showHelpDialog"
+    >
+      获取帮助<t-icon name="arrow-right" />
+    </p>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import helpDialog from '@/views/distribution/components/helpDialog/index'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        })
-    },
-    methods: {
-        showHelpDialog(){
-            helpDialog({ el: this.$el });
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    })
+  },
+  methods: {
+    showHelpDialog () {
+      helpDialog({ el: this.$el })
     }
+  }
 }
 </script>
 <style lang="less" scoped>

@@ -1,46 +1,58 @@
 <template>
-    <div class="userinfo">
-        <div class="avatar">
-            <template v-if="pageInfo.data.headimgurl">
-                <img :src="pageInfo.data.headimgurl | ali(40)"/>
-            </template>
-            <template v-else>
-                <img src="../../../../assets/images/avatar.png"/>
-            </template>
-        </div>
-        <div class="userid">
-            ID:{{pageInfo.data.userId || '无'}}
-        </div>
-        <div class="role">
-            <template v-if="pageInfo.data.roleId">
-                <ul>
-                    <li class="djhhr" v-show="pageInfo.data.roleId == 1">
-                        <img src="../../../../assets/images/distribution/common/role/djhhr.png"/>
-                    </li>
-                    <li class="qdhhr" v-show="pageInfo.data.roleId == 2">
-                        <img src="../../../../assets/images/distribution/common/role/qdhhr.png"/>
-                    </li>
-                    <!-- roleType 1是顾问 2是合伙人  合伙人也是育儿大使-->
-                    <li class="jpgw" v-show="pageInfo.data.roleType == 2 || pageInfo.data.roleId == 3">
-                        <img src="../../../../assets/images/distribution/common/role/jpgw.png"/>
-                    </li>
-                    <li class="yrgw" v-show="pageInfo.data.roleId == 4">
-                        <img src="../../../../assets/images/distribution/common/role/yrgw.png"/>
-                    </li>
-                </ul>
-            </template>
-        </div>
+  <div class="userinfo">
+    <div class="avatar">
+      <template v-if="pageInfo.data.headimgurl">
+        <img :src="pageInfo.data.headimgurl | ali(40)">
+      </template>
+      <template v-else>
+        <img src="../../../../assets/images/avatar.png">
+      </template>
     </div>
+    <div class="userid">
+      ID:{{ pageInfo.data.userId || '无' }}
+    </div>
+    <div class="role">
+      <template v-if="pageInfo.data.roleId">
+        <ul>
+          <li
+            v-show="pageInfo.data.roleId == 1"
+            class="djhhr"
+          >
+            <img src="../../../../assets/images/distribution/common/role/djhhr.png">
+          </li>
+          <li
+            v-show="pageInfo.data.roleId == 2"
+            class="qdhhr"
+          >
+            <img src="../../../../assets/images/distribution/common/role/qdhhr.png">
+          </li>
+          <!-- roleType 1是顾问 2是合伙人  合伙人也是育儿大使-->
+          <li
+            v-show="pageInfo.data.roleType == 2 || pageInfo.data.roleId == 3"
+            class="jpgw"
+          >
+            <img src="../../../../assets/images/distribution/common/role/jpgw.png">
+          </li>
+          <li
+            v-show="pageInfo.data.roleId == 4"
+            class="yrgw"
+          >
+            <img src="../../../../assets/images/distribution/common/role/yrgw.png">
+          </li>
+        </ul>
+      </template>
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        })
-    }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    })
+  }
 }
 </script>
 

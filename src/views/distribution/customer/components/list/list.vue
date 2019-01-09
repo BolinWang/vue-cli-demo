@@ -1,49 +1,57 @@
 <template>
-    <div class="catalog-content-wrap" v-infinite-scroll="loadList"
-                infinite-scroll-disabled="scrollDisabled"
-                infinite-scroll-distance="10">
-        <ul class="list">
-            <li v-for="item in pageInfo.list" :key="item.userId">
-                <div class="_left">
-                    <template v-if="item.userAvatar">
-                        <img :src="item.userAvatar | ali(29)"/>
-                    </template>
-                    <template v-else>
-                        <img src="../../../../../assets/images/avatar.png"/>
-                    </template>
-                </div>
-                <div class="_center">
-                    <p class="p1">
-                        {{item.userName}}
-                    </p>
-                    <p class="p2">
-                        ID：{{item.userId}}
-                    </p>
-                </div>
-                <div class="_right">
-                    <p class="p1">绑定时间：{{formatDate(item.createdTime, 'yyyy-MM-dd')}}</p>
-                </div>
-            </li>
-        </ul>
-    </div>
+  <div
+    v-infinite-scroll="loadList"
+    class="catalog-content-wrap"
+    infinite-scroll-disabled="scrollDisabled"
+    infinite-scroll-distance="10"
+  >
+    <ul class="list">
+      <li
+        v-for="item in pageInfo.list"
+        :key="item.userId"
+      >
+        <div class="_left">
+          <template v-if="item.userAvatar">
+            <img :src="item.userAvatar | ali(29)">
+          </template>
+          <template v-else>
+            <img src="../../../../../assets/images/avatar.png">
+          </template>
+        </div>
+        <div class="_center">
+          <p class="p1">
+            {{ item.userName }}
+          </p>
+          <p class="p2">
+            ID：{{ item.userId }}
+          </p>
+        </div>
+        <div class="_right">
+          <p class="p1">
+            绑定时间：{{ formatDate(item.createdTime, 'yyyy-MM-dd') }}
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageCustomerList'
-        }),
-        ...mapGetters({
-            'scrollDisabled': 'pageCustomerList/scrollDisabled'
-        })
-    },
-    methods: {
-        ...mapActions({
-            'loadList': 'pageCustomerList/loadList'
-        })
-    }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageCustomerList'
+    }),
+    ...mapGetters({
+      'scrollDisabled': 'pageCustomerList/scrollDisabled'
+    })
+  },
+  methods: {
+    ...mapActions({
+      'loadList': 'pageCustomerList/loadList'
+    })
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -77,7 +85,7 @@ export default {
                 line-height:0.2rem;
                 margin-bottom:0.045rem;
                 text-overflow: ellipsis;
-                overflow: hidden; 
+                overflow: hidden;
                 white-space: nowrap;
             }
             .p2{

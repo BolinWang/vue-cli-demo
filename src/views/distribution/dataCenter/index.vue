@@ -1,19 +1,18 @@
 <template>
-    <section class="data-center-index-wrap" v-if="pageInfo.dataIsLoad">
-        <div class="section-bg">
+  <section
+    v-if="pageInfo.dataIsLoad"
+    class="data-center-index-wrap"
+  >
+    <div class="section-bg" />
+    <div class="section-main">
+      <!-- 累计数据 -->
+      <dataInfo />
 
-        </div>
-        <div class="section-main">
-            <!-- 累计数据 -->
-            <dataInfo></dataInfo>
+      <tab />
 
-            <tab></tab>
-
-            <list></list>
-
-        </div>
-
-    </section>
+      <list />
+    </div>
+  </section>
 </template>
 <script>
 import dataInfo from './components/dataInfo.vue'
@@ -23,33 +22,33 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    components: {
-        dataInfo,
-        list,
-        tab
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDataCenterIndex'
-        })
-    },
-    created(){
-        this.resetData();
-        this.initState();
-        this.loadData();
-        this.loadList();
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageDataCenterIndex/resetData',
-            'initState': 'pageDataCenterIndex/initState'
-        }),
-        ...mapActions({
-            'loadData': 'pageDataCenterIndex/loadData',
-            'loadList': 'pageDataCenterIndex/loadList'
-        })
-    }
+  components: {
+    dataInfo,
+    list,
+    tab
+  },
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDataCenterIndex'
+    })
+  },
+  created () {
+    this.resetData()
+    this.initState()
+    this.loadData()
+    this.loadList()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageDataCenterIndex/resetData',
+      'initState': 'pageDataCenterIndex/initState'
+    }),
+    ...mapActions({
+      'loadData': 'pageDataCenterIndex/loadData',
+      'loadList': 'pageDataCenterIndex/loadList'
+    })
+  }
 }
 </script>
 <style lang="less">

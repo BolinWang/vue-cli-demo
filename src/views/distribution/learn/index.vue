@@ -1,13 +1,22 @@
 <template>
-    <section v-if="pageInfo.dataIsLoad">
-        <div class="aliplayer-wrap">
-            <aliplayer :url="pageInfo.data.audition" mediaType="video" progressType="2"></aliplayer>
-        </div>
-        <p class="tip">
-            只差最后一步啦！<br/>完成答题即可升级为育儿顾问！
-        </p>
-        <button class="start-btn" @click="goLearnDetail">开始答题</button>
-    </section>
+  <section v-if="pageInfo.dataIsLoad">
+    <div class="aliplayer-wrap">
+      <aliplayer
+        :url="pageInfo.data.audition"
+        media-type="video"
+        progress-type="2"
+      />
+    </div>
+    <p class="tip">
+      只差最后一步啦！<br>完成答题即可升级为育儿顾问！
+    </p>
+    <button
+      class="start-btn"
+      @click="goLearnDetail"
+    >
+      开始答题
+    </button>
+  </section>
 </template>
 <script>
 import aliplayer from '@/components/media/aliplayer'
@@ -15,47 +24,47 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
 export default {
-    mixins: [pageShareMixin],
-    components: {
-        aliplayer
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageLearnIndex'
-        }),
-    },
-    created(){
-        this.resetData();
-        //获取用户当前进度
-        this.loadRecruitProcess().then(({ recruitProcess = [] } = {})=>{
-            //nodeType 1-付款, 2-学习, 3-测评, 4-创建分销账户
-            //nodeStatus 1-todo, 2-done
-            recruitProcess = recruitProcess[0] || {};
+  components: {
+    aliplayer
+  },
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageLearnIndex'
+    })
+  },
+  created () {
+    this.resetData()
+    // 获取用户当前进度
+    this.loadRecruitProcess().then(({ recruitProcess = [] } = {}) => {
+      // nodeType 1-付款, 2-学习, 3-测评, 4-创建分销账户
+      // nodeStatus 1-todo, 2-done
+      recruitProcess = recruitProcess[0] || {}
 
-            let { nodeStatus } = recruitProcess;
-            if(nodeStatus != 2){
-                this.actionVuexMessageShow('未获取到付款信息，请刷新页面重试...');
-            }else{
-                this.loadData();
-            }
-        }).catch(({ desc })=>{
-            this.actionVuexMessageShow(desc || '系统异常');
-        });
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageLearnIndex/resetData'
-        }),
-        ...mapActions({
-            'loadData': 'pageLearnIndex/loadData',
-            'loadRecruitProcess': 'publicInterface/loadRecruitProcess'
-        }),
-        goLearnDetail(){
-            this.$router.push({
-                path: '/distribution/learn/detail'
-            });
-        }
+      let { nodeStatus } = recruitProcess
+      if (nodeStatus != 2) {
+        this.actionVuexMessageShow('未获取到付款信息，请刷新页面重试...')
+      } else {
+        this.loadData()
+      }
+    }).catch(({ desc }) => {
+      this.actionVuexMessageShow(desc || '系统异常')
+    })
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageLearnIndex/resetData'
+    }),
+    ...mapActions({
+      'loadData': 'pageLearnIndex/loadData',
+      'loadRecruitProcess': 'publicInterface/loadRecruitProcess'
+    }),
+    goLearnDetail () {
+      this.$router.push({
+        path: '/distribution/learn/detail'
+      })
     }
+  }
 }
 </script>
 

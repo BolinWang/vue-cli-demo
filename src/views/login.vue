@@ -1,187 +1,228 @@
 <template>
-    <div class="height-100">
-        <div class="header text-center box">
-            <div class="box-item-1">
-                <img v-if="userInfo.head" :src="userInfo.head" class="avatar" alt="">
-                <img v-else src="../assets/images/avatar.png" class="avatar" alt="">
-            </div>
-            <div class="p10-lr f18  m10-t c-22 f14 box-item-2">
-                <p v-if="userInfo.nickname" class="f14">
-                    {{userInfo.nickname}}
-                    <span v-show="userInfo.nickname" :class="['btn','f18','p10']" @click="onMockLogout">模拟退出</span>
-                </p>
-                <p v-else class="f14 c-999">
-                    未登录，选择一个session模拟
-                </p>
-            </div>
-        </div>
-        <div class="header-gap"></div>
-        <div class="search-wrap">
-            <input v-model="condition.user_id" placeholder="user_id" class="text-left c-99 input-1" />
-            <input v-model="condition.app_id" placeholder="app_id" class="text-left c-99 input-2" />
-            <div class="btn btn-light  btn-search f12" @click="ajaxSearch">
-                搜索
-            </div>
-        </div>
-        <div class="search-wrap-gap"></div>
-        <div v-for="(item,index) in sessionList" class="session-wrap bg-fff   m10-t box p10">
-            <div class="session">
-                <div class="filed">
-                    <span class="field-title">
-                    user_id: 
-                    </span> {{item.user_id}}
-                </div>
-                <div class="filed">
-                    <span class="field-title">
-                    app_id:
-                    </span> {{item.app_id}}
-                </div>
-                <div class="filed">
-                    <span class="field-title">
-                    login_type: 
-                    </span> {{item.login_type}}
-                </div>
-                <div class="filed">
-                    <h3>
-                    <span class="field-title">
-                    terminal:
-                    </span>
-                    </h3> {{item.terminal}}
-                </div>
-                <div class="filed">
-                    <span class="field-title">
-                    access_token: 
-                    </span> {{item.access_token}}
-                </div>
-                <div class="filed">
-                    <h3>
-                    <span class="field-title">
-                    access_token_timeout:
-                    </span>
-                    </h3> {{item.access_token_timeout}}
-                </div>
-            </div>
-            <div class="session-title text-right">
-                <span :class="['btn','f18','p10',{'btn-disable':item.user_id==currentSession.user_id && item.access_token==currentSession.access_token}]" @click="onMockLogin(item)">{{item.user_id==currentSession.user_id && item.access_token==currentSession.access_token?'已模拟':'模拟它'}}</span>
-            </div>
-        </div>
+  <div class="height-100">
+    <div class="header text-center box">
+      <div class="box-item-1">
+        <img
+          v-if="userInfo.head"
+          :src="userInfo.head"
+          class="avatar"
+          alt=""
+        >
+        <img
+          v-else
+          src="../assets/images/avatar.png"
+          class="avatar"
+          alt=""
+        >
+      </div>
+      <div class="p10-lr f18  m10-t c-22 f14 box-item-2">
+        <p
+          v-if="userInfo.nickname"
+          class="f14"
+        >
+          {{ userInfo.nickname }}
+          <span
+            v-show="userInfo.nickname"
+            :class="['btn','f18','p10']"
+            @click="onMockLogout"
+          >
+            模拟退出
+          </span>
+        </p>
+        <p
+          v-else
+          class="f14 c-999"
+        >
+          未登录，选择一个session模拟
+        </p>
+      </div>
     </div>
+    <div class="header-gap" />
+    <div class="search-wrap">
+      <input
+        v-model="condition.user_id"
+        placeholder="user_id"
+        class="text-left c-99 input-1"
+      >
+      <input
+        v-model="condition.app_id"
+        placeholder="app_id"
+        class="text-left c-99 input-2"
+      >
+      <div
+        class="btn btn-light  btn-search f12"
+        @click="ajaxSearch"
+      >
+        搜索
+      </div>
+    </div>
+    <div class="search-wrap-gap" />
+    <div
+      v-for="(item,index) in sessionList"
+      class="session-wrap bg-fff   m10-t box p10"
+    >
+      <div class="session">
+        <div class="filed">
+          <span class="field-title">
+            user_id:
+          </span> {{ item.user_id }}
+        </div>
+        <div class="filed">
+          <span class="field-title">
+            app_id:
+          </span> {{ item.app_id }}
+        </div>
+        <div class="filed">
+          <span class="field-title">
+            login_type:
+          </span> {{ item.login_type }}
+        </div>
+        <div class="filed">
+          <h3>
+            <span class="field-title">
+              terminal:
+            </span>
+          </h3> {{ item.terminal }}
+        </div>
+        <div class="filed">
+          <span class="field-title">
+            access_token:
+          </span> {{ item.access_token }}
+        </div>
+        <div class="filed">
+          <h3>
+            <span class="field-title">
+              access_token_timeout:
+            </span>
+          </h3> {{ item.access_token_timeout }}
+        </div>
+      </div>
+      <div class="session-title text-right">
+        <span
+          :class="['btn','f18','p10',{'btn-disable':item.user_id==currentSession.user_id && item.access_token==currentSession.access_token}]"
+          @click="onMockLogin(item)"
+        >
+          {{ item.user_id==currentSession.user_id && item.access_token==currentSession.access_token?'已模拟':'模拟它' }}
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import queryString from 'query-string';
+import queryString from 'query-string'
 import systemTool from '@/tools/system'
 import {
-    mapActions
+  mapActions
 } from 'vuex'
 
 import Account from '@/logic/account'
 import Cookie from 'js-cookie'
 
 export default {
-    data() {
-        return {
-            condition: {
-                user_id: '',
-                app_id: 'wx8aae36b94fe14a70',
-                login_type: 'WECHAT',
-                limit: 1000,
-            },
-            // 当前登录的用户信息
-            userInfo: {},
+  data () {
+    return {
+      condition: {
+        user_id: '',
+        app_id: 'wx8aae36b94fe14a70',
+        login_type: 'WECHAT',
+        limit: 1000
+      },
+      // 当前登录的用户信息
+      userInfo: {},
 
-            //当前选择的session
-            currentSession:{},
-            // 当前登录的session列表
-            sessionList: [],
-        }
-    },
-    created() {
-        this.ajaxSearch()
-        this.ajaxUserInfo()
-    },
-    methods: {
-        
-        /**
+      // 当前选择的session
+      currentSession: {},
+      // 当前登录的session列表
+      sessionList: []
+    }
+  },
+  created () {
+    this.ajaxSearch()
+    this.ajaxUserInfo()
+  },
+  methods: {
+
+    /**
          * 模拟退出功能
          * @return {[type]} [description]
          */
-        onMockLogout() {
-            this.currentSession = {};
-            this.userInfo = {};
-            Account.cleanContext();
-        },
+    onMockLogout () {
+      this.currentSession = {}
+      this.userInfo = {}
+      Account.cleanContext()
+    },
 
-        /**
+    /**
          * 获得用户信息
          * @return {[type]} [description]
          */
-        ajaxUserInfo() {
-            let _this = this;
-            let userId = Account.getUserId();
-            var terminal = Account.getTerminal()
+    ajaxUserInfo () {
+      let _this = this
+      let userId = Account.getUserId()
+      var terminal = Account.getTerminal()
 
-            if (userId) {
-                httpPost('/account/userInfo', {
-                    userId,
-                    terminal,
-                }, function(obj) {
-                    if (obj.code == 10000) {
-                        _this.userInfo = obj.data;
-                    } else {
-                        _this.actionVuexMessageShow(obj.desc || "获取个人信息失败")
-                    }
-                })
-            } else {
-                _this.actionVuexMessageShow("没有登录")
-            }
-        },
-        /**
+      if (userId) {
+        httpPost('/account/userInfo', {
+          userId,
+          terminal
+        }, function (obj) {
+          if (obj.code == 10000) {
+            _this.userInfo = obj.data
+          } else {
+            _this.actionVuexMessageShow(obj.desc || '获取个人信息失败')
+          }
+        })
+      } else {
+        _this.actionVuexMessageShow('没有登录')
+      }
+    },
+    /**
          * 获得当前登录session列表，从中选择一个模拟登录
          * @return {[type]} [description]
          */
-        ajaxSearch() {
-            let _this = this;
-            let condition = this.condition;
+    ajaxSearch () {
+      let _this = this
+      let condition = this.condition
 
-            httpPost('http://10.86.10.254:9100/api/login_session/list', condition, function(obj) {
-                if (obj.code == 10000) {
-                    _this.sessionList = obj.data;
-                } else {
-                    _this.actionVuexMessageShow(obj.desc || "获取登录信息失败")
-                }
-            })
-        },
-        /**
+      httpPost('http://10.86.10.254:9100/api/login_session/list', condition, function (obj) {
+        if (obj.code == 10000) {
+          _this.sessionList = obj.data
+        } else {
+          _this.actionVuexMessageShow(obj.desc || '获取登录信息失败')
+        }
+      })
+    },
+    /**
          * 模拟登录
          * @param  {[type]} sessionItem [description]
          * @return {[type]}      [description]
          */
-        onMockLogin(session) {
-            let _this = this;
-            this.currentSession = session;
-            
-            let id = session.id;
-            httpPost('http://10.86.10.254:9100/api/login_session/info', {
-                id
-            }, function(obj) {
-                if (obj.code == 10000) {
-                    let data = obj.data || {};
+    onMockLogin (session) {
+      let _this = this
+      this.currentSession = session
 
-                    Cookie.set('mock_app_id', data.app_id);
-                    Cookie.set('user_id', data.user_id);
-                    Cookie.set('access_token', data.access_token);
-                    Cookie.set('client_token', data.terminal);
+      let id = session.id
+      httpPost('http://10.86.10.254:9100/api/login_session/info', {
+        id
+      }, function (obj) {
+        if (obj.code == 10000) {
+          let data = obj.data || {}
 
-                    Account.initContext()
+          Cookie.set('mock_app_id', data.app_id)
+          Cookie.set('user_id', data.user_id)
+          Cookie.set('access_token', data.access_token)
+          Cookie.set('client_token', data.terminal)
 
-                    _this.ajaxUserInfo()
-                } else {
-                    _this.actionVuexMessageShow(obj.desc || "获取登录信息失败")
-                }
-            })
+          Account.initContext()
+
+          _this.ajaxUserInfo()
+        } else {
+          _this.actionVuexMessageShow(obj.desc || '获取登录信息失败')
         }
-
+      })
     }
+
+  }
 }
 
 </script>

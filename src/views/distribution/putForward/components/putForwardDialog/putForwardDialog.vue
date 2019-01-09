@@ -1,68 +1,90 @@
 <template>
-	<section v-if="showDialog">
-		<div class="putForward-dialog">
-	        <div class="bg" @click="close(null)"></div>
-	        <div class="content">
-                <h2>输入要提现金额</h2>
-                <div class="input-wrap">
-                    <input type="text" v-model.lazy.trim="amount" maxlength="9" placeholder="大于10元小于10万元" v-focus/>
-                    <template v-if="amount">
-                        <t-icon name="guanbi" @click.native="clearAmount"></t-icon>
-                    </template>
-                </div>
-	        	<button class="cancel-btn" @click="close(null)">取消</button>
-                <button class="confirm-btn" @click="confirm">保存</button>
-	        </div>
-	    </div> 
-    </section>
+  <section v-if="showDialog">
+    <div class="putForward-dialog">
+      <div
+        class="bg"
+        @click="close(null)"
+      />
+      <div class="content">
+        <h2>输入要提现金额</h2>
+        <div class="input-wrap">
+          <input
+            v-model.lazy.trim="amount"
+            v-focus
+            type="text"
+            maxlength="9"
+            placeholder="大于10元小于10万元"
+          >
+          <template v-if="amount">
+            <t-icon
+              name="guanbi"
+              @click.native="clearAmount"
+            />
+          </template>
+        </div>
+        <button
+          class="cancel-btn"
+          @click="close(null)"
+        >
+          取消
+        </button>
+        <button
+          class="confirm-btn"
+          @click="confirm"
+        >
+          保存
+        </button>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
 export default {
-	data(){
-		return {
-            amount: null,
-			showDialog: true
-		};
+  data () {
+    return {
+      amount: null,
+      showDialog: true
+    }
+  },
+  watch: {
+    'showDialog': function (val) {
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$destroy()
+        })
+      }
+    }
+  },
+  created () {
+
+  },
+  methods: {
+    close (amount) {
+      this.showDialog = false
+      this.callback(amount)
     },
-	created(){
+    confirm () {
+      let { amount } = this
 
-	},
-	methods: {
-		close(amount){
-			this.showDialog = false;
-			this.callback(amount);
-        },
-        confirm(){
-            let { amount } = this;
+      if (!/^(\d+)(\.\d{1,2}|)$/.test(amount)) {
+        this.actionVuexMessageShow('金额格式有误，请重新填写～')
+        return
+      }
 
-            if(!/^(\d+)(\.\d{1,2}|)$/.test(amount)){
-                this.actionVuexMessageShow('金额格式有误，请重新填写～');
-                return;
-            }
+      if (amount < 10) {
+        this.actionVuexMessageShow('单次提现金额不能低于10元')
+        return
+      } else if (amount > 100000) {
+        this.actionVuexMessageShow('单次提现金额不能高于10万元')
+        return
+      }
 
-            if(amount < 10){
-                this.actionVuexMessageShow('单次提现金额不能低于10元');
-                return;
-            }else if(amount > 100000){
-                this.actionVuexMessageShow('单次提现金额不能高于10万元');
-                return;
-            }
-
-            this.close(amount);
-        },
-        clearAmount(){
-            this.amount = null;
-        }
-	},
-	watch: {
-		'showDialog': function(val){
-			if(val === false){
-				this.$nextTick(()=>{
-					this.$destroy();
-				});
-			}
-        }
-	}
+      this.close(amount)
+    },
+    clearAmount () {
+      this.amount = null
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

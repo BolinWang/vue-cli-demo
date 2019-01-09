@@ -1,93 +1,105 @@
 <template>
-	<section v-if="showDialog">
-		<div class="help-dialog">
-	        <div class="bg" @click="close"></div>
-	        <div class="content">
-                <h2>联系您的合伙人获取帮助</h2>
-                <ul v-if="userInfo.wechat || userInfo.phone">
-                    <li v-if="userInfo.wechat">
-                        <div class="li-content">
-                            <div class="_left">微信</div>
-                            <div class="_center">
-                                {{ userInfo.wechat }}
-                            </div>
-                            <div class="_right">
-                                <button 
-                                    v-clipboard:copy="userInfo.wechat"
-                                    v-clipboard:success="onCopy"
-                                    v-clipboard:error="onError"
-                                >复制</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-if="userInfo.phone">
-                        <div class="li-content">
-                            <div class="_left">手机</div>
-                            <div class="_center">
-                                {{ userInfo.phone }}
-                            </div>
-                            <div class="_right">
-                                <a :href="`tel:${userInfo.phone}`">
-                                    <img src="../../../../assets/images/distribution/helpDialog/phone_icon.png"/>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+  <section v-if="showDialog">
+    <div class="help-dialog">
+      <div
+        class="bg"
+        @click="close"
+      />
+      <div class="content">
+        <h2>联系您的合伙人获取帮助</h2>
+        <ul v-if="userInfo.wechat || userInfo.phone">
+          <li v-if="userInfo.wechat">
+            <div class="li-content">
+              <div class="_left">
+                微信
+              </div>
+              <div class="_center">
+                {{ userInfo.wechat }}
+              </div>
+              <div class="_right">
+                <button
+                  v-clipboard:copy="userInfo.wechat"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError"
+                >
+                  复制
+                </button>
+              </div>
+            </div>
+          </li>
+          <li v-if="userInfo.phone">
+            <div class="li-content">
+              <div class="_left">
+                手机
+              </div>
+              <div class="_center">
+                {{ userInfo.phone }}
+              </div>
+              <div class="_right">
+                <a :href="`tel:${userInfo.phone}`">
+                  <img src="../../../../assets/images/distribution/helpDialog/phone_icon.png">
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
 
-	            <span class="close" @click="close">
-	            	<t-icon name="guanbi"></t-icon>
-	            </span>
-	        </div>
-	    </div> 
-    </section>
+        <span
+          class="close"
+          @click="close"
+        >
+          <t-icon name="guanbi" />
+        </span>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-	data(){
-		return {
-			showDialog: true
-		};
+  data () {
+    return {
+      showDialog: true
+    }
+  },
+  computed: {
+    ...mapState({
+      'componentInfo': 'componentHelpDialog'
+    }),
+    userInfo () {
+      let { componentInfo: { data } } = this
+      return data || {}
+    }
+  },
+  created () {
+    this.loadData()
+  },
+  methods: {
+    ...mapActions({
+      'loadData': 'componentHelpDialog/loadData'
+    }),
+    close () {
+      this.showDialog = false
+      this.callback()
     },
-    computed: {
-        ...mapState({
-            'componentInfo': 'componentHelpDialog'
-        }),
-        userInfo(){
-            let { componentInfo: { data } } = this;
-            return data || {};
-        }
+    onCopy () {
+      this.actionVuexMessageShow('复制成功～')
     },
-	created(){
-        this.loadData();
-	},
-	methods: {
-        ...mapActions({
-            'loadData': 'componentHelpDialog/loadData',
-        }),
-		close(){
-			this.showDialog = false;
-			this.callback();
-        },
-        onCopy(){
-            this.actionVuexMessageShow('复制成功～');
-        },
-        onError(e){
-            console.log(e);
-            this.actionVuexMessageShow('复制失败，请手动输入～');
-        }
-	},
-	watch: {
-		'showDialog': function(val){
-			if(val === false){
-				this.$nextTick(()=>{
-					this.$destroy();
-				});
-			}
-		}
-	}
+    onError (e) {
+      console.log(e)
+      this.actionVuexMessageShow('复制失败，请手动输入～')
+    }
+  },
+  watch: {
+    'showDialog': function (val) {
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$destroy()
+        })
+      }
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

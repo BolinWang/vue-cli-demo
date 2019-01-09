@@ -1,12 +1,12 @@
 <template>
-    <div class="empty-wrap">
-        <img src="../../../assets/images/distribution/common/empty-bg.png"/>
-        <p>{{content || '暂无数据'}}</p>
-    </div>
+  <div class="empty-wrap">
+    <img src="../../../assets/images/distribution/common/empty-bg.png">
+    <p>{{ content || '暂无数据' }}</p>
+  </div>
 </template>
 <script>
 export default {
-    props: ['content']
+  props: ['content']
 }
 </script>
 

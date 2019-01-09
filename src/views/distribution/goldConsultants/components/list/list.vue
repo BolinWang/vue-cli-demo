@@ -1,67 +1,85 @@
 <template>
-    <div class="catalog-content-wrap" v-infinite-scroll="loadList"
-            infinite-scroll-disabled="scrollDisabled"
-            infinite-scroll-distance="10">
-        <ul class="list">
-            <li v-for="item in pageInfo.list" :key="item.userId">
-                <div class="title">
-                    <div class="_left">
-                        <template v-if="item.userAvatar">
-                            <img :src="item.userAvatar | ali(29)"/>
-                        </template>
-                        <template v-else>
-                            <img src="../../../../../assets/images/avatar.png"/>
-                        </template>
-                    </div>
-                    <div class="_center">
-                        <p class="p1">
-                            {{item.userName}}
-                        </p>
-                        <p class="p2">
-                            ID：{{item.userId}}
-                        </p>
-                    </div>
-                    <div class="_right">
-                        <p class="p1">晋升时间：{{formatDate(item.bindTime, 'yyyy-MM-dd')}}</p>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="item">
-                        <p class="p1">客户</p>
-                        <p class="p2">{{item.consumerNum || 0}}</p>
-                    </div>
-                    <div class="item">
-                        <p class="p1">育儿顾问</p>
-                        <p class="p2">{{item.consultantNum || 0}}</p>
-                    </div>
-                    <div class="item">
-                        <p class="p1">累计销售</p>
-                        <p class="p2 light">
-                            <small>¥</small><strong>{{((item.sales || 0) / 100).toFixed(2)}}</strong>
-                        </p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+  <div
+    v-infinite-scroll="loadList"
+    class="catalog-content-wrap"
+    infinite-scroll-disabled="scrollDisabled"
+    infinite-scroll-distance="10"
+  >
+    <ul class="list">
+      <li
+        v-for="item in pageInfo.list"
+        :key="item.userId"
+      >
+        <div class="title">
+          <div class="_left">
+            <template v-if="item.userAvatar">
+              <img :src="item.userAvatar | ali(29)">
+            </template>
+            <template v-else>
+              <img src="../../../../../assets/images/avatar.png">
+            </template>
+          </div>
+          <div class="_center">
+            <p class="p1">
+              {{ item.userName }}
+            </p>
+            <p class="p2">
+              ID：{{ item.userId }}
+            </p>
+          </div>
+          <div class="_right">
+            <p class="p1">
+              晋升时间：{{ formatDate(item.bindTime, 'yyyy-MM-dd') }}
+            </p>
+          </div>
+        </div>
+        <div class="content">
+          <div class="item">
+            <p class="p1">
+              客户
+            </p>
+            <p class="p2">
+              {{ item.consumerNum || 0 }}
+            </p>
+          </div>
+          <div class="item">
+            <p class="p1">
+              育儿顾问
+            </p>
+            <p class="p2">
+              {{ item.consultantNum || 0 }}
+            </p>
+          </div>
+          <div class="item">
+            <p class="p1">
+              累计销售
+            </p>
+            <p class="p2 light">
+              <small>¥</small><strong>{{ ((item.sales || 0) / 100).toFixed(2) }}</strong>
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageGoldConsultantsList'
-        }),
-        ...mapGetters({
-            'scrollDisabled': 'pageGoldConsultantsList/scrollDisabled'
-        })
-    },
-    methods: {
-        ...mapActions({
-            'loadList': 'pageGoldConsultantsList/loadList'
-        })
-    }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageGoldConsultantsList'
+    }),
+    ...mapGetters({
+      'scrollDisabled': 'pageGoldConsultantsList/scrollDisabled'
+    })
+  },
+  methods: {
+    ...mapActions({
+      'loadList': 'pageGoldConsultantsList/loadList'
+    })
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -107,7 +125,7 @@ export default {
                     font-weight:400;
                     color:rgba(34,34,34,1);
                     text-overflow: ellipsis;
-                    overflow: hidden; 
+                    overflow: hidden;
                     white-space: nowrap;
                     span{
                         height:0.145rem;

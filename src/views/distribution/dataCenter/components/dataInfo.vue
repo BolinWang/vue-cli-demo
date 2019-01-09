@@ -1,44 +1,48 @@
 <template>
-    <div class="putForward card">
-        <h2>累计数据</h2>
-        <div class="detailed">
-            <div class="_left">
-                <div class="title">
-                    销售额<span class="sq">(税前)</span>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{sales}}</strong>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="_right">
-                <div class="title">
-                    已结算收入<span class="sq">(税前)</span>
-                </div>
-                <div class="amount">
-                    <small>¥</small><strong>{{income}}</strong>
-                </div>
-            </div>
+  <div class="putForward card">
+    <h2>累计数据</h2>
+    <div class="detailed">
+      <div class="_left">
+        <div class="title">
+          销售额<span class="sq">
+            (税前)
+          </span>
         </div>
-    </div>    
+        <div class="amount">
+          <small>¥</small><strong>{{ sales }}</strong>
+        </div>
+      </div>
+      <div class="line" />
+      <div class="_right">
+        <div class="title">
+          已结算收入<span class="sq">
+            (税前)
+          </span>
+        </div>
+        <div class="amount">
+          <small>¥</small><strong>{{ income }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDataCenterIndex'
-        }),
-        income(){
-            let { pageInfo: { data } } = this;
-            return data.income ? (data.income / 100).toFixed(2) : '0.00';
-        },
-        sales(){
-            let { pageInfo: { data } } = this;
-            return data.sales ? (data.sales / 100).toFixed(2) : '0.00';
-        }
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDataCenterIndex'
+    }),
+    income () {
+      let { pageInfo: { data } } = this
+      return data.income ? (data.income / 100).toFixed(2) : '0.00'
     },
+    sales () {
+      let { pageInfo: { data } } = this
+      return data.sales ? (data.sales / 100).toFixed(2) : '0.00'
+    }
+  }
 }
 </script>
 

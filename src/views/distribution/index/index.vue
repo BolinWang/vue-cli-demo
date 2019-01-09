@@ -1,92 +1,105 @@
 <template>
-    <section class="distribution-index-wrap" v-if="pageInfo.dataIsLoad">
-        <div class="section-tc" v-if='pageInfo.isShow'>
-            <div class="tc-box">
-                <p class="tc-content">成为育儿大使后，您可以发展更多人成为你的育儿顾问，一起科学育儿。同时您的育儿顾问赚取的收益，您也会有分润。</p>
-                <p class='tc-button' @click='clickImg()'>确定</p>
-            </div>
-        </div>
-        <div class="section-bg">
-
-        </div>
-        <div class="section-main">
-            <!-- 用户信息 -->
-            <userInfo></userInfo>
-            <!-- 合伙人收益 -->
-            <profit></profit>
-            <!-- 佣金 -->
-            <commission></commission>
-            <!-- 育儿顾问信息卡 -->
-            <childcareTool></childcareTool>
-            <!-- 培训中心 -->
-            <trainingCenter></trainingCenter>
-            <!-- 爆款推荐banner -->
-            <bkBanner></bkBanner>
-            <!-- 菜单 -->
-            <toolMenu></toolMenu>
-            <!-- 获取帮助 -->
-            <helpBar></helpBar>
-        </div>
-    </section>
+  <section
+    v-if="pageInfo.dataIsLoad"
+    class="distribution-index-wrap"
+  >
+    <div
+      v-if="pageInfo.isShow"
+      class="section-tc"
+    >
+      <div class="tc-box">
+        <p class="tc-content">
+          成为育儿大使后，您可以发展更多人成为你的育儿顾问，一起科学育儿。同时您的育儿顾问赚取的收益，您也会有分润。
+        </p>
+        <p
+          class="tc-button"
+          @click="clickImg()"
+        >
+          确定
+        </p>
+      </div>
+    </div>
+    <div class="section-bg" />
+    <div class="section-main">
+      <!-- 用户信息 -->
+      <userInfo />
+      <!-- 合伙人收益 -->
+      <profit />
+      <!-- 佣金 -->
+      <commission />
+      <!-- 育儿顾问信息卡 -->
+      <childcareTool />
+      <!-- 培训中心 -->
+      <trainingCenter />
+      <!-- 爆款推荐banner -->
+      <bkBanner />
+      <!-- 菜单 -->
+      <toolMenu />
+      <!-- 获取帮助 -->
+      <helpBar />
+    </div>
+  </section>
 </template>
 <script>
-import userInfo from './components/userInfo.vue';
-import toolMenu from './components/toolMenu.vue';
-import commission from './components/commission.vue';
-import profit from './components/profit.vue';
-import childcareTool from './components/childcareTool.vue';
-import trainingCenter from './components/trainingCenter.vue';
-import { mapState, mapMutations, mapActions } from 'vuex';
-import pageShareMixin from '@/mixins/pageShare.js';
-import helpBar from './components/helpBar.vue';
-import bkBanner from './components/banner.vue';
+import userInfo from './components/userInfo.vue'
+import toolMenu from './components/toolMenu.vue'
+import commission from './components/commission.vue'
+import profit from './components/profit.vue'
+import childcareTool from './components/childcareTool.vue'
+import trainingCenter from './components/trainingCenter.vue'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import pageShareMixin from '@/mixins/pageShare.js'
+import helpBar from './components/helpBar.vue'
+import bkBanner from './components/banner.vue'
 
 export default {
-    mixins: [pageShareMixin],
-    components: {
-        userInfo,
-        toolMenu,
-        commission,
-        profit,
-        childcareTool,
-        trainingCenter,
-        helpBar,
-        bkBanner
-    },
-    computed: {
-        ...mapState({
-            'pageInfo': 'pageDistributionIndex'
-        })
-    },
-    created(){
-        //重置数据
-        this.resetData();
-    },
-    activated(){
-        this.setScroll();
-        this.loadData();
-    },
-    methods: {
-        ...mapMutations({
-            'resetData': 'pageDistributionIndex/resetData',
-            'hide': 'pageDistributionIndex/hide'
-        }),
-        ...mapActions({
-            'loadData': 'pageDistributionIndex/loadData'
-        }),
-        setScroll(){
-            let { name } = this.$route,
-                key = name + '-scrollTop',
-                scrollTop = sessionStorage.getItem(key) || 0;
+  components: {
+    userInfo,
+    toolMenu,
+    commission,
+    profit,
+    childcareTool,
+    trainingCenter,
+    helpBar,
+    bkBanner
+  },
+  mixins: [pageShareMixin],
+  computed: {
+    ...mapState({
+      'pageInfo': 'pageDistributionIndex'
+    })
+  },
+  created () {
+    // 重置数据
+    this.resetData()
+  },
+  activated () {
+    this.setScroll()
+    this.loadData()
+  },
+  methods: {
+    ...mapMutations({
+      'resetData': 'pageDistributionIndex/resetData',
+      'hide': 'pageDistributionIndex/hide'
+    }),
+    ...mapActions({
+      'loadData': 'pageDistributionIndex/loadData'
+    }),
+    setScroll () {
+      let { name } = this.$route
 
-            this.$nextTick(()=>{
-                window.scrollTo(0, scrollTop);
-            })
-        },
-        clickImg() {
-            this.hide();
-        }
+      let key = name + '-scrollTop'
+
+      let scrollTop = sessionStorage.getItem(key) || 0
+
+      this.$nextTick(() => {
+        window.scrollTo(0, scrollTop)
+      })
+    },
+    clickImg () {
+      this.hide()
     }
+  }
 }
 </script>
 <style lang="less">
