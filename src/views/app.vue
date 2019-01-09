@@ -12,9 +12,7 @@
 import 'normalize.css'
 import FastClick from 'fastclick'
 import Account from '@/logic/account'
-import system from '@/tools/system'
 import { saLogin } from '@/tools/sc'
-import jsBridge from '@/jsbridge'
 
 FastClick.attach(document.body)
 
@@ -51,7 +49,6 @@ export default {
       var dpr = 0
       var tid = 0
 
-      var isAndroid = window.navigator.appVersion.match(/android/gi)
       var isIPhone = window.navigator.appVersion.match(/iphone/gi)
       var devicePixelRatio = window.devicePixelRatio
       if (isIPhone) {
@@ -81,7 +78,7 @@ export default {
         var fz = Number(width / 3.75).toFixed(0)
         document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz + 'px'
         var realfz = ~~(+window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize.replace('px', '') * 10000) / 10000
-        if (fz != realfz) {
+        if (fz !== realfz) {
           fz = fz * (fz / realfz)
           document.getElementsByTagName('html')[0].style.cssText = 'font-size: ' + fz + 'px'
         }

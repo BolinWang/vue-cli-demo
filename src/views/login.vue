@@ -58,7 +58,8 @@
     </div>
     <div class="search-wrap-gap" />
     <div
-      v-for="(item,index) in sessionList"
+      v-for="(item, index) in sessionList"
+      :key="index"
       class="session-wrap bg-fff   m10-t box p10"
     >
       <div class="session">
@@ -109,9 +110,8 @@
   </div>
 </template>
 <script>
-import queryString from 'query-string'
-import systemTool from '@/tools/system'
 import {
+  // eslint-disable-next-line no-unused-vars
   mapActions
 } from 'vuex'
 
@@ -162,11 +162,12 @@ export default {
       var terminal = Account.getTerminal()
 
       if (userId) {
+        // eslint-disable-next-line no-undef
         httpPost('/account/userInfo', {
           userId,
           terminal
         }, function (obj) {
-          if (obj.code == 10000) {
+          if (obj.code === 10000) {
             _this.userInfo = obj.data
           } else {
             _this.actionVuexMessageShow(obj.desc || '获取个人信息失败')
@@ -184,8 +185,9 @@ export default {
       let _this = this
       let condition = this.condition
 
+      // eslint-disable-next-line no-undef
       httpPost('http://10.86.10.254:9100/api/login_session/list', condition, function (obj) {
-        if (obj.code == 10000) {
+        if (obj.code === 10000) {
           _this.sessionList = obj.data
         } else {
           _this.actionVuexMessageShow(obj.desc || '获取登录信息失败')
@@ -202,10 +204,11 @@ export default {
       this.currentSession = session
 
       let id = session.id
+      // eslint-disable-next-line no-undef
       httpPost('http://10.86.10.254:9100/api/login_session/info', {
         id
       }, function (obj) {
-        if (obj.code == 10000) {
+        if (obj.code === 10000) {
           let data = obj.data || {}
 
           Cookie.set('mock_app_id', data.app_id)
