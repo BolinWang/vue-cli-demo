@@ -40,7 +40,7 @@
       <p class="p1">
         已提现金额<small class="sq">
           (税前)
-        </small></h2>
+        </small>
       </p>
       <p class="p2">
         <small>¥</small><strong>{{ withdraw }}</strong>
@@ -72,6 +72,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import putForwardDialog from './components/putForwardDialog'
 import pageShareMixin from '@/mixins/pageShare.js'
@@ -127,7 +128,7 @@ export default {
       // 检测一下用户是否已经补全过信息
       this.loadWithdrawInfo().then((withdrawInfo) => {
         // 已经完善过信息
-        if (withdrawInfo && withdrawInfo.signUpStatus == 2) {
+        if (withdrawInfo && withdrawInfo.signUpStatus === 2) {
           // 弹窗填写信息
           putForwardDialog({ el: this.$el,
             callback: (amount) => {

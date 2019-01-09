@@ -18,6 +18,7 @@
 import dataInfo from './components/dataInfo.vue'
 import list from './components/list.vue'
 import tab from './components/tab.vue'
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 

@@ -20,6 +20,7 @@
 </template>
 <script>
 import aliplayer from '@/components/media/aliplayer'
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
@@ -42,7 +43,7 @@ export default {
       recruitProcess = recruitProcess[0] || {}
 
       let { nodeStatus } = recruitProcess
-      if (nodeStatus != 2) {
+      if (nodeStatus !== 2) {
         this.actionVuexMessageShow('未获取到付款信息，请刷新页面重试...')
       } else {
         this.loadData()

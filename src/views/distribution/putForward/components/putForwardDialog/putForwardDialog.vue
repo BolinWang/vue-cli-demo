@@ -89,22 +89,22 @@ export default {
 </script>
 <style lang="less" scoped>
 section{
-	.putForward-dialog{
-	    position:fixed;
-	    left:0;
-	    top:0;
-	    width:100%;
-	    height:100%;
-	    background: rgba(0,0,0,0.70);
-	    transform:translate(0, 0) translateZ(0);
-	    z-index: 10;
-	    div.content{
-	    	position:absolute;
-	        left: 50%;
-	        top:50%;
-	        transform: translate(-50%, -50%);
-	        z-index:10;
-	        width:2.7rem;
+  .putForward-dialog{
+      position:fixed;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.70);
+      transform:translate(0, 0) translateZ(0);
+      z-index: 10;
+      div.content{
+        position:absolute;
+          left: 50%;
+          top:50%;
+          transform: translate(-50%, -50%);
+          z-index:10;
+          width:2.7rem;
             height:1.85rem;
             background:rgba(255,255,255,1);
             border-radius:0.06rem;
@@ -172,6 +172,6 @@ section{
                 border-radius:0.5rem 0 0 0;
             }
         }
-	}
+  }
 }
 </style>

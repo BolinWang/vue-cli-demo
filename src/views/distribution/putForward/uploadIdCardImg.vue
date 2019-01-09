@@ -54,6 +54,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 import lrz from 'lrz'
@@ -94,16 +95,16 @@ export default {
     },
     url () {
       return 'https://nodejsapi.ngmm365.com/admin-api'
-      let API_ENV = process.env.API_ENV
-      if (API_ENV == 'pro') {
-        return 'https://nodejsapi.ngmm365.com/admin-api'
-      } else if (API_ENV == 'beta') {
-        return 'http://10.86.10.254:9000/admin-api'
-      } else if (API_ENV == 'test') {
-        return 'http://localhost:9000/admin-api'
-      } else {
-        return 'http://localhost:9000/admin-api'
-      }
+      // let API_ENV = process.env.API_ENV
+      // if (API_ENV == 'pro') {
+      //   return 'https://nodejsapi.ngmm365.com/admin-api'
+      // } else if (API_ENV == 'beta') {
+      //   return 'http://10.86.10.254:9000/admin-api'
+      // } else if (API_ENV == 'test') {
+      //   return 'http://localhost:9000/admin-api'
+      // } else {
+      //   return 'http://localhost:9000/admin-api'
+      // }
     }
   },
   mounted () {
@@ -122,7 +123,7 @@ export default {
     initUpload (oFile, cardImg) {
       let self = this
       function changeFn () {
-            	let files = this.files
+        let files = this.files
         lrz(files[0], {
           width: 750,
           quality: 0.4
@@ -138,6 +139,7 @@ export default {
           })
           .catch(function (err) {
             // 处理失败会执行
+            console.log(err)
           })
           .always(function () {
             // 不管是成功失败，都会执行
@@ -153,7 +155,7 @@ export default {
     uploadImage (base64, ext, cardImg) {
       this.$http.post(this.url + '/file/upload/base64', { base64: base64, ext: ext }).then((response) => {
         let data = response.body
-        if (data.code == 10000) {
+        if (data.code === 10000) {
           this[cardImg] = data.data.url
         }
       })

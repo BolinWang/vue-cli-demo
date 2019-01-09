@@ -57,11 +57,11 @@ export default {
       return commission ? (commission / 100).toFixed(2) : '0.00'
     },
     getSettlementStatusStr (settlementStatus) {
-      if (settlementStatus == 1) {
+      if (settlementStatus === 1) {
         return '未结算'
-      } else if (settlementStatus == 3) {
+      } else if (settlementStatus === 3) {
         return '已结算'
-      } else if (settlementStatus == 4) {
+      } else if (settlementStatus === 4) {
         return '已退款'
       }
     }

@@ -143,6 +143,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { isRealIdCard } from '@/tools/check'
 import pageShareMixin from '@/mixins/pageShare.js'
@@ -270,7 +271,7 @@ export default {
     idCardTypePopupConfirm () {
       let { idCardType, tempIdCardType } = this
       this.setIdCardTypePopupVisible(false)
-      if (idCardType != tempIdCardType) {
+      if (idCardType !== tempIdCardType) {
         this.setWithdrawInfo({ idCardType: tempIdCardType })
       }
     },
@@ -281,7 +282,7 @@ export default {
       this.setIdCardTypePopupVisible(true)
     },
     doCheck () {
-      let { bankCardName, bankCardNumber, province, phoneNumber, idCardNumber } = this
+      let { bankCardName, bankCardNumber, phoneNumber, idCardNumber } = this
 
       bankCardNumber = bankCardNumber.replace(/\s/g, '')
 
@@ -313,7 +314,7 @@ export default {
           path: '/distribution/putForward/index'
         })
       }).catch(({ code } = {}) => {
-        if (code == 1000011) {
+        if (code === 1000011) {
           // 保存成功了
           this.$router.push({
             path: '/distribution/putForward/index'

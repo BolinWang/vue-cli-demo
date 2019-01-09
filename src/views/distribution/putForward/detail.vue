@@ -162,6 +162,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { isRealIdCard } from '@/tools/check'
 import pageShareMixin from '@/mixins/pageShare.js'
@@ -334,7 +335,7 @@ export default {
     provinceConfirm () {
       let { province, tempProvince } = this
       this.setPopupProvinceVisible(false)
-      if (province != tempProvince) {
+      if (province !== tempProvince) {
         this.updateWithdrawInfo({ province: tempProvince })
         this.updateCitys()
       }
@@ -348,7 +349,7 @@ export default {
     cityConfirm () {
       let { city, tempCity } = this
       this.setPopupCityVisible(false)
-      if (city != tempCity) {
+      if (city !== tempCity) {
         this.updateWithdrawInfo({ city: tempCity })
       }
     },

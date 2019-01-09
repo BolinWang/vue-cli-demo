@@ -58,11 +58,62 @@
 </template>
 <script>
 import event from '@/tools/event'
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import $ from 'jquery'
 import { setTimeout } from 'timers'
 
 export default {
+  directives: {
+    'dataCenterTab': {
+      inserted: function (el, binding, vnode) {
+        let self = vnode.context
+
+        let tab = el.querySelector('.tab')
+
+        let oLis = tab.querySelectorAll('li')
+
+        let oItems = document.getElementsByClassName('data-center-list-item')
+
+        el.scrollFn = function () {
+          // 控制tab
+          let top = $(el).offset().top - $(window).scrollTop()
+          if (top <= 0 && $(window).scrollTop() > 0) {
+            tab.style.position = 'fixed'
+            tab.style.left = '50%'
+            tab.style.webkitTransform = tab.style.transform = 'translateX(-50%)'
+          } else {
+            tab.style.position = 'inherit'
+            tab.style.left = '0'
+            tab.style.webkitTransform = tab.style.transform = 'translateX(0)'
+          }
+          // 控制tab自动切换
+          let activeIndex = 0
+          for (let i = 0; i < oItems.length; i++) {
+            let oItem = oItems[i]
+            if ($(oItem).offset().top - $(window).scrollTop() - tab.offsetHeight <= 0) {
+              for (let i = 0; i < oLis.length; i++) {
+                let oLi = oLis[i]
+                if (oItem.dataset.role === oLi.dataset.role) {
+                  activeIndex = i
+                }
+              }
+            }
+          }
+          if (!self.animating) {
+            self.setActiveIndex(activeIndex)
+          }
+        }
+        el.scrollFn()
+
+        self.event_bind(window, 'scroll', el.scrollFn)
+      },
+      unbind (el, binding, vnode) {
+        let self = vnode.context
+        self.event_unbind(window, 'scroll', el.scrollFn)
+      }
+    }
+  },
   computed: {
     ...mapState({
       'pageInfo': 'pageDataCenterIndex'
@@ -100,6 +151,16 @@ export default {
       return pageInfo.list || []
     }
   },
+  watch: {
+    activeIndex (newVal, oldVal) {
+      let { tab: oTab } = this.$refs
+      let oUl = oTab.querySelector('ul')
+      let oSpan = oTab.querySelector('span')
+      let oLi = oTab.querySelectorAll('li')[newVal]
+      let scrollLeft = (oLi.offsetLeft - oUl.offsetLeft) - ((oTab.offsetWidth - oSpan.offsetWidth) - oLi.offsetWidth) / 2
+      $(oUl).stop().animate({ scrollLeft: scrollLeft + 'px' }, 300)
+    }
+  },
   methods: {
     ...event,
     ...mapMutations({
@@ -127,7 +188,7 @@ export default {
     yearConfirm () {
       let { year, tempYear } = this
       this.setYearPopupVisible(false)
-      if (year != tempYear) {
+      if (year !== tempYear) {
         this.setYear(tempYear)
         // 如果日期发生变化，重置滚动条位置，重新还在列表数据
         window.scrollTo(0, 0)
@@ -150,66 +211,6 @@ export default {
     },
     getMonth ({ month }) {
       return parseInt((month + '').substring(4, 6))
-    }
-  },
-  directives: {
-    'dataCenterTab': {
-      inserted: function (el, binding, vnode) {
-        let self = vnode.context
-
-        let tab = el.querySelector('.tab')
-
-        let oLis = tab.querySelectorAll('li')
-
-        let oItems = document.getElementsByClassName('data-center-list-item')
-
-        el.scrollFn = function () {
-          // 控制tab
-          let top = $(el).offset().top - $(window).scrollTop()
-          if (top <= 0 && $(window).scrollTop() > 0) {
-            tab.style.position = 'fixed'
-            tab.style.left = '50%'
-            tab.style.webkitTransform = tab.style.transform = 'translateX(-50%)'
-          } else {
-            tab.style.position = 'inherit'
-            tab.style.left = '0'
-            tab.style.webkitTransform = tab.style.transform = 'translateX(0)'
-          }
-          // 控制tab自动切换
-          let activeIndex = 0
-          for (let i = 0; i < oItems.length; i++) {
-            let oItem = oItems[i]
-            if ($(oItem).offset().top - $(window).scrollTop() - tab.offsetHeight <= 0) {
-              for (let i = 0; i < oLis.length; i++) {
-                let oLi = oLis[i]
-                if (oItem.dataset.role == oLi.dataset.role) {
-                  activeIndex = i
-                }
-              }
-            }
-          }
-          if (!self.animating) {
-            self.setActiveIndex(activeIndex)
-          }
-        }
-        el.scrollFn()
-
-        self.event_bind(window, 'scroll', el.scrollFn)
-      },
-      unbind (el, binding, vnode) {
-        let self = vnode.context
-        self.event_unbind(window, 'scroll', el.scrollFn)
-      }
-    }
-  },
-  watch: {
-    activeIndex (newVal, oldVal) {
-      let { tab: oTab } = this.$refs
-      let oUl = oTab.querySelector('ul')
-      let oSpan = oTab.querySelector('span')
-      let oLi = oTab.querySelectorAll('li')[newVal]
-      let scrollLeft = (oLi.offsetLeft - oUl.offsetLeft) - ((oTab.offsetWidth - oSpan.offsetWidth) - oLi.offsetWidth) / 2
-      $(oUl).stop().animate({ scrollLeft: scrollLeft + 'px' }, 300)
     }
   }
 }

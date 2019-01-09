@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {

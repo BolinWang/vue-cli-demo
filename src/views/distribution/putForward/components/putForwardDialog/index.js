@@ -15,7 +15,7 @@ var PutForwardDialogC = function (option) {
 
   let { callback, el } = option || {}
   let instance = new PutForwardDialogConstructor({
-	    store,
+    store,
     el: (el || document.body).appendChild(document.createElement('div'))
   })
 
@@ -27,9 +27,9 @@ var PutForwardDialogC = function (option) {
         if (typeof callback === 'function') {
           callback(amount)
         }
-    			resolve()
-    		}
-    	})
+        resolve()
+      }
+    })
   } else {
     instance.callback = function (amount) {
       isInstance = false

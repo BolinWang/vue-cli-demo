@@ -2,6 +2,7 @@
   <section />
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
@@ -28,13 +29,13 @@ export default {
         let recruitProcess3 = recruitProcess[3] || {}
 
         // 用户未付款直接报错
-        if (recruitProcess0.nodeStatus != 2) {
+        if (recruitProcess0.nodeStatus !== 2) {
           this.actionVuexMessageShow('未获取到付款信息，请刷新页面重试...')
-        } else if (recruitProcess1.nodeStatus != 2 || recruitProcess2.nodeStatus != 2) {
+        } else if (recruitProcess1.nodeStatus !== 2 || recruitProcess2.nodeStatus !== 2) {
           this.$router.replace({
             path: `/distribution/learn/index`
           })
-        } else if (recruitProcess3.nodeStatus != 2) {
+        } else if (recruitProcess3.nodeStatus !== 2) {
           this.$router.replace({
             path: `/distribution/learn/success`
           })

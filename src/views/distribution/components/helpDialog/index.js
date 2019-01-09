@@ -15,7 +15,7 @@ var HelpDialogC = function (option) {
 
   let { callback, el } = option || {}
   let instance = new HelpDialogConstructor({
-	    store,
+    store,
     el: (el || document.body).appendChild(document.createElement('div'))
   })
 
@@ -27,9 +27,9 @@ var HelpDialogC = function (option) {
         if (typeof callback === 'function') {
           callback(url)
         }
-    			resolve()
-    		}
-    	})
+        resolve()
+      }
+    })
   } else {
     instance.callback = function (url) {
       isInstance = false

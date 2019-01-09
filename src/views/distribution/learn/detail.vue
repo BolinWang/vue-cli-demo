@@ -115,6 +115,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 
@@ -170,7 +171,7 @@ export default {
     },
     nextQuestion () {
       let { questionIndex, questionLen, question: { answer, userAnswer } } = this
-      if (answer != userAnswer) {
+      if (answer !== userAnswer) {
         this.actionVuexMessageShow('答错啦，请选择正确答案')
         return
       }
@@ -184,11 +185,11 @@ export default {
       this.commitResult().then((res) => {
         let { evaluationResult } = res || {}
         // 1-通过, 2-不通过
-        if (evaluationResult == 1) {
+        if (evaluationResult === 1) {
           this.$router.push({
             path: '/distribution/learn/success'
           })
-        } else if (evaluationResult == 2) {
+        } else if (evaluationResult === 2) {
           this.actionVuexMessageShow('答错啦，请选择正确答案')
         }
       })

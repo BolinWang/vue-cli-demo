@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -51,7 +52,7 @@ export default {
       'loadList': 'pageOrderList/loadList'
     }),
     changeTab (settlementStatus) {
-      if (settlementStatus == this.settlementStatus) return
+      if (settlementStatus === this.settlementStatus) return
 
       window.scroll(0, 0)
       this.setSettlementStatus(settlementStatus)
