@@ -25,8 +25,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    	pay,
-    	popupUI,
+    pay,
+    popupUI,
     pageDistributionIndex,
     pageChannelPartnersList,
     pageChildcareConsultantsList,

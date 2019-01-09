@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   namespaced: true,
   state: {
@@ -81,7 +82,7 @@ export default {
           }
 
           let isAgree = sessionStorage.getItem('putForward-certification-isAgree')
-          isAgree = isAgree == 'true'
+          isAgree = isAgree === 'true'
 
           commit('setIsAgree', isAgree)
           commit('setWithdrawInfo', data)
@@ -97,12 +98,12 @@ export default {
         httpPost('/dist/withdraw/save', withdrawInfo, (obj) => {
           dispatch('actionVuexSetLoading', false, { root: true })
 
-          let { code, data, desc } = obj
+          let { code, desc } = obj
           if (code === 10000) {
             resolve()
           } else {
             dispatch('actionVuexMessageShow', desc || '系统异常~', { root: true })
-            reject({ code })
+            reject(new Error({ code }))
           }
         })
       })

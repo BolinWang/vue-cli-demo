@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 import address from '@/data/address.js'
 
-const provinces = address.filter(item => item.apid == '0')
-const citys = address.filter(item => item.apid == provinces[0].aid)
+const provinces = address.filter(item => item.apid === '0')
+const citys = address.filter(item => item.apid === provinces[0].aid)
 
 export default {
   namespaced: true,
@@ -44,14 +45,14 @@ export default {
       let { province, city } = withdrawInfo
 
       let provinceDefaultIndex = provinces.map(item => item.aname).indexOf(province)
-      provinceDefaultIndex = provinceDefaultIndex == -1 ? 0 : provinceDefaultIndex
+      provinceDefaultIndex = provinceDefaultIndex === -1 ? 0 : provinceDefaultIndex
       state.provinceSlots[0].defaultIndex = provinceDefaultIndex
 
-      let citys = address.filter(item => item.apid == provinces[provinceDefaultIndex].aid)
+      let citys = address.filter(item => item.apid === provinces[provinceDefaultIndex].aid)
       state.citySlots[0].values = citys
 
       let cityDefaultIndex = citys.map(item => item.aname).indexOf(city)
-      cityDefaultIndex = cityDefaultIndex == -1 ? 0 : cityDefaultIndex
+      cityDefaultIndex = cityDefaultIndex === -1 ? 0 : cityDefaultIndex
       state.citySlots[0].defaultIndex = cityDefaultIndex
     },
     updateWithdrawInfo (state, withdrawInfo) {
@@ -61,7 +62,7 @@ export default {
       let { withdrawInfo: { province } } = state
       let provinceDefaultIndex = provinces.map(item => item.aname).indexOf(province)
       if (provinceDefaultIndex > -1) {
-        let citys = address.filter(item => item.apid == provinces[provinceDefaultIndex].aid)
+        let citys = address.filter(item => item.apid === provinces[provinceDefaultIndex].aid)
         state.citySlots[0].values = citys
         state.citySlots[0].defaultIndex = 0
       }
@@ -125,7 +126,7 @@ export default {
         httpPost('/dist/withdraw/save', withdrawInfo, (obj) => {
           dispatch('actionVuexSetLoading', false, { root: true })
 
-          let { code, data, desc } = obj
+          let { code, desc } = obj
           if (code === 10000) {
             resolve()
           } else {

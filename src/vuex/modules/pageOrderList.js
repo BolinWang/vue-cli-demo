@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   namespaced: true,
   state: {
@@ -59,7 +60,7 @@ export default {
 
         let { code, data, desc } = obj
         if (code === 10000) {
-          let newList = data && data.data || []
+          let newList = (data && data.data) || []
           let { totalNumber } = data || {}
 
           if (newList.length < pageSize) {
@@ -68,7 +69,7 @@ export default {
 
           list = list.concat(newList)
 
-          if (pageNumber == 1) {
+          if (pageNumber === 1) {
             commit('setTotalNumber', totalNumber)
           }
 

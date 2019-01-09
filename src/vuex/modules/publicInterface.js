@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   namespaced: true,
   state: {
@@ -25,7 +26,7 @@ export default {
             resolve({ recruitProcess })
           } else {
             dispatch('actionVuexMessageShow', desc || '系统异常~', { root: true })
-            reject({ desc })
+            reject(new Error({ desc }))
           }
         })
       })

@@ -1,6 +1,6 @@
+/* eslint-disable no-undef */
 import { types } from '../types'
 let {
-  VuexLoadKnowledgeCoupon,
   VuexSetKnowledgeCouponShow,
   VuexSetKnowledgeCouponList,
   VuexUpdateKnowledgeCouponCheck,
@@ -54,7 +54,7 @@ const knowledgeCoupon = {
       return new Promise((resolve, reject) => {
         commit(VuexInitKnowledgeCoupon, payload)// 保存基础参数
 
-        let { userId, courseId, activityId } = payload
+        let { courseId } = payload
         dispatch('actionVuexSetLoading', true)
         httpPost('/education/4/coupon/getUserCouponList', {// 加载优惠券
           courseId
@@ -104,15 +104,15 @@ const knowledgeCoupon = {
       })
       commit(VuexSetKnowledgeCouponList, list)// 设置list
 
-      let couponId = t_check && item.couponId || null
+      let couponId = (t_check && item.couponId) || null
 
-      let couponName = t_check && item.name || ''
+      let couponName = (t_check && item.name) || ''
       dispatch('actionVuexSetCheckKnowledgeCouponPrice', { couponId, couponName })// 传入优惠券id，获取选择优惠券之后的价格
     },
     ['action' + VuexSetCheckKnowledgeCouponPrice]: ({ state, commit }, { couponId, couponName }) => {
       commit(VuexSetKnowledgeCouponCouponId, { couponId, couponName })// 保存当前选中的优惠券id包括null
 
-      let { courseId, userId, salePrice } = state
+      let { courseId, salePrice } = state
       if (!couponId) { // 如果没有选中优惠券则显示售价
         commit(VuexSetCheckKnowledgeCouponPrice, salePrice)
         return

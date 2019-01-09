@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { types } from '../types'
 let {
   VuexInitKnowledgeData
@@ -30,7 +31,7 @@ const knowledge = {
             let { data } = obj
             if (!data) {
               // 处理接口出错
-              reject()
+              reject(new Error())
               return
             }
             // dealdata
@@ -39,7 +40,7 @@ const knowledge = {
             commit(VuexInitKnowledgeData, { data })
             resolve({ data })
           } else {
-            reject()
+            reject(new Error())
           }
         })
       })

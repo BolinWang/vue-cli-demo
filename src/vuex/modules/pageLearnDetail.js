@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   namespaced: true,
   state: {
@@ -13,12 +14,10 @@ export default {
       // 初始化答案
       data = data || {}
 
-      let list = []
-      if (list = data.evaluationQuestionDTOList) {
-        list.forEach((item, i) => {
-          item.userAnswer = null
-        })
-      }
+      let list = data.evaluationQuestionDTOList || []
+      list.forEach((item, i) => {
+        item.userAnswer = null
+      })
 
       state.data = data
       state.dataIsLoad = true

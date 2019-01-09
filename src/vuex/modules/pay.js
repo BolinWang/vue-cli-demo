@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import Account from '@/logic/account.js'
 import { Toast } from 'mint-ui'
 import { formatDate } from '@/tools/formatDate'
@@ -6,8 +7,7 @@ import wxpay from '@/lib/wxpay'
 import { saTa } from '@/tools/sc'
 import { types } from '../types'
 let {
-  VuexPaymentCreate,
-  VuexPaymentCallback
+  VuexPaymentCreate
 } = types
 
 const ISNEW = 1
@@ -37,18 +37,18 @@ const pay = {
 
         commit(VuexPaymentCreate, res)
 
-        if (code == 10000) {
+        if (code === 10000) {
           let payOwner = pingpp
 
-          if (charge && charge.paySdk && charge.paySdk == 'wxPay') {
+          if (charge && charge.paySdk && charge.paySdk === 'wxPay') {
             payOwner = wxpay
           }
 
           // 唤起微信支付
           payOwner.createPayment(charge, (result, err) => {
             // 微信支付回调
-            if (type == 'knowledge') {
-              if (result == 'success') {
+            if (type === 'knowledge') {
+              if (result === 'success') {
                 // 神策统计
                 saTa('payCourseOrder_web', {
                   course_id: courseId + '', //  课程ID
@@ -69,7 +69,7 @@ const pay = {
                   self.data.isBuy = true
 
                   function callback () {
-                    if (isGive == 1) { // 有礼品
+                    if (isGive === 1) { // 有礼品
                       let path = `/mathbox/receive/${courseId}?redirect_path=${encodeURIComponent(location.href)}`
 
                       self.$router.push({
@@ -88,8 +88,8 @@ const pay = {
               }
             }
           })
-        } else if (code == 11020013) { // 用户未授权
-          if (type == 'knowledge') {
+        } else if (code === 11020013) { // 用户未授权
+          if (type === 'knowledge') {
             Account.authorize(postData.appId, location.href, 'kuajing')
           }
         } else {

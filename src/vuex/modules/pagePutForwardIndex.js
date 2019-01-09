@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
   namespaced: true,
   state: {
@@ -65,7 +66,7 @@ export default {
         }, (obj) => {
           dispatch('actionVuexSetLoading', false, { root: true })
 
-          let { code, data, desc } = obj
+          let { code, desc } = obj
           if (code === 10000) {
             resolve()
           } else {

@@ -3,7 +3,6 @@ import { types } from '../types'
 let {
   VuexSetDetailAudioLoop
 } = types
-let timer = null
 
 // 老数据处理
 let local = localStorage.getItem('detail-audio-loop') || 1
