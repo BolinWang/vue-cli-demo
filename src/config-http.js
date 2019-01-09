@@ -37,7 +37,7 @@ function registerHttp (Vue) {
         let obj = response.body
 
         // 需要登录或者access-token缺失，支付不匹配
-        if (obj.code == 11991019 || obj.code == 11991011 || obj.code == 11020013) {
+        if (obj.code === 11991019 || obj.code === 11991011 || obj.code === 11020013) {
           Account.cleanContext()
           Account.login()
         }
@@ -57,7 +57,7 @@ function httpPost (url, params, success, fail) {
     params = {}
   }
   // mock
-  if (API_ENV != 'pro' && API_ENV != 'beta' && (openMock && url.indexOf(urlPre) > -1 || params.openMock === true) && !/^http(s|)/.test(url)) {
+  if (API_ENV !== 'pro' && API_ENV !== 'beta' && ((openMock && url.indexOf(urlPre) > -1) || params.openMock === true) && !/^http(s|)/.test(url)) {
     url = '' + url
   }
 
@@ -71,8 +71,8 @@ function http (method, url, params, success, fail) {
     } catch (e) {
       console.error(e.stack)
 
-      let errInfo = 'api-error:' + e.stack + ';url:' + api.url + ',params:' + JSON.stringify(params)
-      var url = get_api_url('/data/front')
+      let errInfo = 'api-error:' + e.stack + ';url:' + url + ',params:' + JSON.stringify(params)
+      url = get_api_url('/data/front')
 
       Vue.http.post(url, {
         text: errInfo

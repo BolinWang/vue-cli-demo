@@ -60,6 +60,7 @@
   </section>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import pageShareMixin from '@/mixins/pageShare.js'
 

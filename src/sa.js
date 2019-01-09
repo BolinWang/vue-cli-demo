@@ -2,7 +2,7 @@ import sa from 'sa-sdk-javascript'
 
 let API_ENV = process.env.API_ENV
 let sensor_config_server_url_param = 'default'
-if (API_ENV == 'pro') {
+if (API_ENV === 'pro') {
   sensor_config_server_url_param = 'production'
 }
 

@@ -1,5 +1,6 @@
 export default function (Vue) {
   (function () {
+    // eslint-disable-next-line no-unused-vars
     let maxWidthRem = 3.75
     function px2rem ({ width, height, column }) {
       let ratio = width / height
@@ -34,7 +35,7 @@ export default function (Vue) {
                 height = parseInt(result[4] || 0)
                 if (!width || !height) return// 其中有一个图片没有宽度和高度参数就直接返回
                 sumWidth += width
-                if (tdIndex == i) tdWidth = width
+                if (tdIndex === i) tdWidth = width
               }
             }
             column = sumWidth / tdWidth

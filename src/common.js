@@ -1,12 +1,11 @@
 import ConfigUrls from './config-urls.js'
-import system from '@/tools/system'
 
 // 常用的配置
 let config = {}
 
 let API_ENV = process.env.API_ENV
 
-if (API_ENV == 'pro') {
+if (API_ENV === 'pro') {
   config = {
     // (辅食小店的)微信授权的appid
     // appId:"wx8aae36b94fe14a70",
@@ -19,7 +18,7 @@ if (API_ENV == 'pro') {
     loginCallbackUrl: 'https://callback.ngmm365.com/account/wechatAuth/callback',
     authorizeCallbackUrl: 'https://callback.ngmm365.com/account/wechatAuth/callback'
   }
-} else if (API_ENV == 'beta') {
+} else if (API_ENV === 'beta') {
   config = {
     // 学院
     // appId:"wxf292488bb1d28004",
@@ -29,7 +28,7 @@ if (API_ENV == 'pro') {
     authorizeCallbackUrl: 'http://callback.ngmm001.com/account/wechatAuth/callback',
     logoutUrl: 'http://callback.ngmm001.com/account/wechatAuth/logout'
   }
-} else if (API_ENV == 'test') {
+} else if (API_ENV === 'test') {
   config = {
     // 学院
     appId: 'wxf292488bb1d28004',
@@ -64,7 +63,7 @@ function get_api_url (url) {
   var match = false
   var match_base_url = ''
   for (var key in base_url_map) {
-    if (url.indexOf(key) == 0) {
+    if (url.indexOf(key) === 0) {
       match = true
       var size = base_url_map[key].length
       match_base_url = base_url_map[key][Math.floor(Math.random() * size)]

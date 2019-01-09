@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable import/no-duplicates */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
@@ -31,7 +33,7 @@ import ngmmdebug from './ngmmdebug'
 Vue.use(Swiper)
 
 // 开发环境显示vconsole按钮
-if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'testing' || process.env.API_ENV == 'beta') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing' || process.env.API_ENV === 'beta') {
   // require("vconsole");
 }
 
@@ -89,7 +91,7 @@ function need_login (path) {
   let match = false
   for (let i = 0; i < need_login_paths.length; i++) {
     let item = need_login_paths[i]
-    if (path.indexOf(item) == 0) {
+    if (path.indexOf(item) === 0) {
       match = true
       break
     }
@@ -105,10 +107,10 @@ function need_login (path) {
 
 router.afterEach(function (to, from, next) {
   // 记录滚动条位置
-  if (from.meta.keepAlive == true) {
+  if (from.meta.keepAlive === true) {
     sessionStorage.setItem(from.name + '-scrollTop', $.getScrollTop())
   }
-  if (to && to.meta && to.meta.title != undefined) {
+  if (to && to.meta && to.meta.title !== undefined) {
     document.title = to.meta.title
     if (system.isApp()) {
       NGJsBridge.setH5Info({
@@ -118,7 +120,7 @@ router.afterEach(function (to, from, next) {
   }
   // 去除app端分享和购物车按钮
   if (system.isApp()) {
-    if (to.path.indexOf('/distribution') == 0) {
+    if (to.path.indexOf('/distribution') === 0) {
       NGJsBridge.showToolBar({ cart: false, share: false })
     }
   }

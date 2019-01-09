@@ -215,11 +215,11 @@ const map = {
 
 let config = {}
 let API_ENV = process.env.API_ENV
-if (API_ENV == 'pro') {
+if (API_ENV === 'pro') {
   config = Object.assign({}, map.base, map['pro'])
-} else if (API_ENV == 'beta') {
+} else if (API_ENV === 'beta') {
   config = Object.assign({}, map.base, map['beta'])
-} else if (API_ENV == 'test') {
+} else if (API_ENV === 'test') {
   config = Object.assign({}, map.base, map['test'])
 } else {
   // config = Object.assign({}, map.base, map['local'])

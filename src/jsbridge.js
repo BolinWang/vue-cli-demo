@@ -16,7 +16,7 @@ import {
 } from '@/tools/native-url.js'
 import system from '@/tools/system'
 import goNative from '@/tools/go-native'
-import { locationHref, locationReplace } from '@/tools/logic.js'
+import { locationHref } from '@/tools/logic.js'
 
 /**
  * @todo  list
@@ -24,6 +24,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
  */
 ;
 
+// eslint-disable-next-line no-shadow-restricted-names
 (function (win, undefined) {
   var NGJsBridge = {
     // 回调函数的map
@@ -83,7 +84,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
         var base = 'ngmall://' + method
 
         var arr = []
-        if (option && JSON.stringify(option) != '{}') {
+        if (option && JSON.stringify(option) !== '{}') {
           arr.push('params=' + encodeURIComponent(JSON.stringify(option || '')))
         }
 
@@ -118,7 +119,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
       if (win.document.getElementById(iframe_id)) {
         iframe = win.document.getElementById(iframe_id)
       } else {
-        var iframe = win.document.createElement('iframe')
+        iframe = win.document.createElement('iframe')
         iframe.style.display = 'none'
         iframe.id = iframe_id
       }
@@ -130,7 +131,9 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
       setTimeout(function () {
         try {
           win.document.documentElement.removeChild(iframe)
-        } catch (e) {}
+        } catch (e) {
+          console.log(e)
+        }
       }, 3000)
     },
 
@@ -179,9 +182,9 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
       if (cb && cb instanceof Function) {
         try {
           var obj = JSON.parse(result)
-
           cb(obj)
         } catch (e) {
+          // eslint-disable-next-line standard/no-callback-literal
           cb({
             code: 120,
             desc: '返回值不是合法的JSON：' + result
@@ -226,18 +229,18 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
       if (url) {
         var tmps = url.split('@')
         var type = tmps[0]
-        if (tmps.length == 1) {
+        if (tmps.length === 1) {
           locationHref(url)
         } else {
           var path = tmps[1]
-          if (type == 'link') {
+          if (type === 'link') {
             locationHref(path)
           } else {
             if (win.VueRouter) {
               var route
-              if (type == 'name') {
+              if (type === 'name') {
                 route = { name: path }
-              } else if (type == 'path') {
+              } else if (type === 'path') {
                 route = { path: path }
               }
               win.VueRouter.go && win.VueRouter.go instanceof Function && win.VueRouter.go(route)
@@ -268,21 +271,20 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
       // 第一期付费内容兼容处理方案
       // 判断1、是否首页 2、支付付费页面
       if (!url) return
-
+      // 审核版本控制
+      let API_ENV = process.env.API_ENV
       if (system.isApp()) {
         if (isMathboxDetail(url)) { // 数学盒子
           goNative.goNativeMathBoxDetail(url)
         } else if (isKnowledgeDetail(url)) { // 知识付费的内容
-          // 审核版本控制
-          let API_ENV = process.env.API_ENV
-          if (API_ENV == 'pro') {
-            if (system.isIos() && system.getAppVersion() == '4.3.10') {
+          if (API_ENV === 'pro') {
+            if (system.isIos() && system.getAppVersion() === '4.3.10') {
               return
             }
           }
 
           let index = url.indexOf('?')
-          if (index == -1) {
+          if (index === -1) {
             NGJsBridge.NT_goUrl(url)
           } else {
             if (isKnowledgeDetailItem(url)) {
@@ -300,7 +302,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
                 if (query.sourceCode) { // 付费内容二期增加的字段
                   data.sourceCode = query.sourceCode
                 } else { // 兼容老版本链接
-                  data.sourceCode = !query.sourceType ? 1 : query.sourceType == 'audio' ? 2 : query.sourceType == 'video' ? 3 : 1
+                  data.sourceCode = !query.sourceType ? 1 : query.sourceType === 'audio' ? 2 : query.sourceType === 'video' ? 3 : 1
                 }
 
                 if (query.channelCode) {
@@ -314,7 +316,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
             } else {
               let result = /\/knowledge\/detail\/(\d+)/.exec(url)
 
-              let id; let data
+              let id
 
               if (result) {
                 id = result[1]
@@ -333,8 +335,8 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
                   if (query.sourceCode) { // 付费内容二期增加的字段
                     data.sourceCode = query.sourceCode
                   } else { // 兼容老版本链接
-                    if (query.type == 1) {
-                      data.sourceCode = !query.sourceType ? 1 : query.sourceType == 'audio' ? 2 : query.sourceType == 'video' ? 3 : 1
+                    if (query.type === 1) {
+                      data.sourceCode = !query.sourceType ? 1 : query.sourceType === 'audio' ? 2 : query.sourceType === 'video' ? 3 : 1
                     }
                   }
 
@@ -367,7 +369,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
           if (system.getAppVersion() >= '4.3.0') { // 早教线上版本
             goNative.goNativeZaojiaoAuditionIndex()
           } else { // 没有升级app时，早教转跳这个
-            if (API_ENV == 'pro') {
+            if (API_ENV === 'pro') {
               NGJsBridge.NT_goUrl('https://m.ngmm365.com/page/1187')
             } else {
               NGJsBridge.NT_goUrl('http://m.ngmm001.com/page/309')
@@ -377,7 +379,7 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
           if (system.getAppVersion() >= '4.3.0') { // 早教线上版本
             goNative.goNativeZaojiaoBuy()
           } else { // 没有升级app时，早教转跳这个
-            if (API_ENV == 'pro') {
+            if (API_ENV === 'pro') {
               NGJsBridge.NT_goUrl({ url: 'https://m.ngmm365.com/page/1187' })
             } else {
               NGJsBridge.NT_goUrl({ url: 'http://m.ngmm001.com/page/309' })
@@ -394,8 +396,9 @@ import { locationHref, locationReplace } from '@/tools/logic.js'
     },
     NT_goUrl (url) {
       // 只有没有特殊原生页面的url才会进到这个方法
-      let fullUrl = url.indexOf('http') == 0
+      let fullUrl = url.indexOf('http') === 0
 
+      // eslint-disable-next-line no-unused-vars
       let isInIndex = false
       let { href } = location
 
