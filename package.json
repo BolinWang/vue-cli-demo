@@ -47,5 +47,18 @@
     "scroll-into-view": "^1.8.2",
     "vconsole": "^2.5.2",
     "vue-resource": "^1.2.1"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
