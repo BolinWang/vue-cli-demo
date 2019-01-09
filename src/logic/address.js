@@ -3,7 +3,8 @@ import queryString from 'query-string'
 export default {
   // 检查页面是否从来自订单确认页
   check_from_trade_check_page (query) {
-    	return query && (query.from == 'trade-check' || query.from == 'knowledge-receive' || query.from == 'knowledge-edit-receive')
+    const tradeCheckPages = ['trade-check', 'knowledge-receive', 'knowledge-edit-receive']
+    return query && tradeCheckPages.indexOf(query.from) > -1
   },
   // 根据传入的redirect_path，构建新的redirect_path。追加或替换addressId参数
   build_redirect_path (redirect_path, addressId) {
