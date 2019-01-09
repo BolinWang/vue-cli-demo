@@ -4,7 +4,13 @@ const resolve = dir => {
 }
 
 module.exports = {
-  runtimeCompiler: true,
+  publicPath: '/',
+  outputDir: 'dist',
+  devServer: {
+    open: false,
+    host: '0.0.0.0',
+    port: 3900
+  },
   configureWebpack: config => {
     config.resolve = {
       extensions: ['.js', '.vue', '.json'],
