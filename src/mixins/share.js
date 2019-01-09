@@ -1,11 +1,11 @@
+/* eslint-disable no-undef */
 import common from '@/common'
-import defaultShareImg from '../../static/applogo.png'
 import browser from '@/tools/browser'
 import system from '@/tools/system'
 import {
+  // eslint-disable-next-line no-unused-vars
   mapActions
 } from 'vuex'
-import ImageTool from '@/tools/image.js'
 
 const jsApiList = [
   'checkJsApi',
@@ -68,11 +68,12 @@ let wxShare = {
 
       let shareTimelineSuccess = opt.shareTimelineSuccess || null
 
+      // eslint-disable-next-line no-undef
       httpPost('/account/signature', {
         appId: appId,
         url: signUrl
       }, function (obj) {
-        if (obj.code == 10000) {
+        if (obj.code === 10000) {
           wx.config({
             debug: false,
             appId: obj.data.appId,

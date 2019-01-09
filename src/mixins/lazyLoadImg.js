@@ -1,7 +1,7 @@
 import $ from '@/tools/dom.js'
-import system from '@/tools/system'
 import {
   mapState,
+  // eslint-disable-next-line no-unused-vars
   mapActions
 } from 'vuex'
 import loadImg from '../../static/loading.png'
@@ -27,8 +27,7 @@ let lazyLoadImg = {
   methods: {
     ...event,
     lazyLoad ({ oImgWrap, condition, isReverse, lazyload, scale }) { // condition条件控制在某种情况下不加载图片
-        	lazyload = lazyload !== false
-
+      lazyload = (lazyload !== false)
       this.$nextTick(() => {
         let self = this;
 
@@ -77,63 +76,63 @@ let lazyLoadImg = {
         })(self)
 
         if (lazyload) {
-	                (function (self, oImgWrap, condition) { // 处理懒加载图片
-	                    let imgs
+          (function (self, oImgWrap, condition) { // 处理懒加载图片
+            let imgs
 
-	                    if (oImgWrap) { // 如果有传范围
-	                        imgs = oImgWrap.querySelectorAll('img')
-	                    } else { // 查询全部图片
-	                        imgs = document.querySelectorAll('.lazyLoadImg')
-	                    }
+            if (oImgWrap) { // 如果有传范围
+              imgs = oImgWrap.querySelectorAll('img')
+            } else { // 查询全部图片
+              imgs = document.querySelectorAll('.lazyLoadImg')
+            }
 
-	                    if (!imgs || !imgs.length) return
+            if (!imgs || !imgs.length) return
 
-	                    imgs = [...imgs]
+            imgs = [...imgs]
 
-	                    imgs = imgs.filter((img, i) => { // 过滤掉已经加入事件的图片
-	                        if (!img.isSelect) {
-	                            img.isSelect = true
-	                            return true
-	                        }
-	                    })
+            imgs = imgs.filter((img, i) => { // 过滤掉已经加入事件的图片
+              if (!img.isSelect) {
+                img.isSelect = true
+                return true
+              }
+            })
 
-	                    if (!imgs || !imgs.length) return
+            if (!imgs || !imgs.length) return
 
-	                    self.lazyload_imgs = self.lazyload_imgs.concat(imgs)
+            self.lazyload_imgs = self.lazyload_imgs.concat(imgs)
 
-	                    // 第一次先执行一次
-	                    lazyloadFn(true)
-	                    self.event_bind(window, 'scroll', lazyloadFn)// 绑定懒加载事件
-	                    self.$once('hook:beforeDestroy', () => {
-	                        self.event_unbind(window, 'scroll', lazyloadFn)
-	                    })
+            // 第一次先执行一次
+            lazyloadFn(true)
+            self.event_bind(window, 'scroll', lazyloadFn)// 绑定懒加载事件
+            self.$once('hook:beforeDestroy', () => {
+              self.event_unbind(window, 'scroll', lazyloadFn)
+            })
 
-	                    function lazyloadFn (isFirst) {
-                    		// 控制在某一条件下不执行，比如商品详情页在切换到更多买家秀的时候不加载详情页面的图片
-	                        if (condition && !condition()) {
-	                            return
-	                        }
+            function lazyloadFn (isFirst) {
+              // 控制在某一条件下不执行，比如商品详情页在切换到更多买家秀的时候不加载详情页面的图片
+              if (condition && !condition()) {
+                return
+              }
 
-	                        imgs.forEach((img, i) => {
-	                            if (img.getAttribute('isLoad') != 'true' && (($.getElmTop(img) - 40 <= (window.innerHeight + $.getScrollTop())) && ($.getScrollTop() - 40 <= ($.getElmTop(img) + img.offsetHeight)))) {
-	                                // console.log('img=', img);
-	                                let vSrc = img.getAttribute('v-src')
-	                                img.setAttribute('src', vSrc)
-	                                img.setAttribute('isLoad', 'true')
-	                                // 设置渐变动画
-	                                img.onload = function (e) {
-	                                    let curImg = e.currentTarget
-	                                    curImg.style.opacity = '0'
-	                                    setTimeout(function () {
-	                                        curImg.style.transition = 'opacity 0.5s'
-	                                        curImg.style.opacity = '1'
-	                                    }, 100)
-	                                }
-	                            }
-	                        })
-	                    }
-	                })(self, oImgWrap, condition)
-	            }
+              imgs.forEach((img, i) => {
+                if (img.getAttribute('isLoad') !== 'true' && (($.getElmTop(img) - 40 <= (window.innerHeight + $.getScrollTop())) && ($.getScrollTop() - 40 <= ($.getElmTop(img) + img.offsetHeight)))) {
+                  // console.log('img=', img);
+                  let vSrc = img.getAttribute('v-src')
+                  img.setAttribute('src', vSrc)
+                  img.setAttribute('isLoad', 'true')
+                  // 设置渐变动画
+                  img.onload = function (e) {
+                    let curImg = e.currentTarget
+                    curImg.style.opacity = '0'
+                    setTimeout(function () {
+                      curImg.style.transition = 'opacity 0.5s'
+                      curImg.style.opacity = '1'
+                    }, 100)
+                  }
+                }
+              })
+            }
+          })(self, oImgWrap, condition)
+        }
 
         (function (self) { // 绑定视频需要处理的事件
           self.initMetas()
@@ -143,7 +142,7 @@ let lazyLoadImg = {
     dispatch (type, method, params) {
       if (type === 'audio') {
         if (method === 'loadNext') {
-          if (this.detailAudioLoop.isLoop == 2) { // 开启列表循环
+          if (this.detailAudioLoop.isLoop === 2) { // 开启列表循环
             let index = params.t_index + 1
             if (index > this.customVueInstances.length - 1) {
               index = 0
@@ -152,13 +151,13 @@ let lazyLoadImg = {
           }
         } else if (method === 'playNext') {
           // 判断是否开启循环播放
-          if (this.detailAudioLoop.isLoop == 2) { // 开启列表循环
+          if (this.detailAudioLoop.isLoop === 2) { // 开启列表循环
             let index = params.t_index + 1
             if (index > this.customVueInstances.length - 1) {
               index = 0
             }
             this.customVueInstances[index].broadcast('play')
-          } else if (this.detailAudioLoop.isLoop == 3) { // 开启单首循环
+          } else if (this.detailAudioLoop.isLoop === 3) { // 开启单首循环
             let index = params.t_index
             this.customVueInstances[index].broadcast('play')
           }
@@ -190,7 +189,7 @@ let lazyLoadImg = {
     },
     playFn (e) {
       let cMeta = e.target
-      if (cMeta.currentTime == 0) {
+      if (cMeta.currentTime === 0) {
         this.actionVuexMessageShow('资源正在缓冲，请耐心等待...')
       }
       // 暂停所有播放中的音频视频
@@ -199,7 +198,6 @@ let lazyLoadImg = {
     },
     transform (option) {
       let { data, poster, lazyload } = option
-      let self = this
       let text = data
 
       lazyload = lazyload !== false
@@ -227,14 +225,14 @@ let lazyLoadImg = {
         })
 
         let content = arguments[1] + `
-                webkit-playsinline="true" 
-                x-webkit-airplay="true" 
-                playsinline="true" 
-                x5-video-player-type="h5" 
-                x5-video-orientation="h5" 
-                x5-video-player-fullscreen="true" 
-                preload="none" 
-                controlsList="nodownload" 
+                webkit-playsinline="true"
+                x-webkit-airplay="true"
+                playsinline="true"
+                x5-video-player-type="h5"
+                x5-video-orientation="h5"
+                x5-video-player-fullscreen="true"
+                preload="none"
+                controlsList="nodownload"
                 loop="loop"
                 class="richtext-detail-video"
                 ` + ' poster=' + imageAli(poster)
