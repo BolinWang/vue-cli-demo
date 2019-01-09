@@ -3,7 +3,7 @@ function isRealName (name) {
 }
 
 function isRealIdCard (idCard) {
-  if (!idCard || idCard.length != 18) {
+  if (!idCard || idCard.length !== 18) {
     return false
   }
   idCard = idCard.toUpperCase()
@@ -25,7 +25,7 @@ function isRealIdCard (idCard) {
   let number = sigma % 11
 
   let check_number = w[number]
-  return idCard.substring(17) == check_number
+  return idCard.substring(17) === check_number
 }
 
 export {

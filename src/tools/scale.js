@@ -10,7 +10,7 @@ function getScale () {
   if (window.orientation == null || window.orientation === 180 || window.orientation === 0) { // 竖屏状态
 
   } else {
-    	[width, height] = [height, width]
+    [width, height] = [height, width]
   }
 
   let ratio = width / height
@@ -18,11 +18,11 @@ function getScale () {
   let scale
 
   if (ratio > DesignRatio) {
-    	scale = height / (width / DesignRatio)
+    scale = height / (width / DesignRatio)
   } else if (ratio < DesignRatio) {
-    	scale = width / (height * DesignRatio)
+    scale = width / (height * DesignRatio)
   } else {
-    	scale = 1
+    scale = 1
   }
   console.log('scale=', scale)
 

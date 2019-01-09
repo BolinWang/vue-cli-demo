@@ -69,7 +69,7 @@ if (browserApi) {
 
 function supportsFullScreen (oVideo) {
   if (typeof oVideo.webkitEnterFullScreen === 'function') {
-    const userAgent = window.navigator && window.navigator.userAgent || ''
+    const userAgent = (window.navigator && window.navigator.userAgent) || ''
 
     // Seems to be broken in Chromium/Chrome && Safari in Leopard
     if ((/Android/).test(userAgent) || !(/Chrome|Mac OS X 10.5/).test(userAgent)) {

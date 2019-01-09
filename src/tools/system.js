@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import Cookie from 'js-cookie'
 
 export default {
@@ -20,7 +21,7 @@ export default {
 
   isApp () {
     let platform = Cookie.get('platform') ? Cookie.get('platform').toLowerCase() : ''
-    if (platform == 'android' || platform == 'ios') {
+    if (platform === 'android' || platform === 'ios') {
       return true
     } else {
       return false
@@ -28,28 +29,28 @@ export default {
   },
   isIos () {
     let platform = Cookie.get('platform') ? Cookie.get('platform').toLowerCase() : ''
-    return platform == 'ios'
+    return platform === 'ios'
   },
   isAndroid () {
     let platform = Cookie.get('platform') ? Cookie.get('platform').toLowerCase() : ''
-    return platform == 'android'
+    return platform === 'android'
   },
   isDev () {
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV === 'development') {
       return true
     } else {
       return false
     }
   },
   isTest () {
-    if (process.env.NODE_ENV == 'testing') {
+    if (process.env.NODE_ENV === 'testing') {
       return true
     } else {
       return false
     }
   },
   isPro () {
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV === 'production') {
       return true
     } else {
       return false
@@ -60,7 +61,7 @@ export default {
   },
   isPC () {
     var userAgentInfo = navigator.userAgentInfo
-    var Agents = new Array('Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod')
+    var Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod']
     var flag = true
     for (var v = 0; v < Agents.length; v++) {
       if (userAgentInfo.indexOf(Agents[v]) > -1) { flag = false; break }

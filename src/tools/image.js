@@ -15,11 +15,13 @@ function imageAli (url, w) {
   // dpr不能小于2，否则图片会太模糊
   dpr = Math.max(dpr, 2)
 
+  // eslint-disable-next-line no-unused-vars
   var webp = parseInt(window.document.documentElement.getAttribute('data-webp'), 10)
 
   var standarnDesignWidth = 375
   var imageWidth = w || standarnDesignWidth
 
+  // eslint-disable-next-line no-unused-vars
   var screenWidth = window.screen.width || standarnDesignWidth
   // var imageRealWidth = imageWidth * screenWidth / standarnDesignWidth
   var imageRealWidth = imageWidth
@@ -33,6 +35,7 @@ function imageAli (url, w) {
   }
 
   // if (webp == 1) {
+  // eslint-disable-next-line no-constant-condition
   if (false) {
     imageUrl += 'x-oss-process=image/format,webp,image/resize,w_' + parseInt((imageRealWidth * dpr))
   } else {

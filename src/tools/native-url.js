@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 // 判断是否为付费内容页面
 export function isKnowledgeDetail (url) {
   return url.indexOf('/knowledge/detail') > -1
@@ -25,7 +26,7 @@ export function isAppMallIndex (url) {
 
   let isGoIndex = false
 
-  if (temp_url == '' || temp_url == 'index') { // 判断配置的是不是商城首页地址
+  if (temp_url === '' || temp_url === 'index') { // 判断配置的是不是商城首页地址
     isGoIndex = true
   }
   return isGoIndex

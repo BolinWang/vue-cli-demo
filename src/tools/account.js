@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import common from '@/common'
 import Cookie from 'js-cookie'
 import systemTool from '@/tools/system'
@@ -23,12 +24,12 @@ export default {
     // 有appid就认为是微信授权登录
     if (app_id) {
       // 比较app_id和当前配置的appid是否一致
-      if (app_id == common.config.appId) {
+      if (app_id === common.config.appId) {
         return Cookie.get('user_id') || 0
       } else {
         return 0
       }
-    } else if (platform == 'ios' || platform == 'android') {
+    } else if (platform === 'ios' || platform === 'android') {
       // 判断platform是iOS和android的，认为是app登录。
       return Cookie.get('user_id') || 0
     } else {
@@ -48,7 +49,7 @@ export default {
     let clientToken = Cookie.get('client_token') || localStorage.getItem('client_token') || ''
 
     // 异常情况处理。
-    if (!clientToken || clientToken == '123') {
+    if (!clientToken || clientToken === '123') {
       clientToken = this.getUUID()
       localStorage.setItem('client_token', clientToken)
     }
@@ -105,7 +106,7 @@ export default {
       function (c) {
         let r = (d + Math.random() * 16) % 16 | 0
         d = Math.floor(d / 16)
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16)
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16)
       })
     return uuid
   },
@@ -153,13 +154,13 @@ export default {
       // client_token用openID代替，部分cookie中没有的字段放在localstorage，避免每次请求都传输。
 
       localStorage.setItem('client_token', Cookie.get('open_id') || this.getUUID())
-      localStorage.setItem('network_type', navigator.connection && navigator.connection.type || '3g')
+      localStorage.setItem('network_type', (navigator.connection && navigator.connection.type) || '3g')
       localStorage.setItem('platform', 'wechat')
       localStorage.setItem('method_version', '1.0')
       localStorage.setItem('system_version', '10.1.1')
       localStorage.setItem('client_version', '2.0.1')
       localStorage.setItem('login_type', 'wechat')
-    } else if (platform == 'ios' || platform == 'android') {
+    } else if (platform === 'ios' || platform === 'android') {
       /*
              * app需要返回这8个cookie字段，新增一个login_type字段。
              */
@@ -181,10 +182,10 @@ export default {
 
       // 模拟环境，cookie存的是mock_app_id，用于区分微信授权登录的情况
       localStorage.setItem('login_type', 'h5_mock')
-      if (!localStorage.getItem('client_token') || localStorage.getItem('client_token') == '123') {
+      if (!localStorage.getItem('client_token') || localStorage.getItem('client_token') === '123') {
         localStorage.setItem('client_token', Cookie.get('open_id') || this.getUUID())
       }
-      localStorage.setItem('network_type', navigator.connection && navigator.connection.type || '3g')
+      localStorage.setItem('network_type', (navigator.connection && navigator.connection.type) || '3g')
       localStorage.setItem('platform', 'wechat')
       localStorage.setItem('method_version', '1.0')
       localStorage.setItem('system_version', '10.1.1')

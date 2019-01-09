@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import system from '@/tools/system'
 import Account from '@/logic/account'
 
@@ -21,8 +22,9 @@ function saLogin () {
   try {
     clearInterval(saLogin.timer)
     saLogin.timer = setInterval(login, 200)
+    // eslint-disable-next-line no-inner-declarations
     function login () {
-      if (sa && sa.store && Account.getUserId() && (sa.store.getDistinctId() != Account.getUserId())) {
+      if (sa && sa.store && Account.getUserId() && (sa.store.getDistinctId() !== Account.getUserId())) {
         clearInterval(saLogin.timer)
         sa.login(Account.getUserId())
       }

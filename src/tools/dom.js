@@ -1,9 +1,10 @@
+/* eslint-disable no-cond-assign */
 // 获取滚动条距离顶部的距离
 function getScrollTop () {
   let scrollPos = 0
   if (window.pageYOffset) {
     scrollPos = window.pageYOffset
-  } else if (document.compatMode && document.compatMode != 'BackCompat') {
+  } else if (document.compatMode && document.compatMode !== 'BackCompat') {
     scrollPos = document.documentElement.scrollTop
   } else if (document.body) {
     scrollPos = document.body.scrollTop

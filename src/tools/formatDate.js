@@ -1,3 +1,4 @@
+/* eslint-disable no-extend-native */
 /**
  * Created by josh on 16/11/8.
  */
@@ -20,7 +21,7 @@ Date.prototype.format = function (format) {
   }
   for (var k in o) {
     if (new RegExp('(' + k + ')').test(format)) {
-      format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
+      format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
     }
   }
   return format

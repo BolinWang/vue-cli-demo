@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import system from '@/tools/system'
 
 export default {
@@ -208,16 +209,16 @@ export default {
         'action': 'fetchCollegeCheckstandVC',
         'target': 'Common',
         'params': {
-          'orderNo': params.tradeId, 
-          'goodsId': params.itemId, 
+          'orderNo': params.tradeId,
+          'goodsId': params.itemId,
           'isEailyEducation': true
         }
       },
       androidParams: {
         'target': 'fetchCollegeCheckstandVC',
         'params': {
-          'orderNo': params.tradeId, 
-          'goodsId': params.itemId 
+          'orderNo': params.tradeId,
+          'goodsId': params.itemId
         }
       }
     })

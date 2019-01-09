@@ -2,7 +2,7 @@ import browser from '@/tools/browser'
 
 function wechat_share_save_curpage (to, from, next) {
   if (browser.isIphone) {
-    if (from.name == null && from.path == '/') {
+    if (from.name === null && from.path === '/') {
       localStorage.setItem('wechatCurPage', location.origin + to.fullPath)
     }
   }
