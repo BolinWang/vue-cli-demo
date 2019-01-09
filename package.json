@@ -3,14 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "fastclick": "^1.0.6",
+    "fundebug-javascript": "^1.2.3",
+    "howler": "^2.0.9",
+    "iscroll": "^5.2.0",
+    "jquery": "^3.3.1",
+    "js-cookie": "^2.1.3",
+    "keymirror": "^0.1.1",
+    "lrz": "^4.9.40",
+    "mint-ui": "^2.2.13",
+    "normalize.css": "^5.0.0",
+    "pdfjs-dist": "^2.0.943",
+    "pingpp-js": "^2.1.8",
+    "sa-sdk-javascript": "^1.10.3",
+    "sinon": "^2.4.1",
+    "ua-device": "^0.1.10",
     "vue": "^2.5.21",
+    "vue-awesome-swiper": "2.5.4",
+    "vue-clipboard2": "^0.2.1",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "weixin-js-sdk": "^1.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
@@ -20,19 +39,12 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.0",
-    "vue-template-compiler": "^2.5.21"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "vue-template-compiler": "^2.5.21",
+    "cross-env": "^3.1.4",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "scroll-into-view": "^1.8.2",
+    "vconsole": "^2.5.2",
+    "vue-resource": "^1.2.1"
   }
 }
