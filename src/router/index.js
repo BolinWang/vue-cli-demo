@@ -1,3 +1,4 @@
+const _import = require('./_import_' + process.env.NODE_ENV)
 const routes = [
   // {
   //     path: '/',
@@ -20,9 +21,7 @@ const routes = [
       title: '分销中心',
       keepAlive: true
     },
-    component: function (resolve) {
-      require(['./views/distribution/index/index.vue'], resolve)
-    }
+    component: _import('distribution/index/index')
   },
   {
     path: '/distribution/order/list',
@@ -30,9 +29,7 @@ const routes = [
     meta: {
       title: '顾问体系订单明细'
     },
-    component: function (resolve) {
-      require(['./views/distribution/order/list.vue'], resolve)
-    }
+    component: _import('distribution/order/list')
   },
   {
     path: '/distribution/profit/list',
@@ -40,9 +37,7 @@ const routes = [
     meta: {
       title: '已结算收益明细'
     },
-    component: function (resolve) {
-      require(['./views/distribution/profit/list.vue'], resolve)
-    }
+    component: _import('distribution/profit/list')
   },
   {
     path: '/distribution/channelPartners/list',
@@ -50,9 +45,7 @@ const routes = [
     meta: {
       title: '我的渠道合伙人'
     },
-    component: function (resolve) {
-      require(['./views/distribution/channelPartners/list.vue'], resolve)
-    }
+    component: _import('distribution/channelPartners/list')
   },
   {
     path: '/distribution/goldConsultants/list',
@@ -60,9 +53,7 @@ const routes = [
     meta: {
       title: '我的育儿大使'
     },
-    component: function (resolve) {
-      require(['./views/distribution/goldConsultants/list.vue'], resolve)
-    }
+    component: _import('distribution/goldConsultants/list')
   },
   {
     path: '/distribution/childcareConsultants/list',
@@ -70,9 +61,7 @@ const routes = [
     meta: {
       title: '我的育儿顾问'
     },
-    component: function (resolve) {
-      require(['./views/distribution/childcareConsultants/list.vue'], resolve)
-    }
+    component: _import('distribution/childcareConsultants/list')
   },
   {
     path: '/distribution/customer/list',
@@ -80,9 +69,7 @@ const routes = [
     meta: {
       title: '我的客户'
     },
-    component: function (resolve) {
-      require(['./views/distribution/customer/list.vue'], resolve)
-    }
+    component: _import('distribution/customer/list')
   },
   {
     path: '/distribution/dataCenter/index',
@@ -90,9 +77,7 @@ const routes = [
     meta: {
       title: '数据中心'
     },
-    component: function (resolve) {
-      require(['./views/distribution/dataCenter/index.vue'], resolve)
-    }
+    component: _import('distribution/dataCenter/index')
   },
   {
     path: '/distribution/putForward/index',
@@ -100,9 +85,7 @@ const routes = [
     meta: {
       title: '提现'
     },
-    component: function (resolve) {
-      require(['./views/distribution/putForward/index.vue'], resolve)
-    }
+    component: _import('distribution/putForward/index')
   },
   {
     path: '/distribution/putForward/detail',
@@ -110,9 +93,7 @@ const routes = [
     meta: {
       title: '提现'
     },
-    component: function (resolve) {
-      require(['./views/distribution/putForward/detail.vue'], resolve)
-    }
+    component: _import('distribution/putForward/detail')
   },
   // {
   //     path: '/distribution/putForward/login',
@@ -120,9 +101,7 @@ const routes = [
   //     meta: {
   //         title: '登录',
   //     },
-  //     component: function(resolve) {
-  //         require(['./views/distribution/putForward/login.vue'], resolve);
-  //     }
+  //     component: _import('distribution/putForward/login')
   // },
   {
     path: '/distribution/putForward/certification',
@@ -130,9 +109,7 @@ const routes = [
     meta: {
       title: '实名认证'
     },
-    component: function (resolve) {
-      require(['./views/distribution/putForward/certification.vue'], resolve)
-    }
+    component: _import('distribution/putForward/certification')
   },
   // {
   //     path: '/distribution/putForward/uploadIdCardImg',
@@ -140,9 +117,7 @@ const routes = [
   //     meta: {
   //         title: '上传身份证照片',
   //     },
-  //     component: function(resolve) {
-  //         require(['./views/distribution/putForward/uploadIdCardImg.vue'], resolve);
-  //     }
+  //     component: _import('distribution/putForward/uploadIdCardImg')
   // },
   {
     path: '/distribution/putForward/agreement',
@@ -150,9 +125,7 @@ const routes = [
     meta: {
       title: '服务协议'
     },
-    component: function (resolve) {
-      require(['./views/distribution/putForward/agreement.vue'], resolve)
-    }
+    component: _import('distribution/putForward/agreement')
   },
   {
     path: '/distribution/learn/index',
@@ -160,9 +133,7 @@ const routes = [
     meta: {
       title: '学习和答题'
     },
-    component: function (resolve) {
-      require(['./views/distribution/learn/index.vue'], resolve)
-    }
+    component: _import('distribution/learn/index')
   },
   {
     path: '/distribution/learn/detail',
@@ -170,9 +141,7 @@ const routes = [
     meta: {
       title: '学习和答题'
     },
-    component: function (resolve) {
-      require(['./views/distribution/learn/detail.vue'], resolve)
-    }
+    component: _import('distribution/learn/detail')
   },
   {
     path: '/distribution/learn/success',
@@ -180,9 +149,7 @@ const routes = [
     meta: {
       title: '恭喜你完成结业'
     },
-    component: function (resolve) {
-      require(['./views/distribution/learn/success.vue'], resolve)
-    }
+    component: _import('distribution/learn/success')
   },
   {
     path: '/distribution/router/index',
@@ -190,9 +157,7 @@ const routes = [
     meta: {
       title: '跳转中...'
     },
-    component: function (resolve) {
-      require(['./views/distribution/router/index.vue'], resolve)
-    }
+    component: _import('distribution/router/index')
   },
   //= =========以下是测试页面=========================
   {
@@ -201,9 +166,7 @@ const routes = [
       name: 'test',
       title: 'test'
     },
-    component: function (resolve) {
-      require(['./views/test.vue'], resolve)
-    }
+    component: _import('test')
   },
   {
     path: '/system-error',
@@ -211,9 +174,7 @@ const routes = [
     meta: {
       title: 'system-error'
     },
-    component: function (resolve) {
-      require(['./views/system-error.vue'], resolve)
-    }
+    component: _import('system-error')
   },
   {
     path: '*',
@@ -221,9 +182,7 @@ const routes = [
     meta: {
       title: '找不到这个页面'
     },
-    component: function (resolve) {
-      require(['./views/404.vue'], resolve)
-    }
+    component: _import('404')
   }
 ]
 

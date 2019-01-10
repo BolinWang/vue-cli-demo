@@ -15,7 +15,7 @@ import store from '@/vuex/store'
 import registerComponents from '@/config-components'
 import registerFilter from '@/config-filter'
 import registerHttp from '@/config-http'
-import routes from '@/config-routers.js'
+import routes from '@/router/index.js'
 import App from '@/views/app.vue'
 import Account from '@/logic/account'
 import system from '@/tools/system'
@@ -134,9 +134,9 @@ Vue.config.devtools = true
 if (document.domain.indexOf('ngmm001.com') > -1 || document.domain.indexOf('ngmm365.com') > -1) {
   document.domain = document.domain.split('.').slice(-2).join('.')
 }
-
 new Vue({
   store,
   router,
   render: h => h(App)
 }).$mount('#app')
+console.log(router)
