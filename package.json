@@ -1,11 +1,14 @@
 {
-  "name": "demo",
+  "name": "ngmm_fenxiao",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "npm run serve",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode dev",
+    "build_app": "cross-env PAGE_ENV=app vue-cli-service build --mode prod",
+    "build_beta": "vue-cli-service build --mode beta",
+    "build_pro": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {

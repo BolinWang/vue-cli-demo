@@ -6,6 +6,7 @@ const resolve = dir => {
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
+  assetsDir: 'static',
   devServer: {
     open: false,
     host: '0.0.0.0',
