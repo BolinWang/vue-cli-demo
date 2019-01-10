@@ -1,8 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.nicomama.niangaomama",
-    "sha256_cert_fingerprints": ["F7:A2:C6:0D:AB:66:CE:BF:52:A5:AC:FE:0B:71:D4:FE:93:B3:12:04:A0:B1:CD:41:C4:53:28:3C:64:B1:B4:C8"]
-  }
-}]
