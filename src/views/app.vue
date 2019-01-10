@@ -137,10 +137,10 @@ export default {
 </style>
 <style lang="less" scope>
 section{
-    min-height: 100%;
-    &.app-wrap{
-        margin: 0 auto;
-        max-width: 3.75rem;
-    }
+  min-height: 100%;
+  &.app-wrap{
+    margin: 0 auto;
+    max-width: 3.75rem;
+  }
 }
 </style>
